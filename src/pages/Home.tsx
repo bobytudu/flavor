@@ -154,15 +154,23 @@ export default function Home() {
               </Grid>
             ) : (
               <TableContainer>
-                <Table
-                  sx={{ minWidth: 650 }}
-                  aria-label="simple table">
-                  <TableHead>
+                <Table>
+                  <TableHead sx={{ background: 'transparent' }}>
                     <TableRow>
-                      <TableCell>Name</TableCell>
-                      <TableCell align="right">Last Modified</TableCell>
-                      <TableCell align="right">Created</TableCell>
-                      <TableCell align="right"></TableCell>
+                      <TableCell sx={{ fontWeight: 400 }}>Name</TableCell>
+                      <TableCell
+                        sx={{ fontWeight: 400 }}
+                        align="right">
+                        Last Modified
+                      </TableCell>
+                      <TableCell
+                        sx={{ fontWeight: 400 }}
+                        align="right">
+                        Created
+                      </TableCell>
+                      <TableCell
+                        sx={{ fontWeight: 400 }}
+                        align="right"></TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody>
