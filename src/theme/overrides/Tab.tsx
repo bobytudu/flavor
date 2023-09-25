@@ -8,7 +8,8 @@ export default function Tab() {
         root: {
           minHeight: 20,
           minWidth: 0,
-          padding: '4px 2px'
+          padding: '4px 2px',
+          fontWeight: '600'
         }
       }
     }
