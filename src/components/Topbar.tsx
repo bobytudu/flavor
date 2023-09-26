@@ -12,7 +12,7 @@ import Tooltip from '@mui/material/Tooltip'
 import MenuItem from '@mui/material/MenuItem'
 import logoImg from 'assets/logo/logo.png'
 
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 
 const pages = ['Home', 'Projects', 'Images', 'Assets']
 const links = [
@@ -61,11 +61,13 @@ function Topbar() {
       sx={{ bgcolor: 'white', borderBottom: '1px solid rgba(0, 0, 0, 0.1)' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <img
-            src={logoImg}
-            alt="brand_logo"
-            style={{ width: 100, height: 20 }}
-          />
+          <Link to="/">
+            <img
+              src={logoImg}
+              alt="brand_logo"
+              style={{ width: 100, height: 20 }}
+            />
+          </Link>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
