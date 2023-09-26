@@ -1,7 +1,10 @@
 import {
+  AppBar,
   Box,
   Button,
   Container,
+  Dialog,
+  DialogContent,
   Grid,
   IconButton,
   Tab,
@@ -12,11 +15,12 @@ import {
   TableHead,
   TableRow,
   Tabs,
+  Toolbar,
   Tooltip,
   Typography
 } from '@mui/material'
 import React from 'react'
-import { ChevronUpDownIcon, Bars3Icon } from '@heroicons/react/24/solid'
+import { ChevronUpDownIcon, Bars3Icon, ArrowLeftIcon } from '@heroicons/react/24/solid'
 import { Squares2X2Icon } from '@heroicons/react/24/outline'
 import { TemplateCard, ProjectCard } from 'components'
 import ImageView from './components/ImageView'
@@ -49,7 +53,7 @@ function CustomTabPanel(props: TabPanelProps) {
   )
 }
 export default function Home() {
-  const list = [1, 2, 3, 4, 5, 6, 7, 8]
+  const list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
   const [tab, setTab] = React.useState(0)
   const [expanded, setExpanded] = React.useState(false)
   const [view, setView] = React.useState('grid' as 'grid' | 'list')
@@ -60,6 +64,48 @@ export default function Home() {
   }
   return (
     <div>
+      <Dialog
+        open={expanded}
+        fullScreen>
+        <AppBar
+          position="static"
+          elevation={0}
+          sx={{ bgcolor: 'white', borderBottom: '1px solid rgba(0, 0, 0, 0.1)' }}>
+          <Container maxWidth="xl">
+            <Toolbar disableGutters>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center'
+                }}>
+                <IconButton onClick={() => setExpanded((prev) => !prev)}>
+                  <ArrowLeftIcon style={{ width: 20, height: 20 }} />
+                </IconButton>
+                <Typography
+                  variant="h6"
+                  sx={{ ml: 2, display: 'inline', color: 'text.primary' }}>
+                  Template gallery
+                </Typography>
+              </Box>
+            </Toolbar>
+          </Container>
+        </AppBar>
+        <DialogContent sx={{ bgcolor: 'background.color-background-grey' }}>
+          <Container maxWidth="xl">
+            <Grid
+              container
+              spacing={3}>
+              {list.map((item) => (
+                <Grid
+                  item
+                  key={item}>
+                  <TemplateCard blank={item === 1} />
+                </Grid>
+              ))}
+            </Grid>
+          </Container>
+        </DialogContent>
+      </Dialog>
       <Container
         maxWidth="xl"
         sx={{ p: 5 }}>
@@ -72,7 +118,7 @@ export default function Home() {
               md: 1096
             },
             transition: 'all 0.3s ease-in-out',
-            minHeight: expanded ? 'auto' : 200
+            minHeight: 200
           }}>
           <Box
             sx={{
@@ -91,7 +137,7 @@ export default function Home() {
           <Grid
             container
             spacing={3}>
-            {list.slice(0, expanded ? list.length - 1 : 6).map((item) => (
+            {list.slice(0, 6).map((item) => (
               <Grid
                 item
                 key={item}>
