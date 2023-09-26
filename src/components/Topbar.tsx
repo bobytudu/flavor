@@ -57,7 +57,8 @@ function Topbar() {
   return (
     <AppBar
       position="static"
-      sx={{ bgcolor: 'white' }}>
+      elevation={0}
+      sx={{ bgcolor: 'white', borderBottom: '1px solid rgba(0, 0, 0, 0.1)' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <img
