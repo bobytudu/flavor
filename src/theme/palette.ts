@@ -99,6 +99,7 @@ export type PaletteType = {
     default: string
     neutral: string
     'color-background-grey': string
+    'color-brand-background': string
   }
   action: {
     active: string
@@ -132,7 +133,8 @@ const palette: PaletteType = {
     paper: '#fff',
     default: GREY[100],
     neutral: GREY[200],
-    'color-background-grey': '#F2F2F2'
+    'color-background-grey': '#F2F2F2',
+    'color-brand-background': '#C1D443'
   },
   action: {
     active: GREY[600],

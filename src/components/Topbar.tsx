@@ -143,7 +143,8 @@ function Topbar() {
                       color: isActive ? 'text.primary' : 'text.disabled',
                       display: 'block',
                       fontWeight: 600,
-                      fontSize: 16
+                      fontSize: 16,
+                      background: 'transparent'
                     }}>
                     {link.name}
                   </Button>

@@ -3,7 +3,7 @@ import { useRoutes } from 'react-router-dom'
 import Layout from 'layout/Layout'
 
 //pages
-import Home from 'pages/Home'
+import Home from 'pages/home/Home'
 import Images from 'pages/Images'
 import Projects from 'pages/Projects'
 import Assets from 'pages/Assets'

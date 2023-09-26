@@ -10,7 +10,11 @@ export default function Button(theme: ComponentsOverridesProps) {
         root: {
           '&:hover': {
             boxShadow: 'none'
-          }
+          },
+          fontWeight: theme.typography.fontWeightMedium,
+          fontSize: theme.typography.subtitle2.fontSize,
+          color: theme.palette.primary.main,
+          backgroundColor: theme.palette.action.hover
         },
         sizeLarge: {
           height: 48
@@ -23,7 +27,14 @@ export default function Button(theme: ComponentsOverridesProps) {
           }
         },
         containedPrimary: {
-          boxShadow: theme.customShadows.primary
+          fontWeight: theme.typography.fontWeightMedium,
+          fontSize: theme.typography.subtitle2.fontSize,
+          color: theme.palette.primary.main,
+          boxShadow: 'none',
+          backgroundColor: theme.palette.background['color-brand-background'],
+          '&:hover': {
+            backgroundColor: theme.palette.background['color-brand-background']
+          }
         },
         containedSecondary: {
           boxShadow: theme.customShadows.secondary

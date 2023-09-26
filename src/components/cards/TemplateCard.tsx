@@ -2,6 +2,7 @@ import { Box, Typography } from '@mui/material'
 import React from 'react'
 import { PlusIcon } from '@heroicons/react/24/solid'
 import templateImg from 'assets/template.png'
+import { Link } from 'react-router-dom'
 
 interface TemplateCardPropTypes {
   description?: string
@@ -42,10 +43,15 @@ export default function TemplateCard(props: TemplateCardPropTypes) {
             justifyContent: 'center',
             width: 200,
             position: 'relative',
+            overflow: 'hidden',
             cursor: 'pointer',
-            '&::hover': {
-              '&.overlay': {
-                display: 'block'
+            '& .overlay': {
+              top: '100%',
+              transition: '0.3s ease-in-out'
+            },
+            '&:hover': {
+              '& .overlay': {
+                top: 0
               }
             }
           }}>
@@ -56,8 +62,35 @@ export default function TemplateCard(props: TemplateCardPropTypes) {
               background: 'rgba(255, 255, 255,0.8)',
               width: '100%',
               height: '100%',
-              display: 'none'
-            }}></div>
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+            <div
+              style={{
+                width: '80%',
+                margin: 'auto',
+                height: '80%',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between'
+              }}>
+              <Typography
+                variant="subtitle2"
+                sx={{ textAlign: 'left', mb: 2 }}>
+                A black perfume bottle stands on the glass among the water droplets
+              </Typography>
+              <Link to="/">
+                <Typography
+                  variant="body2"
+                  color="text.color-text-clickable"
+                  sx={{ textAlign: 'left', textDecoration: 'underline' }}>
+                  Use as example
+                </Typography>
+              </Link>
+            </div>
+          </div>
           <img
             src={templateImg}
             alt="template"

@@ -16,9 +16,9 @@ import {
   Typography
 } from '@mui/material'
 import React from 'react'
-import { ChevronUpDownIcon, Squares2X2Icon, Bars3Icon, EllipsisHorizontalIcon } from '@heroicons/react/24/solid'
+import { ChevronUpDownIcon, Squares2X2Icon, Bars3Icon } from '@heroicons/react/24/solid'
 import { TemplateCard, ProjectCard } from 'components'
-import projectImg from 'assets/project.png'
+import ImageView from './components/ImageView'
 
 const rows = [
   { name: 'Frozen yoghurt', created: '2 Days ago', edited: '2 minutes ago' },
@@ -26,6 +26,27 @@ const rows = [
   { name: 'Aesop', created: '2 Days ago', edited: '2 minutes ago' },
   { name: 'Toner Blend', created: '2 Days ago', edited: '2 minutes ago' }
 ]
+
+interface TabPanelProps {
+  children?: React.ReactNode
+  index: number
+  value: number
+}
+
+function CustomTabPanel(props: TabPanelProps) {
+  const { children, value, index, ...other } = props
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}>
+      {value === index && children}
+    </div>
+  )
+}
 export default function Home() {
   const [tab, setTab] = React.useState(0)
   const [view, setView] = React.useState('grid' as 'grid' | 'list')
@@ -106,7 +127,7 @@ export default function Home() {
                   </IconButton>
                 </Tooltip>
                 <Tooltip
-                  title="List View"
+                  title="Table View"
                   arrow
                   placement="top">
                   <IconButton
@@ -137,74 +158,71 @@ export default function Home() {
                 value={1}
               />
             </Tabs>
-            {view === 'grid' ? (
-              <Grid
-                container
-                spacing={3}>
-                {[1, 2, 3, 4, 5, 6].map((item) => (
-                  <Grid
-                    item
-                    key={item}>
-                    <ProjectCard
-                      title="Orange Peel"
-                      description="Edited 2 minutes ago"
-                    />
-                  </Grid>
-                ))}
-              </Grid>
-            ) : (
-              <TableContainer>
-                <Table>
-                  <TableHead sx={{ background: 'transparent' }}>
-                    <TableRow>
-                      <TableCell sx={{ fontWeight: 400 }}>Name</TableCell>
-                      <TableCell
-                        sx={{ fontWeight: 400 }}
-                        align="right">
-                        Last Modified
-                      </TableCell>
-                      <TableCell
-                        sx={{ fontWeight: 400 }}
-                        align="right">
-                        Created
-                      </TableCell>
-                      <TableCell
-                        sx={{ fontWeight: 400 }}
-                        align="right"></TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {rows.map((row) => (
-                      <TableRow
-                        key={row.name}
-                        sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                        <TableCell align="right">
-                          <div style={{ display: 'flex', alignItems: 'center' }}>
-                            <img
-                              src={projectImg}
-                              alt="project"
-                              style={{ width: 50, height: 50, borderRadius: 8 }}
-                            />
-                            <Typography
-                              variant="body2"
-                              sx={{ color: 'rgba(86, 86, 86, 1)', ml: 2 }}>
-                              {row.name}
-                            </Typography>
-                          </div>
+            <CustomTabPanel
+              value={tab}
+              index={0}>
+              {view === 'grid' ? (
+                <Grid
+                  container
+                  spacing={3}>
+                  {[1, 2, 3, 4, 5, 6].map((item) => (
+                    <Grid
+                      item
+                      key={item}>
+                      <ProjectCard
+                        view={view}
+                        title="Orange Peel"
+                        description="2 minutes ago"
+                        created="yesterday"
+                      />
+                    </Grid>
+                  ))}
+                </Grid>
+              ) : (
+                <TableContainer>
+                  <Table>
+                    <TableHead
+                      sx={{
+                        '& .MuiTableCell-head': {
+                          background: 'transparent'
+                        }
+                      }}>
+                      <TableRow>
+                        <TableCell sx={{ fontWeight: 400 }}>Name</TableCell>
+                        <TableCell
+                          sx={{ fontWeight: 400 }}
+                          align="right">
+                          Last Modified
                         </TableCell>
-                        <TableCell align="right">{row.edited}</TableCell>
-                        <TableCell align="right">{row.created}</TableCell>
-                        <TableCell align="right">
-                          <IconButton>
-                            <EllipsisHorizontalIcon style={{ width: 20 }} />
-                          </IconButton>
+                        <TableCell
+                          sx={{ fontWeight: 400 }}
+                          align="right">
+                          Created
                         </TableCell>
+                        <TableCell
+                          sx={{ fontWeight: 400 }}
+                          align="right"></TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            )}
+                    </TableHead>
+                    <TableBody>
+                      {rows.map((row) => (
+                        <ProjectCard
+                          view={view}
+                          title="Orange Peel"
+                          description="2 minutes ago"
+                          created="yesterday"
+                        />
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              )}
+            </CustomTabPanel>
+            <CustomTabPanel
+              value={tab}
+              index={1}>
+              <ImageView />
+            </CustomTabPanel>
           </Box>
         </Container>
       </Box>

@@ -12,6 +12,7 @@ import Autocomplete from './Autocomplete'
 import { Theme } from '@mui/material'
 import { Shadows } from 'theme/customShadows'
 import { PaletteType } from 'theme/palette'
+import InputLabel from './InputLabel'
 
 // ----------------------------------------------------------------------
 
@@ -36,6 +37,7 @@ export default function ComponentsOverrides(theme: ComponentsOverridesProps) {
     Backdrop(theme),
     Typography(theme),
     Autocomplete(theme),
-    Tab()
+    Tab(),
+    InputLabel(theme)
   )
 }
