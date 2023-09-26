@@ -65,9 +65,15 @@ export default function ProjectCard(props: ProjectCardPropTypes) {
         </DialogActions>
       </Dialog>
       <Dialog
+        maxWidth="xs"
         open={openDelete}
         onClose={() => setOpenEdit(false)}>
-        <DialogContent>
+        <DialogContent sx={{ maxWidth: 400 }}>
+          <Typography
+            variant="h6"
+            sx={{ mb: 2 }}>
+            Delete Project
+          </Typography>
           <Typography
             variant="subtitle2"
             sx={{ mb: 2 }}>
