@@ -13,6 +13,7 @@ import MenuItem from '@mui/material/MenuItem'
 import logoImg from 'assets/logo/logo.png'
 
 import { Link, NavLink } from 'react-router-dom'
+import { EllipsisHorizontalIcon } from '@heroicons/react/24/solid'
 
 const pages = ['Home', 'Projects', 'Images', 'Assets']
 const links = [
@@ -160,14 +161,21 @@ function Topbar() {
             <Typography
               variant="subtitle2"
               color="text.color-text-clickable"
-              sx={{ display: { xs: 'none', md: 'block' }, mr: 2 }}>
+              sx={{
+                display: { xs: 'none', md: 'block' },
+                textDecoration: 'underline'
+              }}>
               101 Credits left
             </Typography>
+            <IconButton sx={{ mx: 1 }}>
+              <EllipsisHorizontalIcon style={{ width: 25 }} />
+            </IconButton>
             <Tooltip title="Open settings">
               <IconButton
                 onClick={handleOpenUserMenu}
                 sx={{ p: 0 }}>
                 <Avatar
+                  style={{ width: 35, height: 35 }}
                   alt="Remy Sharp"
                   src="/static/images/avatar/2.jpg"
                 />

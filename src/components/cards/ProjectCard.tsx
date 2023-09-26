@@ -12,7 +12,8 @@ import {
   TableCell,
   TableRow,
   Typography,
-  Button
+  Button,
+  Box
 } from '@mui/material'
 import { EllipsisHorizontalIcon } from '@heroicons/react/24/solid'
 
@@ -115,15 +116,22 @@ export default function ProjectCard(props: ProjectCardPropTypes) {
         ))}
       </Menu>
       {props.view === 'grid' ? (
-        <div
-          style={{
+        <Box
+          sx={{
             maxWidth: 310,
             maxHeight: 500,
-            marginBottom: 16
+            marginBottom: 16,
+            cursor: 'pointer',
+            '&:hover': {
+              '& .overlay_img': {
+                border: '1px solid rgba(0, 0, 0, 0.267)'
+              }
+            }
           }}>
           <img
             src={projectImg}
             alt={props.title}
+            className="overlay_img"
             style={{ width: '100%', marginBottom: 16, height: 'auto', objectFit: 'contain', borderRadius: '8px', overflow: 'hidden' }}
           />
           <div
@@ -144,7 +152,7 @@ export default function ProjectCard(props: ProjectCardPropTypes) {
               <EllipsisHorizontalIcon style={{ width: 20 }} />
             </IconButton>
           </div>
-        </div>
+        </Box>
       ) : (
         <TableRow
           sx={{
@@ -154,7 +162,7 @@ export default function ProjectCard(props: ProjectCardPropTypes) {
               background: 'rgba(234, 246, 192, 1)'
             }
           }}>
-          <TableCell align="right">
+          <TableCell>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <img
                 src={projectImg}
@@ -168,8 +176,8 @@ export default function ProjectCard(props: ProjectCardPropTypes) {
               </Typography>
             </div>
           </TableCell>
-          <TableCell align="right">{props.description}</TableCell>
-          <TableCell align="right">{props.created}</TableCell>
+          <TableCell>{props.description}</TableCell>
+          <TableCell>{props.created}</TableCell>
           <TableCell align="right">
             <IconButton onClick={handleOpenUserMenu}>
               <EllipsisHorizontalIcon style={{ width: 20 }} />

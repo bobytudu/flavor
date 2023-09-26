@@ -21,14 +21,19 @@ export default function TemplateCard(props: TemplateCardPropTypes) {
             alignItems: 'center',
             textAlign: 'center',
             flexDirection: 'column',
-            border: '1px dotted rgba(0,0,0,0.1)',
+            border: '1px dashed rgba(0,0,0,0.1)',
             bgcolor: 'white',
             width: 200,
             height: 200,
             justifyContent: 'center',
-            borderRadius: '8px'
+            borderRadius: '8px',
+            cursor: 'pointer',
+            '&:hover': {
+              border: '1px dashed rgba(0,0,0,0.3)'
+            },
+            gap: '16px'
           }}>
-          <PlusIcon style={{ width: 50, height: 50, marginBottom: 16 }} />
+          <PlusIcon style={{ width: 50, height: 50 }} />
           <Typography variant="body2">Blank</Typography>
         </Box>
       ) : (
@@ -38,7 +43,8 @@ export default function TemplateCard(props: TemplateCardPropTypes) {
             alignItems: 'center',
             textAlign: 'center',
             flexDirection: 'column',
-            border: '1px dotted rgba(0,0,0,0.1)',
+            border: '1px solid rgba(0,0,0,0.1)',
+            borderRadius: '8px',
             height: 200,
             justifyContent: 'center',
             width: 200,
@@ -46,12 +52,12 @@ export default function TemplateCard(props: TemplateCardPropTypes) {
             overflow: 'hidden',
             cursor: 'pointer',
             '& .overlay': {
-              top: '100%',
+              opacity: 0,
               transition: '0.3s ease-in-out'
             },
             '&:hover': {
               '& .overlay': {
-                top: 0
+                opacity: '100%'
               }
             }
           }}>
@@ -59,7 +65,7 @@ export default function TemplateCard(props: TemplateCardPropTypes) {
             className="overlay"
             style={{
               position: 'absolute',
-              background: 'rgba(255, 255, 255,0.8)',
+              background: 'rgba(255, 255, 255,0.95)',
               width: '100%',
               height: '100%',
               display: 'flex',

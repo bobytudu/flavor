@@ -16,7 +16,8 @@ import {
   Typography
 } from '@mui/material'
 import React from 'react'
-import { ChevronUpDownIcon, Squares2X2Icon, Bars3Icon } from '@heroicons/react/24/solid'
+import { ChevronUpDownIcon, Bars3Icon } from '@heroicons/react/24/solid'
+import { Squares2X2Icon } from '@heroicons/react/24/outline'
 import { TemplateCard, ProjectCard } from 'components'
 import ImageView from './components/ImageView'
 
@@ -48,7 +49,9 @@ function CustomTabPanel(props: TabPanelProps) {
   )
 }
 export default function Home() {
+  const list = [1, 2, 3, 4, 5, 6, 7, 8]
   const [tab, setTab] = React.useState(0)
+  const [expanded, setExpanded] = React.useState(false)
   const [view, setView] = React.useState('grid' as 'grid' | 'list')
 
   function handleTab(event: React.SyntheticEvent, newValue: number) {
@@ -67,7 +70,9 @@ export default function Home() {
             maxWidth: {
               xl: 1320,
               md: 1096
-            }
+            },
+            transition: 'all 0.3s ease-in-out',
+            minHeight: expanded ? 'auto' : 200
           }}>
           <Box
             sx={{
@@ -77,7 +82,8 @@ export default function Home() {
             }}>
             <Typography variant="h4">Start a new Project</Typography>
             <Button
-              sx={{ color: 'rgba(86, 86, 86, 1)', fontWeight: 400, fontSize: 16 }}
+              onClick={() => setExpanded((prev) => !prev)}
+              sx={{ color: 'rgba(86, 86, 86, 1)', fontWeight: 400, fontSize: 16, background: 'transparent' }}
               endIcon={<ChevronUpDownIcon style={{ width: 20, height: 30 }} />}>
               Template gallery
             </Button>
@@ -85,7 +91,7 @@ export default function Home() {
           <Grid
             container
             spacing={3}>
-            {[1, 2, 3, 4, 5, 6].map((item) => (
+            {list.slice(0, expanded ? list.length - 1 : 6).map((item) => (
               <Grid
                 item
                 key={item}>
@@ -114,7 +120,7 @@ export default function Home() {
                 justifyContent: 'space-between',
                 marginBottom: 24
               }}>
-              <Typography variant="h4">Recent Projects</Typography>
+              <Typography variant="h4">Recent</Typography>
               <div style={{ display: tab === 0 ? 'flex' : 'none' }}>
                 <Tooltip
                   title="Grid View"
@@ -189,19 +195,9 @@ export default function Home() {
                       }}>
                       <TableRow>
                         <TableCell sx={{ fontWeight: 400 }}>Name</TableCell>
-                        <TableCell
-                          sx={{ fontWeight: 400 }}
-                          align="right">
-                          Last Modified
-                        </TableCell>
-                        <TableCell
-                          sx={{ fontWeight: 400 }}
-                          align="right">
-                          Created
-                        </TableCell>
-                        <TableCell
-                          sx={{ fontWeight: 400 }}
-                          align="right"></TableCell>
+                        <TableCell sx={{ fontWeight: 400 }}>Last Modified</TableCell>
+                        <TableCell sx={{ fontWeight: 400 }}>Created</TableCell>
+                        <TableCell sx={{ fontWeight: 400 }}></TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
