@@ -18,6 +18,7 @@ import {
 import { Link } from 'react-router-dom'
 import logoImg from 'assets/logo/logo.png'
 import { ArrowLeftIcon, EllipsisHorizontalIcon } from '@heroicons/react/24/solid'
+import useScreenSize from 'utils/hooks/useScreenSize'
 
 interface FullScreenDialogProps {
   open: boolean
@@ -30,6 +31,7 @@ interface FullScreenDialogProps {
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
 export default function FullScreenDialog({ open, onClose, children, title, contentProps }: FullScreenDialogProps) {
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null)
+  const { xs } = useScreenSize()
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget)
@@ -50,19 +52,23 @@ export default function FullScreenDialog({ open, onClose, children, title, conte
           maxWidth="xl"
           style={{ paddingLeft: 16 }}>
           <Toolbar disableGutters>
-            <Link to="/">
-              <img
-                src={logoImg}
-                alt="brand_logo"
-                style={{ width: 100, height: 20 }}
-              />
-            </Link>
-            <Divider
-              orientation="vertical"
-              flexItem
-              variant="middle"
-              sx={{ mx: 2 }}
-            />
+            {!xs && (
+              <>
+                <Link to="/">
+                  <img
+                    src={logoImg}
+                    alt="brand_logo"
+                    style={{ width: 100, height: 20 }}
+                  />
+                </Link>
+                <Divider
+                  orientation="vertical"
+                  flexItem
+                  variant="middle"
+                  sx={{ mx: 2 }}
+                />
+              </>
+            )}
             <Box
               sx={{
                 display: 'flex',

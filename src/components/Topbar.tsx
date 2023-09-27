@@ -13,7 +13,7 @@ import MenuItem from '@mui/material/MenuItem'
 import logoImg from 'assets/logo/logo.png'
 
 import { Link, NavLink } from 'react-router-dom'
-import { EllipsisHorizontalIcon } from '@heroicons/react/24/solid'
+import { Bars3Icon, EllipsisHorizontalIcon } from '@heroicons/react/24/solid'
 
 const pages = ['Home', 'Projects', 'Images', 'Assets']
 const links = [
@@ -62,35 +62,14 @@ function Topbar() {
       sx={{ bgcolor: 'white', borderBottom: '1px solid rgba(0, 0, 0, 0.1)' }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <Link to="/">
-            <img
-              src={logoImg}
-              alt="brand_logo"
-              style={{ width: 100, height: 20 }}
-            />
-          </Link>
-
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75"
-                />
-              </svg>
+              onClick={handleOpenNavMenu}>
+              <Bars3Icon style={{ width: 30, color: 'black' }} />
             </IconButton>
             <Menu
               id="menu-appbar"
@@ -113,29 +92,30 @@ function Topbar() {
                 <MenuItem
                   key={page}
                   onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Link to={page === 'Home' ? '/' : `/${page.toLowerCase()}`}>
+                    <Typography
+                      textAlign="center"
+                      sx={{ textDecoration: 'none', color: 'text.primary' }}>
+                      {page}
+                    </Typography>
+                  </Link>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="/"
+          <Box
             sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none'
+              flexGrow: { xs: 1, md: 0 }
             }}>
-            LOGO
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, ml: 2 }}>
+            <Link to="/">
+              <img
+                src={logoImg}
+                alt="brand_logo"
+                style={{ width: 100, height: 20 }}
+              />
+            </Link>
+          </Box>
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, ml: 2, flexGrow: 1 }}>
             {links.map((link) => (
               <NavLink to={link.path}>
                 {({ isActive }) => (

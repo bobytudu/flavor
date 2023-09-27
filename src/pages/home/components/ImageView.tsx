@@ -12,7 +12,7 @@ interface ImageViewPropTypes {
 }
 
 export default function ImageView(props: ImageViewPropTypes) {
-  const { lg, xl, md, sm } = useScreenSize()
+  const { xl, lg, md, sm } = useScreenSize()
   return (
     <Box sx={{ width: '100%', height: 'auto', overflowY: 'scroll' }}>
       <ImageList

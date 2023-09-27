@@ -1,4 +1,4 @@
-import { useMediaQuery, useTheme } from '@mui/material'
+import { useMediaQuery } from '@mui/material'
 
 interface ScreenSize {
   xl: boolean
@@ -9,19 +9,18 @@ interface ScreenSize {
 }
 
 export default function useScreenSize() {
-  const theme = useTheme()
-  const xl = useMediaQuery(theme.breakpoints.up('xl'))
-  const lg = useMediaQuery(theme.breakpoints.up('lg'))
-  const md = useMediaQuery(theme.breakpoints.up('md'))
-  const sm = useMediaQuery(theme.breakpoints.up('sm'))
-  const xs = useMediaQuery(theme.breakpoints.up('xs'))
+  const isXs = useMediaQuery('(max-width: 599.95px)')
+  const isSm = useMediaQuery('(min-width: 600px) and (max-width: 959.95px)')
+  const isMd = useMediaQuery('(min-width: 960px) and (max-width: 1279.95px)')
+  const isLg = useMediaQuery('(min-width: 1280px) and (max-width: 1919.95px)')
+  const isXl = useMediaQuery('(min-width: 1920px)')
 
   const sizes: ScreenSize = {
-    xl,
-    lg,
-    md,
-    sm,
-    xs
+    xl: isXl,
+    lg: isLg,
+    md: isMd,
+    sm: isSm,
+    xs: isXs
   }
 
   return sizes

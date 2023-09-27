@@ -51,7 +51,7 @@ function CustomTabPanel(props: TabPanelProps) {
   )
 }
 export default function Home() {
-  const { xl, md, lg } = useScreenSize()
+  const { xl, md, lg, sm } = useScreenSize()
   const list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
   const [tab, setTab] = React.useState(0)
   const [expanded, setExpanded] = React.useState(false)
@@ -73,14 +73,16 @@ export default function Home() {
           <Box
             sx={{
               mb: 3,
-              display: 'flex',
-              justifyContent: 'space-between',
-              pt: 4
+              display: {
+                sm: 'block',
+                md: 'flex'
+              },
+              justifyContent: 'space-between'
             }}>
             <Typography variant="h4">Start a new Project</Typography>
             <Button
               onClick={() => setExpanded((prev) => !prev)}
-              sx={{ color: 'rgba(86, 86, 86, 1)', fontWeight: 400, fontSize: 16, background: 'transparent' }}
+              sx={{ color: 'rgba(86, 86, 86, 1)', fontWeight: 400, fontSize: 16, background: 'transparent', pl: 0 }}
               endIcon={<ChevronUpDownIcon style={{ width: 20, height: 30 }} />}>
               Template gallery
             </Button>
@@ -89,12 +91,14 @@ export default function Home() {
             container
             spacing={3}
             sx={{ mb: 12 }}>
-            {list.slice(0, xl ? 6 : lg ? 5 : md ? 4 : 3).map((item) => (
+            {list.slice(0, xl ? 6 : lg ? 6 : md ? 4 : sm ? 4 : 2).map((item) => (
               <Grid
                 item
-                lg={2}
+                xl={2}
+                lg={3}
                 md={3}
                 sm={6}
+                xs={12}
                 key={item}>
                 <TemplateCard
                   linkTitle="Use as example"
@@ -119,13 +123,16 @@ export default function Home() {
           <Box
             sx={{
               mb: 3,
-              display: 'flex',
+              display: {
+                sm: 'block',
+                md: 'flex'
+              },
               justifyContent: 'space-between'
             }}>
             <Typography variant="h4">Start a new Project</Typography>
             <Button
               onClick={() => setExpanded((prev) => !prev)}
-              sx={{ color: 'rgba(86, 86, 86, 1)', fontWeight: 400, fontSize: 16, background: 'transparent' }}
+              sx={{ color: 'rgba(86, 86, 86, 1)', fontWeight: 400, fontSize: 16, background: 'transparent', pl: 0 }}
               endIcon={<ChevronUpDownIcon style={{ width: 20, height: 30 }} />}>
               Template gallery
             </Button>
@@ -133,12 +140,14 @@ export default function Home() {
           <Grid
             container
             spacing={3}>
-            {list.slice(0, 6).map((item) => (
+            {list.slice(0, xl ? 6 : lg ? 6 : md ? 4 : sm ? 4 : 2).map((item) => (
               <Grid
                 item
-                lg={2}
+                xl={2}
+                lg={3}
                 md={3}
                 sm={6}
+                xs={12}
                 key={item}>
                 <TemplateCard
                   linkTitle="Use as example"
@@ -218,9 +227,11 @@ export default function Home() {
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
                     <Grid
                       item
-                      md={3}
                       xl={2}
+                      lg={3}
+                      md={4}
                       sm={6}
+                      xs={12}
                       key={item}>
                       <ProjectCard
                         view={view}
@@ -241,9 +252,9 @@ export default function Home() {
                         }
                       }}>
                       <TableRow>
-                        <TableCell sx={{ fontWeight: 400 }}>Name</TableCell>
-                        <TableCell sx={{ fontWeight: 400 }}>Last Modified</TableCell>
-                        <TableCell sx={{ fontWeight: 400 }}>Created</TableCell>
+                        <TableCell sx={{ fontWeight: 400, minWidth: 200 }}>Name</TableCell>
+                        <TableCell sx={{ fontWeight: 400, minWidth: 200 }}>Last Modified</TableCell>
+                        <TableCell sx={{ fontWeight: 400, minWidth: 200 }}>Created</TableCell>
                         <TableCell sx={{ fontWeight: 400 }}></TableCell>
                       </TableRow>
                     </TableHead>
