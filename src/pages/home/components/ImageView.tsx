@@ -2,22 +2,100 @@ import * as React from 'react'
 import Box from '@mui/material/Box'
 import ImageList from '@mui/material/ImageList'
 import ImageListItem from '@mui/material/ImageListItem'
+import { Typography } from '@mui/material'
+import { Link } from 'react-router-dom'
+import useScreenSize from 'utils/hooks/useScreenSize'
 
-export default function ImageView() {
+interface ImageViewPropTypes {
+  linkTitle: string
+  title?: string
+}
+
+export default function ImageView(props: ImageViewPropTypes) {
+  const { lg, xl, md, sm } = useScreenSize()
   return (
     <Box sx={{ width: '100%', height: 'auto', overflowY: 'scroll' }}>
       <ImageList
         variant="masonry"
-        cols={3}
+        cols={xl ? 5 : lg ? 4 : md ? 3 : sm ? 2 : 1}
         gap={16}>
         {itemData.map((item) => (
           <ImageListItem key={item.img}>
-            <img
-              srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-              src={`${item.img}?w=248&fit=crop&auto=format`}
-              alt={item.title}
-              loading="lazy"
-            />
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                textAlign: 'center',
+                flexDirection: 'column',
+                border: '1px solid rgba(0,0,0,0.1)',
+                borderRadius: '8px',
+                justifyContent: 'center',
+                position: 'relative',
+                overflow: 'hidden',
+                cursor: 'pointer',
+                '& .overlay': {
+                  opacity: 0,
+                  transition: '0.3s ease-in-out'
+                },
+                '&:hover': {
+                  '& .overlay': {
+                    opacity: '100%'
+                  }
+                }
+              }}>
+              <div
+                className="overlay"
+                style={{
+                  position: 'absolute',
+                  background: 'rgba(255, 255, 255,0.95)',
+                  width: '100%',
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                <div
+                  style={{
+                    width: '80%',
+                    margin: 'auto',
+                    height: '80%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between'
+                  }}>
+                  <div>
+                    {props.title && (
+                      <Typography
+                        variant="body2"
+                        sx={{ textAlign: 'left', mb: 2, fontWeight: 600 }}>
+                        {props.title}
+                      </Typography>
+                    )}
+                    <Typography
+                      variant="subtitle2"
+                      sx={{ textAlign: 'left', mb: 2 }}>
+                      A black perfume bottle stands on the glass among the water droplets
+                    </Typography>
+                  </div>
+                  <Link to="/">
+                    <Typography
+                      variant="body2"
+                      color="text.color-text-clickable"
+                      sx={{ textAlign: 'left', textDecoration: 'underline' }}>
+                      {props.linkTitle}
+                    </Typography>
+                  </Link>
+                </div>
+              </div>
+              <img
+                srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                src={`${item.img}?w=248&fit=crop&auto=format`}
+                alt={item.title}
+                loading="lazy"
+                style={{ width: '100%', height: 'auto', objectFit: 'contain', borderRadius: '8px', overflow: 'hidden' }}
+              />
+            </Box>
           </ImageListItem>
         ))}
       </ImageList>

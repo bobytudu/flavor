@@ -120,8 +120,10 @@ export default function ProjectCard(props: ProjectCardPropTypes) {
           sx={{
             maxWidth: 310,
             maxHeight: 500,
-            marginBottom: 16,
             cursor: 'pointer',
+            '& .overlay_img': {
+              border: '1px solid rgba(0, 0, 0, 0)'
+            },
             '&:hover': {
               '& .overlay_img': {
                 border: '1px solid rgba(0, 0, 0, 0.267)'
@@ -132,7 +134,7 @@ export default function ProjectCard(props: ProjectCardPropTypes) {
             src={projectImg}
             alt={props.title}
             className="overlay_img"
-            style={{ width: '100%', marginBottom: 16, height: 'auto', objectFit: 'contain', borderRadius: '8px', overflow: 'hidden' }}
+            style={{ width: '100%', marginBottom: 16, height: 'auto', objectFit: 'cover', borderRadius: '8px', overflow: 'hidden' }}
           />
           <div
             style={{
@@ -145,8 +147,16 @@ export default function ProjectCard(props: ProjectCardPropTypes) {
                 display: 'flex',
                 flexDirection: 'column'
               }}>
-              <Typography variant="body2">{props.title}</Typography>
-              <Typography variant="caption">{props.description}</Typography>
+              <Typography
+                variant="body2"
+                sx={{ fontWeight: 600 }}>
+                {props.title}
+              </Typography>
+              <Typography
+                variant="caption"
+                color="text.secondary">
+                {props.description}
+              </Typography>
             </div>
             <IconButton onClick={handleOpenUserMenu}>
               <EllipsisHorizontalIcon style={{ width: 20 }} />
@@ -158,8 +168,21 @@ export default function ProjectCard(props: ProjectCardPropTypes) {
           sx={{
             cursor: 'pointer',
             '&:last-child td, &:last-child th': { border: 0 },
+            '& .MuiTableCell-root': {
+              border: 'none'
+            },
             '&:hover': {
-              background: 'rgba(234, 246, 192, 1)'
+              '& .MuiTableCell-root:first-child': {
+                background: 'rgba(234, 246, 192, 1)',
+                borderRadius: '8px 0px 0px 8px'
+              },
+              '& .MuiTableCell-root': {
+                background: 'rgba(234, 246, 192, 1)'
+              },
+              '& .MuiTableCell-root:last-child': {
+                background: 'rgba(234, 246, 192, 1)',
+                borderRadius: '0px 8px 8px 0px'
+              }
             }
           }}>
           <TableCell>
@@ -171,13 +194,25 @@ export default function ProjectCard(props: ProjectCardPropTypes) {
               />
               <Typography
                 variant="body2"
-                sx={{ color: 'rgba(86, 86, 86, 1)', ml: 2 }}>
+                sx={{ color: 'text.primary', ml: 2, fontWeight: 600 }}>
                 {props.title}
               </Typography>
             </div>
           </TableCell>
-          <TableCell>{props.description}</TableCell>
-          <TableCell>{props.created}</TableCell>
+          <TableCell>
+            <Typography
+              variant="body2"
+              sx={{ color: 'text.primary', fontWeight: 400 }}>
+              {props.description}
+            </Typography>
+          </TableCell>
+          <TableCell>
+            <Typography
+              variant="body2"
+              sx={{ color: 'text.primary', fontWeight: 400 }}>
+              {props.created}
+            </Typography>
+          </TableCell>
           <TableCell align="right">
             <IconButton onClick={handleOpenUserMenu}>
               <EllipsisHorizontalIcon style={{ width: 20 }} />

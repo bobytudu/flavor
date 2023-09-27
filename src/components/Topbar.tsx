@@ -140,6 +140,7 @@ function Topbar() {
               <NavLink to={link.path}>
                 {({ isActive }) => (
                   <Button
+                    disableRipple
                     key={link.name}
                     onClick={handleCloseNavMenu}
                     sx={{
@@ -148,7 +149,11 @@ function Topbar() {
                       display: 'block',
                       fontWeight: 600,
                       fontSize: 16,
-                      background: 'transparent'
+                      background: 'transparent',
+                      '&:hover': {
+                        background: 'transparent',
+                        color: 'text.primary'
+                      }
                     }}>
                     {link.name}
                   </Button>

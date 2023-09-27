@@ -2,6 +2,7 @@ import { Box, Typography } from '@mui/material'
 import React from 'react'
 import { PlusIcon } from '@heroicons/react/24/solid'
 import templateImg from 'assets/template.png'
+// import templateImg from 'assets/project.png'
 import { Link } from 'react-router-dom'
 
 interface TemplateCardPropTypes {
@@ -9,6 +10,8 @@ interface TemplateCardPropTypes {
   image?: string
   id?: string
   blank?: boolean
+  linkTitle?: string
+  title?: string
 }
 
 export default function TemplateCard(props: TemplateCardPropTypes) {
@@ -23,7 +26,7 @@ export default function TemplateCard(props: TemplateCardPropTypes) {
             flexDirection: 'column',
             border: '1px dashed rgba(0,0,0,0.1)',
             bgcolor: 'white',
-            width: 200,
+            width: '100%',
             height: 200,
             justifyContent: 'center',
             borderRadius: '8px',
@@ -47,7 +50,7 @@ export default function TemplateCard(props: TemplateCardPropTypes) {
             borderRadius: '8px',
             height: 200,
             justifyContent: 'center',
-            width: 200,
+            width: '100%',
             position: 'relative',
             overflow: 'hidden',
             cursor: 'pointer',
@@ -82,6 +85,13 @@ export default function TemplateCard(props: TemplateCardPropTypes) {
                 flexDirection: 'column',
                 justifyContent: 'space-between'
               }}>
+              {props.title && (
+                <Typography
+                  variant="body2"
+                  sx={{ textAlign: 'left', mb: 2, fontWeight: 600 }}>
+                  {props.title}
+                </Typography>
+              )}
               <Typography
                 variant="subtitle2"
                 sx={{ textAlign: 'left', mb: 2 }}>
@@ -92,7 +102,7 @@ export default function TemplateCard(props: TemplateCardPropTypes) {
                   variant="body2"
                   color="text.color-text-clickable"
                   sx={{ textAlign: 'left', textDecoration: 'underline' }}>
-                  Use as example
+                  {props.linkTitle}
                 </Typography>
               </Link>
             </div>
@@ -100,7 +110,7 @@ export default function TemplateCard(props: TemplateCardPropTypes) {
           <img
             src={templateImg}
             alt="template"
-            style={{ width: 210, height: 210, objectFit: 'contain' }}
+            style={{ width: '100%', height: 210, objectFit: 'cover' }}
           />
         </Box>
       )}
