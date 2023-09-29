@@ -9,8 +9,9 @@ export default function InputLabel(theme: ComponentsOverridesProps) {
           '&.Mui-focused': {
             color: theme.palette.text.primary
           },
-          fontWeight: 400,
-          marginBottom: 8
+          fontWeight: 600,
+          marginBottom: 8,
+          fontSize: 16
         }
       }
     }

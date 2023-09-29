@@ -66,7 +66,11 @@ function Topbar() {
     <AppBar
       position="static"
       elevation={0}
-      sx={{ bgcolor: 'white', borderBottom: '1px solid rgba(0, 0, 0, 0.1)', px: 2 }}>
+      sx={{
+        bgcolor: 'white',
+        borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
+        px: 4
+      }}>
       <Toolbar disableGutters>
         <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
           <IconButton
@@ -94,9 +98,9 @@ function Topbar() {
             sx={{
               display: { xs: 'block', md: 'none' }
             }}>
-            {pages.map((page) => (
+            {pages.map((page, index) => (
               <MenuItem
-                key={page}
+                key={`page_${index}`}
                 onClick={handleCloseNavMenu}>
                 <Link to={page === 'Home' ? '/' : `/${page.toLowerCase()}`}>
                   <Typography
@@ -124,7 +128,9 @@ function Topbar() {
         <Box sx={{ display: { xs: 'none', md: 'flex' }, ml: 2, flexGrow: 1 }}>
           {state ? (
             links.map((link) => (
-              <NavLink to={link.path}>
+              <NavLink
+                key={link.path}
+                to={link.path}>
                 {({ isActive }) => (
                   <Button
                     disableRipple

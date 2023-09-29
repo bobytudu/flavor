@@ -44,7 +44,12 @@ export default function FullScreenDialog({ open, onClose, children, title, conte
     <AppBar
       position="static"
       elevation={0}
-      sx={{ bgcolor: 'white', borderBottom: '1px solid rgba(0, 0, 0, 0.1)', display: 'flex', px: 2 }}>
+      sx={{
+        bgcolor: 'white',
+        borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
+        display: 'flex',
+        px: 4
+      }}>
       <Toolbar disableGutters>
         {!xs && (
           <>
