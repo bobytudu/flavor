@@ -66,6 +66,7 @@ export default function Home() {
       <FullScreenDialog
         title="Template gallery"
         open={expanded}
+        isDialog
         onClose={() => setExpanded((prev) => !prev)}>
         <Container
           maxWidth="xl"
