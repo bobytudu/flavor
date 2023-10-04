@@ -1,6 +1,7 @@
-import { Box, Button, Grid, InputLabel, MenuItem, Select, Tab, Tabs, TextField, Typography } from '@mui/material'
+import { Box, Button, Grid, InputLabel, MenuItem, Select, Tab, Tabs, TextField, Typography, SelectChangeEvent } from '@mui/material'
 import React from 'react'
 import prodImg from 'assets/img8.png'
+import prodImg9 from 'assets/img9.png'
 import img7 from 'assets/img7.png'
 import img from 'assets/img4.png'
 import size1Img from 'assets/sizes/size_1.png'
@@ -10,19 +11,31 @@ import { DocumentTextIcon, PaintBrushIcon, PhotoIcon, SparklesIcon } from '@hero
 
 export default function Projects() {
   const [value, setValue] = React.useState(0)
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue)
-  }
+  const [ratio, setRatio] = React.useState('1:1')
   const colors = ['#2291FF', '#FFC700', '#FF0000', '#00FF00', '#0000FF']
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => setValue(newValue)
+  const handleSelectRatio = (e: SelectChangeEvent) => setRatio(e.target.value as string)
+
   React.useEffect(() => {
-    const img = document.getElementById('prod_img')
-    if (img) {
-      img.addEventListener('scroll', (e) => {
-        console.log(e)
-      })
+    const calculateWidthAndHeight = (ratio: string) => {
+      const container = document.getElementById('image_container_container')
+      const imgContainer = document.getElementById('image_container')
+      // const width = container?.offsetHeight || 0
+      const height = container?.offsetHeight || 0
+      if (ratio === '1:1' && imgContainer) {
+        imgContainer.style.width = `${height - 224}px`
+        imgContainer.style.height = `${height - 224}px`
+      } else if (ratio === '16:9' && imgContainer) {
+        imgContainer.style.width = `${height / (9 / 16)}px`
+        imgContainer.style.height = `${height - 224}px`
+      } else if (ratio === '9:16' && imgContainer) {
+        imgContainer.style.width = `${(height - 224) / (16 / 9)}px`
+        imgContainer.style.height = `${height - 224}px`
+      }
     }
-  }, [])
+    calculateWidthAndHeight(ratio)
+  }, [ratio])
 
   return (
     <div style={{ display: 'flex' }}>
@@ -84,6 +97,7 @@ export default function Projects() {
       <Box
         sx={{
           height: 'calc(100vh - 75px)',
+          minWidth: 340,
           width: 340,
           background: 'white',
           p: 3,
@@ -128,12 +142,13 @@ export default function Projects() {
           <InputLabel>Aspect ratio</InputLabel>
           <Select
             fullWidth
-            value={10}
+            value={ratio}
+            onChange={handleSelectRatio}
             labelId="demo-simple-select-label"
             id="demo-simple-select">
-            <MenuItem value={10}>Instagram Post (1:1)</MenuItem>
-            <MenuItem value={20}>Instagram Post (16:9)</MenuItem>
-            <MenuItem value={30}>Instagram Post (9:16)</MenuItem>
+            <MenuItem value="1:1">Instagram Post (1:1)</MenuItem>
+            <MenuItem value="16:9">Instagram Post (16:9)</MenuItem>
+            <MenuItem value="9:16">Instagram Post (9:16)</MenuItem>
           </Select>
         </div>
         <div style={{ marginBottom: 24 }}>
@@ -241,6 +256,7 @@ export default function Projects() {
       </Box>
 
       <div
+        id="image_container_container"
         style={{
           minHeight: 'calc(100vh - 75px)',
           backgroundColor: '#E5E5E5',
@@ -254,15 +270,28 @@ export default function Projects() {
         <div style={{ textAlign: 'left' }}>
           <Typography
             variant="subtitle1"
-            sx={{ ml: 1, color: '#2291FF' }}>
+            sx={{ color: '#2291FF' }}>
             Dimensions: Instagram Post (1:1)
           </Typography>
-          <img
-            id="prod_img"
-            src={prodImg}
-            style={{ width: 608, height: 608 }}
-            alt="prod_img"
-          />
+          <div
+            id="image_container"
+            style={{
+              width: '100%',
+              height: '100%',
+              background: 'white',
+              border: '1px solid rgba(34, 145, 255, 1)',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              boxShadow: '0px 4px 6px 0px rgba(0, 0, 0, 0.1)'
+            }}>
+            <img
+              id="prod_img"
+              src={prodImg9}
+              style={{ width: 608, height: 608, objectFit: 'contain' }}
+              alt="prod_img"
+            />
+          </div>
         </div>
       </div>
 
