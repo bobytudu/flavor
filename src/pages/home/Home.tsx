@@ -71,6 +71,14 @@ export default function Home() {
         <Container
           maxWidth="xl"
           sx={{ mx: 'auto' }}>
+            <Box
+          sx={{
+            mb: 3,
+            mx: 'auto',
+            transition: 'all 0.3s ease-in-out',
+            minHeight: 200,
+            p:5
+          }}>
           <Box
             sx={{
               mb: 3,
@@ -78,7 +86,7 @@ export default function Home() {
                 sm: 'block',
                 md: 'flex'
               },
-              justifyContent: 'space-between'
+              justifyContent: 'space-between',
             }}>
             <Typography variant="h4">Start a new Project</Typography>
             <Button
@@ -96,8 +104,8 @@ export default function Home() {
               <Grid
                 item
                 xl={2}
-                lg={3}
-                md={3}
+                lg={2}
+                md={2}
                 sm={6}
                 xs={12}
                 key={item}>
@@ -109,17 +117,18 @@ export default function Home() {
             ))}
           </Grid>
           <ImageView linkTitle="Use as example" />
+          </Box>
         </Container>
       </FullScreenDialog>
       <Container
-        maxWidth="xl"
-        sx={{ p: 5 }}>
+        maxWidth="xl">
         <Box
           sx={{
             mb: 3,
             mx: 'auto',
             transition: 'all 0.3s ease-in-out',
-            minHeight: 200
+            minHeight: 200,
+            p:5
           }}>
           <Box
             sx={{
@@ -128,7 +137,7 @@ export default function Home() {
                 sm: 'block',
                 md: 'flex'
               },
-              justifyContent: 'space-between'
+              justifyContent: 'space-between',
             }}>
             <Typography variant="h4">Start a new Project</Typography>
             <Button
@@ -145,8 +154,8 @@ export default function Home() {
               <Grid
                 item
                 xl={2}
-                lg={3}
-                md={3}
+                lg={2}
+                md={2}
                 sm={6}
                 xs={12}
                 key={item}>
@@ -161,12 +170,12 @@ export default function Home() {
       </Container>
       <Box bgcolor="background.paper">
         <Container
-          maxWidth="xl"
-          sx={{ p: 5 }}>
+          maxWidth="xl">
           <Box
             sx={{
               mb: 3,
-              mx: 'auto'
+              mx: 'auto',
+              p:10
             }}>
             <div
               style={{
@@ -229,7 +238,7 @@ export default function Home() {
                     <Grid
                       item
                       xl={2}
-                      lg={3}
+                      lg={4}
                       md={4}
                       sm={6}
                       xs={12}

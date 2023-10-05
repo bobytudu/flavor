@@ -21,17 +21,33 @@ export default function Projects() {
     const calculateWidthAndHeight = (ratio: string) => {
       const container = document.getElementById('image_container_container')
       const imgContainer = document.getElementById('image_container')
-      // const width = container?.offsetHeight || 0
+      const image = document.getElementById('prod_img')
+      const width = container?.offsetHeight || 0
       const height = container?.offsetHeight || 0
-      if (ratio === '1:1' && imgContainer) {
+      if (ratio === '1:1' && imgContainer && image) {
+        //container
         imgContainer.style.width = `${height - 224}px`
         imgContainer.style.height = `${height - 224}px`
-      } else if (ratio === '16:9' && imgContainer) {
-        imgContainer.style.width = `${height / (9 / 16)}px`
-        imgContainer.style.height = `${height - 224}px`
-      } else if (ratio === '9:16' && imgContainer) {
+
+        // image
+        image.style.width = `${height - 230}px`
+        image.style.height = `${height - 230}px`
+      } else if (ratio === '16:9' && imgContainer && image) {
+        // container
+        imgContainer.style.width = `${(height - 224)}px`
+        imgContainer.style.height = `${(width - 224) / (16/9)}px`
+
+        // image
+        image.style.width = `${(height - 230)}px`
+        image.style.height = `${(width - 230) / (16/9)}px`
+      } else if (ratio === '9:16' && imgContainer && image) {
+        // container
         imgContainer.style.width = `${(height - 224) / (16 / 9)}px`
         imgContainer.style.height = `${height - 224}px`
+
+        // image
+        image.style.width = `${(height - 230) / (16 / 9)}px`
+        image.style.height = `${height - 230}px`
       }
     }
     calculateWidthAndHeight(ratio)
@@ -271,7 +287,7 @@ export default function Projects() {
           <Typography
             variant="subtitle1"
             sx={{ color: '#2291FF' }}>
-            Dimensions: Instagram Post (1:1)
+            Dimensions: Instagram Post ({ratio})
           </Typography>
           <div
             id="image_container"

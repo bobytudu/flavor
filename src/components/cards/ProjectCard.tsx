@@ -118,7 +118,7 @@ export default function ProjectCard(props: ProjectCardPropTypes) {
       {props.view === 'grid' ? (
         <Box
           sx={{
-            maxWidth: 310,
+            maxWidth: { xs: '100%', sm: '100%', md: '100%', lg: '100%', xl: 310 },
             maxHeight: 500,
             cursor: 'pointer',
             '& .overlay_img': {
