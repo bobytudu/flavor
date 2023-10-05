@@ -71,64 +71,63 @@ export default function Home() {
         <Container
           maxWidth="xl"
           sx={{ mx: 'auto' }}>
-            <Box
-          sx={{
-            mb: 3,
-            mx: 'auto',
-            transition: 'all 0.3s ease-in-out',
-            minHeight: 200,
-            p:5
-          }}>
           <Box
             sx={{
               mb: 3,
-              display: {
-                sm: 'block',
-                md: 'flex'
-              },
-              justifyContent: 'space-between',
+              mx: 'auto',
+              transition: 'all 0.3s ease-in-out',
+              minHeight: 200,
+              p: 5
             }}>
-            <Typography variant="h4">Start a new Project</Typography>
-            <Button
-              onClick={() => setExpanded((prev) => !prev)}
-              sx={{ color: 'rgba(86, 86, 86, 1)', fontWeight: 400, fontSize: 16, background: 'transparent', pl: 0 }}
-              endIcon={<ChevronUpDownIcon style={{ width: 20, height: 30 }} />}>
-              Template gallery
-            </Button>
-          </Box>
-          <Grid
-            container
-            spacing={3}
-            sx={{ mb: 12 }}>
-            {list.slice(0, xl ? 6 : lg ? 6 : md ? 4 : sm ? 4 : 2).map((item) => (
-              <Grid
-                item
-                xl={2}
-                lg={2}
-                md={2}
-                sm={6}
-                xs={12}
-                key={item}>
-                <TemplateCard
-                  linkTitle="Use as example"
-                  blank={item === 1}
-                />
-              </Grid>
-            ))}
-          </Grid>
-          <ImageView linkTitle="Use as example" />
+            <Box
+              sx={{
+                mb: 3,
+                display: {
+                  sm: 'block',
+                  md: 'flex'
+                },
+                justifyContent: 'space-between'
+              }}>
+              <Typography variant="h4">Start a new Project</Typography>
+              <Button
+                onClick={() => setExpanded((prev) => !prev)}
+                sx={{ color: 'rgba(86, 86, 86, 1)', fontWeight: 400, fontSize: 16, background: 'transparent', pl: 0 }}
+                endIcon={<ChevronUpDownIcon style={{ width: 20, height: 30 }} />}>
+                Template gallery
+              </Button>
+            </Box>
+            <Grid
+              container
+              spacing={3}
+              sx={{ mb: 12 }}>
+              {list.slice(0, xl ? 6 : lg ? 6 : md ? 4 : sm ? 4 : 2).map((item) => (
+                <Grid
+                  item
+                  xl={2}
+                  lg={2}
+                  md={2}
+                  sm={6}
+                  xs={12}
+                  key={item}>
+                  <TemplateCard
+                    linkTitle="Use as example"
+                    blank={item === 1}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+            <ImageView linkTitle="Use as example" />
           </Box>
         </Container>
       </FullScreenDialog>
-      <Container
-        maxWidth="xl">
+      <Container maxWidth="xl">
         <Box
           sx={{
             mb: 3,
             mx: 'auto',
             transition: 'all 0.3s ease-in-out',
             minHeight: 200,
-            p:5
+            p: 5
           }}>
           <Box
             sx={{
@@ -137,7 +136,7 @@ export default function Home() {
                 sm: 'block',
                 md: 'flex'
               },
-              justifyContent: 'space-between',
+              justifyContent: 'space-between'
             }}>
             <Typography variant="h4">Start a new Project</Typography>
             <Button
@@ -169,13 +168,12 @@ export default function Home() {
         </Box>
       </Container>
       <Box bgcolor="background.paper">
-        <Container
-          maxWidth="xl">
+        <Container maxWidth="xl">
           <Box
             sx={{
               mb: 3,
               mx: 'auto',
-              p:10
+              p: 10
             }}>
             <div
               style={{
@@ -265,7 +263,7 @@ export default function Home() {
                         <TableCell sx={{ fontWeight: 400, minWidth: 200 }}>Name</TableCell>
                         <TableCell sx={{ fontWeight: 400, minWidth: 200 }}>Last Modified</TableCell>
                         <TableCell sx={{ fontWeight: 400, minWidth: 200 }}>Created</TableCell>
-                        <TableCell sx={{ fontWeight: 400 }}></TableCell>
+                        <TableCell sx={{ fontWeight: 400 }} />
                       </TableRow>
                     </TableHead>
                     <TableBody>

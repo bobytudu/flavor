@@ -14,6 +14,11 @@ import logoImg from 'assets/logo/logo.png'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { ArrowLeftIcon, Bars3Icon, EllipsisHorizontalIcon } from '@heroicons/react/24/solid'
 import { useTestData } from 'context/TestContext'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from 'redux/reducers/auth.reducer'
+import { signOut } from 'firebase/auth'
+import { firebaseAuth } from 'service/firebase'
+import { useAppSelector } from 'redux/hooks'
 
 const pages = ['Home', 'Projects', 'Images', 'Assets']
 const links = [
@@ -37,6 +42,8 @@ const links = [
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
 
 function Topbar() {
+  const { user } = useAppSelector((state) => state.auth)
+  const dispatch = useDispatch()
   const { state, screenTitle, setState } = useTestData()
   const navigate = useNavigate()
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null)
@@ -53,8 +60,14 @@ function Topbar() {
     setAnchorElNav(null)
   }
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (type?: string) => {
     setAnchorElUser(null)
+    if (type === 'Logout') {
+      signOut(firebaseAuth).then(() => {
+        localStorage.clear()
+        dispatch(logout())
+      })
+    }
   }
 
   function goBack() {
@@ -191,8 +204,8 @@ function Topbar() {
               sx={{ p: 0 }}>
               <Avatar
                 style={{ width: 35, height: 35 }}
-                alt="Remy Sharp"
-                src="/static/images/avatar/2.jpg"
+                alt={`${user?.displayName}`}
+                src={`${user?.photoURL}`}
               />
             </IconButton>
           </Tooltip>
@@ -210,11 +223,11 @@ function Topbar() {
               horizontal: 'right'
             }}
             open={Boolean(anchorElUser)}
-            onClose={handleCloseUserMenu}>
+            onClose={() => handleCloseUserMenu()}>
             {settings.map((setting) => (
               <MenuItem
                 key={setting}
-                onClick={handleCloseUserMenu}>
+                onClick={() => handleCloseUserMenu(setting)}>
                 <Typography textAlign="center">{setting}</Typography>
               </MenuItem>
             ))}

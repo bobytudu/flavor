@@ -230,7 +230,8 @@ export default function Projects() {
                     height: 50,
                     borderRadius: 100,
                     backgroundColor: color
-                  }}></div>
+                  }}
+                />
               </Grid>
             ))}
           </Grid>
