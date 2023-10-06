@@ -141,7 +141,7 @@
   width: 420px;
   height: 420px;
   object-fit: scale-down;
-  background-image: url("../images/gray-white-dotted.png");
+  background-image: url("../assets/images/gray-white-dotted.png");
 }
 .selectedImageBox {
   border-radius: 10px;

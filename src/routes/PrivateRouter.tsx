@@ -6,7 +6,7 @@ import generalRoutes from './generalRoutes'
 //pages
 import Home from 'pages/home/Home'
 import Images from 'pages/Images'
-import Projects from 'pages/Projects'
+import Generate from 'pages/generate/Generate'
 import Assets from 'pages/Assets'
 import NotFound from 'pages/NotFound'
 
@@ -19,7 +19,7 @@ export default function PrivateRouter() {
         ...generalRoutes,
         { element: <Home />, index: true },
         { element: <Images />, path: 'images' },
-        { element: <Projects />, path: 'projects' },
+        { element: <Generate />, path: 'projects' },
         { element: <Assets />, path: 'assets' },
         { path: '*', element: <NotFound /> }
       ]

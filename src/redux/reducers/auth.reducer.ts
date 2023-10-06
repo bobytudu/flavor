@@ -1,24 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import type { RootState } from '../store'
 import { User } from 'utils/types/auth'
 
 // Define a type for the slice state
-interface CounterState {
+interface AuthState {
     value: number
     user: User | null
     loading: boolean
 }
 
 // Define the initial state using that type
-const initialState: CounterState = {
+const initialState: AuthState = {
     value: 0,
     user: null,
     loading: true
 }
 
-export const counterSlice = createSlice( {
-    name: 'counter',
+export const authSlice = createSlice( {
+    name: 'auth',
     // `createSlice` will infer the state type from the `initialState` argument
     initialState,
     reducers: {
@@ -44,9 +43,9 @@ export const counterSlice = createSlice( {
     },
 } )
 
-export const { increment, decrement, incrementByAmount, stopLoading, setUser, logout } = counterSlice.actions
+export const { increment, decrement, incrementByAmount, stopLoading, setUser, logout } = authSlice.actions
 
 // Other code such as selectors can use the imported `RootState` type
 // export const selectCount = ( state: RootState ) => state.counter.value
 
-export default counterSlice.reducer
+export default authSlice.reducer
