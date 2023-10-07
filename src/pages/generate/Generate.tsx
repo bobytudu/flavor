@@ -1,18 +1,19 @@
-import { Box, Button, Grid, InputLabel, MenuItem, Select, Tab, Tabs, TextField, Typography, SelectChangeEvent, Stack } from '@mui/material'
+import { Box, Button, Grid, InputLabel, Tab, Tabs, Typography, SelectChangeEvent, InputBase, Chip, Divider } from '@mui/material'
 import React from 'react'
 import prodImg9 from 'assets/img9.png'
 import img7 from 'assets/img7.png'
 import img from 'assets/img4.png'
+import capitalize from 'lodash/capitalize'
 import { fabric } from 'fabric'
-import generateBtnIcon from 'assets/images/generateBtnIcon.png'
-import { DocumentTextIcon, FolderIcon, PaintBrushIcon, PhotoIcon } from '@heroicons/react/24/solid'
-import DefaultDrawer from './components/drawer/DefaultDrawer'
+// import generateBtnIcon from 'assets/images/generateBtnIcon.png'
+import { FolderIcon, PhotoIcon, SparklesIcon, Square2StackIcon } from '@heroicons/react/24/solid'
+import DefaultDrawer from './components/drawer/CreateDrawer'
 import AssetDrawer from './components/drawer/AssetDrawer'
-import Canvas from './components/Canvas'
-import { useAppSelector } from 'redux/hooks'
-import styles from 'styles/GenerateProduct.module.css'
-import GeneratedImages from './components/GeneratedImages'
-import ThemeBased from './components/drawer/ThemeBased'
+// import Canvas from './components/Canvas'
+// import { useAppSelector } from 'redux/hooks'
+// import styles from 'styles/GenerateProduct.module.css'
+// import GeneratedImages from './components/GeneratedImages'
+// import ThemeBased from './components/drawer/ThemeBased'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   generateImageCampaignBasedApi,
@@ -21,6 +22,21 @@ import {
   generateImageVisualConceptApi
 } from 'redux/action/generate.action'
 import { setGenerateImagePayload } from 'redux/reducers/generate.reducer'
+import ThemeDrawer from './components/drawer/ThemeDrawer'
+const tabs = [
+  {
+    name: 'Theme',
+    icon: Square2StackIcon
+  },
+  {
+    name: 'Create',
+    icon: PhotoIcon
+  },
+  {
+    name: 'Assets',
+    icon: FolderIcon
+  }
+]
 
 export default function GenerateImage() {
   const dispatch = useDispatch()
@@ -41,7 +57,7 @@ export default function GenerateImage() {
   const [selectedFile, setSelectedFile] = React.useState<Blob | null>(null)
   const userEmail = 'js903783@gmail.com'
   const userId = 'cKtEO8vZqwRZ6A3XEn9L5ZPGv1k2'
-
+  const [selectedStyles, setSelectedStyles] = React.useState<string[]>(['Slide show', 'Gender: Man', 'Age: 13-15'])
   const [showAlert, setShowAlert] = React.useState({
     open: false,
     message: '',
@@ -316,12 +332,13 @@ export default function GenerateImage() {
   }
 
   return (
-    <div style={{ display: 'flex' }}>
+    <div style={{ display: 'flex', maxWidth: '100vw' }}>
       <div
         style={{
-          width: 80,
+          minWidth: 80,
           height: 'calc(100vh - 75px)'
-        }}>
+        }}
+      >
         <Tabs
           orientation="vertical"
           variant="scrollable"
@@ -329,33 +346,24 @@ export default function GenerateImage() {
           TabIndicatorProps={{ style: { display: 'none' } }}
           onChange={handleChange}
           aria-label="Vertical tabs example"
-          sx={{ '& .Mui-selected': { background: 'white' } }}>
-          <Tab
-            sx={{ py: 2 }}
-            label={
-              <>
-                <PhotoIcon style={{ width: 14, height: 16 }} />
-                <Typography
-                  variant="caption"
-                  sx={{ fontWeight: 400 }}>
-                  Create
-                </Typography>
-              </>
-            }
-          />
-          <Tab
-            sx={{ py: 2 }}
-            label={
-              <>
-                <FolderIcon style={{ width: 14, height: 16 }} />
-                <Typography
-                  variant="caption"
-                  sx={{ fontWeight: 400 }}>
-                  Assets
-                </Typography>
-              </>
-            }
-          />
+          sx={{ '& .Mui-selected': { background: 'white' } }}
+        >
+          {tabs.map((tab, index) => (
+            <Tab
+              sx={{ py: 2 }}
+              label={
+                <>
+                  <tab.icon style={{ width: 16, height: 16 }} />
+                  <Typography
+                    variant="caption"
+                    sx={{ fontWeight: 400 }}
+                  >
+                    {capitalize(tab.name)}
+                  </Typography>
+                </>
+              }
+            />
+          ))}
         </Tabs>
       </div>
       {/* left drawer */}
@@ -368,15 +376,16 @@ export default function GenerateImage() {
           p: 3,
           overflowY: 'auto',
           zIndex: 10
-        }}>
-        {value === 0 && <ThemeBased />}
-        {/* {value === 0 && (
+        }}
+      >
+        {value === 0 && <ThemeDrawer />}
+        {value === 1 && (
           <DefaultDrawer
             ratio={ratio}
             handleSelectRatio={handleSelectRatio}
           />
-        )} */}
-        {value === 1 && (
+        )}
+        {value === 2 && (
           <AssetDrawer
             selectedImageSrc={selectedImageSrc}
             setSelectedImageSrc={setSelectedImageSrc}
@@ -394,9 +403,11 @@ export default function GenerateImage() {
           justifyContent: 'center',
           flexDirection: 'column',
           flex: 1,
-          padding: 56
-        }}>
-        <Stack
+          padding: 24,
+          position: 'relative'
+        }}
+      >
+        {/* <Stack
           direction={'column'}
           spacing={1}
           className={styles.canvasStack}>
@@ -437,11 +448,12 @@ export default function GenerateImage() {
             disabled={isLoading || removeBackgroundImageLoading}>
             Generate
           </Button>
-        )}
-        {/* <div style={{ textAlign: 'left' }}>
+        )} */}
+        <div style={{ textAlign: 'left' }}>
           <Typography
             variant="subtitle1"
-            sx={{ color: '#2291FF' }}>
+            sx={{ color: '#2291FF' }}
+          >
             Dimensions: Instagram Post ({ratio})
           </Typography>
           <div
@@ -455,7 +467,8 @@ export default function GenerateImage() {
               justifyContent: 'center',
               alignItems: 'center',
               boxShadow: '0px 4px 6px 0px rgba(0, 0, 0, 0.1)'
-            }}>
+            }}
+          >
             <img
               id="prod_img"
               src={prodImg9}
@@ -463,7 +476,64 @@ export default function GenerateImage() {
               alt="prod_img"
             />
           </div>
-        </div> */}
+        </div>
+        <div
+          style={{
+            marginTop: 24,
+            display: 'flex',
+            alignItems: 'end',
+            justifyContent: 'space-between',
+            padding: 16,
+            background: 'white',
+            borderRadius: 12,
+            position: 'absolute',
+            bottom: 56,
+            width: '80%',
+            left: 56,
+            boxShadow: '0px 4px 6px 0px rgba(0, 0, 0, 0.1)'
+          }}
+        >
+          <div style={{ width: '100%' }}>
+            <InputBase
+              multiline
+              fullWidth
+              placeholder="Select the settings in the left sidebar"
+            />
+            <div
+              style={{
+                display: selectedStyles.length > 0 ? 'flex' : 'none',
+                flexWrap: 'wrap'
+              }}
+            >
+              <Chip
+                variant="outlined"
+                label="Clear Styles"
+                clickable
+                onClick={() => setSelectedStyles([])}
+                sx={{ borderRadius: '4px', mb: 1 }}
+              />
+              <Divider
+                flexItem
+                orientation="vertical"
+                sx={{ mx: 1 }}
+              />
+              {selectedStyles.map((style) => (
+                <Chip
+                  variant="outlined"
+                  label={style}
+                  onDelete={() => setSelectedStyles(selectedStyles.filter((s) => s !== style))}
+                  sx={{ borderRadius: '4px', mb: 1, mr: 1 }}
+                />
+              ))}
+            </div>
+          </div>
+          <Button
+            sx={{ bgcolor: 'background.color-brand-background', px: 2 }}
+            startIcon={<SparklesIcon style={{ width: 18, height: 18 }} />}
+          >
+            Generate
+          </Button>
+        </div>
       </div>
 
       {/* right drawer */}
@@ -476,8 +546,9 @@ export default function GenerateImage() {
           background: 'white',
           p: 1.5,
           overflowY: 'auto'
-        }}>
-        <div style={{ marginBottom: 24 }}>
+        }}
+      >
+        {/* <div style={{ marginBottom: 24 }}>
           {selectedFile && (
             <GeneratedImages
               productName={`${productDetails?.name}`}
@@ -490,23 +561,26 @@ export default function GenerateImage() {
               setSelectedMenu={setSelectedMenu}
             />
           )}
-        </div>
+        </div> */}
         <div style={{ marginBottom: 24 }}>
           <InputLabel sx={{ fontSize: 20, fontWeight: 600 }}>Recents</InputLabel>
           <Typography
             sx={{ mb: 1 }}
             color="text.secondary"
-            variant="subtitle2">
+            variant="subtitle2"
+          >
             Instagram Post (1:1): A bottle of cosmetics stands on a rock in the middle of the jungle
           </Typography>
           <Grid
             container
-            spacing={1}>
+            spacing={1}
+          >
             {[1, 2, 3, 4].map((item) => (
               <Grid
                 item
                 xs={6}
-                key={item}>
+                key={item}
+              >
                 <img
                   src={img}
                   alt="img"
@@ -525,17 +599,20 @@ export default function GenerateImage() {
           <Typography
             sx={{ mb: 1 }}
             color="text.secondary"
-            variant="subtitle2">
+            variant="subtitle2"
+          >
             Facebook Post (16:9): A bottle of cosmetics stands on a rock in the middle of the river
           </Typography>
           <Grid
             container
-            spacing={1}>
+            spacing={1}
+          >
             {[1, 2, 3, 4].map((item) => (
               <Grid
                 item
                 xs={6}
-                key={item}>
+                key={item}
+              >
                 <img
                   src={img7}
                   alt="img"
@@ -554,17 +631,20 @@ export default function GenerateImage() {
           <Typography
             sx={{ mb: 1 }}
             color="text.secondary"
-            variant="subtitle2">
+            variant="subtitle2"
+          >
             Facebook Post (9:16): A bottle of cosmetics stands on a rock in the middle of the desert:
           </Typography>
           <Grid
             container
-            spacing={1}>
+            spacing={1}
+          >
             {[1, 2, 3, 4].map((item) => (
               <Grid
                 item
                 xs={6}
-                key={item}>
+                key={item}
+              >
                 <img
                   src={img7}
                   alt="img"

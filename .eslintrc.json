@@ -29,22 +29,22 @@
         "no-useless-catch": "off", // Disallow unnecessary `catch` clauses
         "no-empty-function": "off", // Disallow empty functions
         "no-debugger": "off", // Disallow the use of `debugger`
-        "prettier/prettier": "off",
-        // "prettier/prettier": [
-        //     "warn",
-        //     {
-        //         "bracketSpacing": true,
-        //         "printWidth": 160,
-        //         "singleQuote": true,
-        //         "semi": false,
-        //         "trailingComma": "none",
-        //         "tabWidth": 2,
-        //         "useTabs": false,
-        //         "bracketSameLine": true,
-        //         "singleAttributePerLine": true,
-        //         "endOfLine": "auto"
-        //     }
-        // ],
+        // "prettier/prettier": "off",
+        "prettier/prettier": [
+            "warn",
+            {
+                "bracketSpacing": true,
+                "printWidth": 160,
+                "singleQuote": true,
+                "semi": false,
+                "trailingComma": "none",
+                "tabWidth": 2,
+                "useTabs": false,
+                "bracketSameLine": true,
+                "singleAttributePerLine": true,
+                "endOfLine": "auto"
+            }
+        ],
         "@typescript-eslint/ban-ts-ignore": "off", // Disallow @ts-ignore
         "@typescript-eslint/no-extra-semi": "off", // Disallow unnecessary semicolons
         "@typescript-eslint/ban-ts-comment": "off", // Disallow @ts-<directive> comments or require descriptions after directives
@@ -74,7 +74,7 @@
         "react/no-unknown-property": "off", // Experimental
         "react/jsx-no-target-blank": "off", // Experimental
         "react/display-name": "off",
-        "@typescript-eslint/no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": "on",
         "prefer-const": [
             "off",
             {

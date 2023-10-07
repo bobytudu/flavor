@@ -32,5 +32,24 @@
 import React from 'react'
 
 export default function Images() {
-  return <div>Images</div>
+  return (
+    <div
+      style={{
+        position: 'relative',
+        width: 400,
+        height: 400,
+        background: 'red'
+      }}
+    >
+      <div
+        style={{
+          padding: 20,
+          width: '100%',
+          position: 'fixed',
+          bottom: 0,
+          background: 'yellow'
+        }}
+      />
+    </div>
+  )
 }
