@@ -1,6 +1,5 @@
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import {
-  Button,
   IconButton,
   InputLabel,
   SelectChangeEvent,
@@ -11,6 +10,7 @@ import capitalize from "lodash/capitalize";
 import GridImages from "./components/GridImages";
 import StudioComponents from "./components/StudioComponents";
 import LifeStylesComponents from "./components/LifeStylesComponents";
+import CustomButton from "components/buttons/CustomButton";
 
 const types = ["studio", "lifestyle"];
 interface DefaultDrawerProps {
@@ -25,7 +25,6 @@ export default function CreateDrawer({
   const [viewMore, setViewMore] = React.useState(false);
   const [type, setType] = React.useState("studio");
   const [selectedImage, setSelectedImage] = React.useState(0);
-
   const handleViewMore = () => setViewMore(!viewMore);
 
   return (
@@ -60,26 +59,12 @@ export default function CreateDrawer({
             </InputLabel>
             <div style={{ display: "flex" }}>
               {types.map((t) => (
-                <Button
-                  size="small"
-                  key={t}
-                  color="primary"
+                <CustomButton
+                  label={capitalize(t)}
+                  value={type}
+                  index={t}
                   onClick={() => setType(t)}
-                  sx={{
-                    fontWeight: 400,
-                    color: type === t ? "white" : "text.color-text-clickable",
-                    border: "1px solid #E5E5E5",
-                    mr: 1,
-                    bgcolor: type === t ? "text.color-text-clickable" : "white",
-                    "&:hover": {
-                      bgcolor:
-                        type === t ? "text.color-text-clickable" : "white",
-                      color: type === t ? "white" : "text.color-text-clickable",
-                    },
-                  }}
-                >
-                  {capitalize(t)}
-                </Button>
+                />
               ))}
             </div>
           </div>
@@ -87,12 +72,14 @@ export default function CreateDrawer({
           {type === "studio" && (
             <StudioComponents
               ratio={ratio}
+              handleViewMore={handleViewMore}
               handleSelectRatio={handleSelectRatio}
             />
           )}
           {type === "lifestyle" && (
             <LifeStylesComponents
               ratio={ratio}
+              handleViewMore={handleViewMore}
               handleSelectRatio={handleSelectRatio}
             />
           )}

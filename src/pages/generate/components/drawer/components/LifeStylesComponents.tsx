@@ -2,11 +2,19 @@ import { Box, Divider, InputLabel, MenuItem, Select, Typography } from '@mui/mat
 import React from 'react'
 import GridImages from './GridImages'
 
-export default function LifeStylesComponents({ ratio, handleSelectRatio }: { ratio: string; handleSelectRatio: (e: any) => void }) {
-  const [viewMore, setViewMore] = React.useState(false)
-  const [selectedImage, setSelectedImage] = React.useState(0)
+interface LifeStylesComponentsProps {
+  ratio: string;
+  handleSelectRatio: (e: any) => void;
+  handleViewMore: () => void;
+}
 
-  const handleViewMore = () => setViewMore(!viewMore)
+export default function LifeStylesComponents({
+  ratio,
+  handleSelectRatio,
+  handleViewMore,
+}: LifeStylesComponentsProps) {
+  const [selectedImage, setSelectedImage] = React.useState(0);
+
   return (
     <div>
       <div style={{ marginBottom: 24 }}>
@@ -27,22 +35,19 @@ export default function LifeStylesComponents({ ratio, handleSelectRatio }: { rat
       <Divider sx={{ my: 2 }} />
       <div style={{ marginBottom: 24 }}>
         <InputLabel>Reference image</InputLabel>
-        <Box
-          py={1}
-          mb={1}
-          display="flex"
-          justifyContent="space-between"
-        >
-          <Typography
-            variant="caption"
-            sx={{ fontWeight: 600 }}
-          >
+        <Box py={1} mb={1} display="flex" justifyContent="space-between">
+          <Typography variant="caption" sx={{ fontWeight: 600 }}>
             Images
           </Typography>
           <Typography
             onClick={handleViewMore}
             variant="caption"
-            sx={{ fontWeight: 400, color: 'text.color-text-clickable', textDecoration: 'underline', cursor: 'pointer' }}
+            sx={{
+              fontWeight: 400,
+              color: "text.color-text-clickable",
+              textDecoration: "underline",
+              cursor: "pointer",
+            }}
           >
             View more
           </Typography>
@@ -55,16 +60,10 @@ export default function LifeStylesComponents({ ratio, handleSelectRatio }: { rat
 
       <Divider sx={{ my: 2 }} />
       <div style={{ marginBottom: 24 }}>
-        <Typography
-          variant="body1"
-          sx={{ fontWeight: 600, mb: 2 }}
-        >
+        <Typography variant="body1" sx={{ fontWeight: 600, mb: 2 }}>
           Scene composition
         </Typography>
-        <Typography
-          variant="body2"
-          sx={{ fontWeight: 600, mb: 1 }}
-        >
+        <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>
           Placement
         </Typography>
         <Select
@@ -80,10 +79,7 @@ export default function LifeStylesComponents({ ratio, handleSelectRatio }: { rat
         </Select>
       </div>
       <div style={{ marginBottom: 24 }}>
-        <Typography
-          variant="body2"
-          sx={{ fontWeight: 600, mb: 1 }}
-        >
+        <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>
           Shadow
         </Typography>
         <Select
@@ -99,5 +95,5 @@ export default function LifeStylesComponents({ ratio, handleSelectRatio }: { rat
         </Select>
       </div>
     </div>
-  )
+  );
 }
