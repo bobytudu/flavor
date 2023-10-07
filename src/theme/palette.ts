@@ -93,6 +93,7 @@ export type PaletteType = {
     secondary: string
     disabled: string
     'color-text-clickable': string
+    'color-text-secondary': string
   }
   background: {
     paper: string
@@ -127,7 +128,8 @@ const palette: PaletteType = {
     primary: '#111111',
     secondary: '#767676',
     disabled: GREY[500],
-    'color-text-clickable': '#565656'
+    'color-text-clickable': '#565656',
+    'color-text-secondary': '#767676'
   },
   background: {
     paper: '#fff',
