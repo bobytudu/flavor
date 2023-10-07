@@ -14,15 +14,16 @@ const texturedTypes = [
   "Concrete",
   "Paper",
 ];
-
+interface StudioComponentsProps {
+  ratio: string;
+  handleSelectRatio: (e: any) => void;
+  handleViewMore: () => void;
+}
 export default function StudioComponents({
   ratio,
   handleSelectRatio,
-}: {
-  ratio: string;
-  handleSelectRatio: (e: any) => void;
-}) {
-  const [viewMore, setViewMore] = React.useState(false);
+  handleViewMore,
+}: StudioComponentsProps) {
   const [background, setBackground] = React.useState(10);
   const colorTypes = ["HEX", "RGB", "CSS", "HSL", "HSB"];
   const [selectedTexture, setSelectedTexture] = React.useState("Metal");
@@ -33,7 +34,6 @@ export default function StudioComponents({
 
   const handleChange: ColorChangeHandler = (color: ColorResult) =>
     setColor(color.hex);
-  const handleViewMore = () => setViewMore(!viewMore);
   const handleOpenPicker = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
   };
