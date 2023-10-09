@@ -1,5 +1,18 @@
 import { EyeDropperIcon } from '@heroicons/react/24/solid'
-import { Box, Button, ClickAwayListener, Divider, Grid, IconButton, InputLabel, MenuItem, OutlinedInput, Popper, Select, Typography } from '@mui/material'
+import {
+  Box,
+  Button,
+  ClickAwayListener,
+  Divider,
+  Grid,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  OutlinedInput,
+  Popper,
+  Select,
+  Typography,
+} from "@mui/material";
 import React from 'react'
 import { ColorChangeHandler, ColorResult, SketchPicker } from 'react-color'
 import GridImages from './GridImages'

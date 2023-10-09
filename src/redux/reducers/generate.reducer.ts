@@ -1,139 +1,94 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-
-// Define a type for the slice state
-interface GenerateInitState {
-    [key: string]: any
-    removingBackground: boolean
-    removeBackgroundResponse: any
-    removeBackgroundError: any
-    enhancingImage: boolean
-    enhanceImageResponse: any
-    enhanceImageError: any
-    fetchingThemesImage: boolean
-    themesImageList: any
-    themeImageError: any
-    generatingImage: boolean
-    generateImageResponse: any
-    historyGeneratedImages: any
-    generateImageError: any
-    generatingThemeBasedImage: boolean
-    generateThemeBasedImageResponse: any
-    generateThemeBasedImageError: any
-    generatingCampaignBasedImage: boolean
-    generateCampaignBasedImageResponse: any
-    generateCampaignBasedImageError: any
-    generatingVisualConceptImage: boolean
-    generateVisualConceptImageResponse: any
-    generateVisualConceptImageError: any
-    savingGeneratedImage: boolean
-    saveGeneratedImageResponse: any
-    saveGeneratedImageError: any
-    savingProductImage: boolean
-    saveProductImageResponse: any
-    saveProductImageError: any
-    bookmarkingImage: boolean
-    bookmarkImageResponse: any
-    bookmarkImageError: any
-    fetchingBookmarkedImage: boolean
-    getBookmarkedImageResponse: any
-    getBookmarkedImageError: any
-    fetchingNoOfImageLeft: boolean
-    getNoOfImageLeftResponse: any
-    getNoOfImageLeftError: any
-    fetchingProductPageUrlImage: boolean
-    getProductPageUrlImageResponse: any
-    getProductPageUrlImageError: any
-    fetchingElementsImageList: boolean
-    getElementsImageListResponse: any
-    getElementsImageListError: any
-    generateImagePayload: any
-    selectedGeneratedImageState: any
-}
+import { GenerateInitState } from "./types";
 
 // Define the initial state using that type
 const initialState: GenerateInitState = {
-    removingBackground: false,
-    removeBackgroundResponse: null,
-    removeBackgroundError: null,
-    enhancingImage: false,
-    enhanceImageResponse: null,
-    enhanceImageError: null,
-    fetchingThemesImage: false,
-    themesImageList: [],
-    themeImageError: null,
-    generatingImage: false,
-    generateImageResponse: [],
-    historyGeneratedImages: [],
-    generateImageError: null,
-    generatingThemeBasedImage: false,
-    generateThemeBasedImageResponse: [],
-    generateThemeBasedImageError: null,
-    generatingCampaignBasedImage: false,
-    generateCampaignBasedImageResponse: [],
-    generateCampaignBasedImageError: null,
-    generatingVisualConceptImage: false,
-    generateVisualConceptImageResponse: [],
-    generateVisualConceptImageError: null,
-    savingGeneratedImage: false,
-    saveGeneratedImageResponse: null,
-    saveGeneratedImageError: null,
-    savingProductImage: false,
-    saveProductImageResponse: null,
-    saveProductImageError: null,
-    bookmarkingImage: false,
-    bookmarkImageResponse: null,
-    bookmarkImageError: null,
-    fetchingBookmarkedImage: false,
-    getBookmarkedImageResponse: [],
-    getBookmarkedImageError: null,
-    fetchingNoOfImageLeft: false,
-    getNoOfImageLeftResponse: 0,
-    getNoOfImageLeftError: null,
-    fetchingProductPageUrlImage: false,
-    getProductPageUrlImageResponse: [],
-    getProductPageUrlImageError: null,
-    fetchingElementsImageList: false,
-    getElementsImageListResponse: [],
-    getElementsImageListError: null,
-    generateImagePayload: {
-        selectedTab: "Theme",
-        selectedHintsTab: "Style match",
-        customScene: {
-            selectedCustomSceneTab: "Studio",
-            selectedIndoorTab: "Minimalist",
-            selectedPlacementValue: "Standing",
-            selectedShadowValue: "Any",
-            selectedColor: "none",
-            selectedTextureSurfacePalette: "none",
-            selectedTextureSurfacePaletteFile: "none",
-        },
-        themeBasedState: null,
-        visualConceptState: null,
-        personaBasedState: {
-            minAge: 13,
-            maxAge: 65,
-            demographicState: [],
-        },
-        noOfGeneratedImage: 4,
-        matchStyleState: [],
-        selectedRefImageStyle: "None",
-        selectedRefImageStyleFile: "None",
-        photoAttributes: [],
-        resizeCanvas: {
-            headerTitle: "",
-            title: "",
-            width: "",
-            height: "",
-            newCanvasHeight: 300,
-            newCanvasWidth: 300,
-        },
-        existingAssets: [],
+  removingBackground: false,
+  removeBackgroundResponse: null,
+  removeBackgroundError: null,
+  enhancingImage: false,
+  enhanceImageResponse: null,
+  enhanceImageError: null,
+  fetchingThemesImage: false,
+
+  themesImageList: [],
+  themeImageError: null,
+  generatingThemeBasedImage: false,
+  generateThemeBasedImageResponse: [],
+  generateThemeBasedImageError: null,
+  themeLoading: false,
+
+  generatingImage: false,
+  generateImageResponse: [],
+  historyGeneratedImages: [],
+  generateImageError: null,
+  generatingCampaignBasedImage: false,
+  generateCampaignBasedImageResponse: [],
+  generateCampaignBasedImageError: null,
+  generatingVisualConceptImage: false,
+  generateVisualConceptImageResponse: [],
+  generateVisualConceptImageError: null,
+  savingGeneratedImage: false,
+  saveGeneratedImageResponse: null,
+  saveGeneratedImageError: null,
+  savingProductImage: false,
+  saveProductImageResponse: null,
+  saveProductImageError: null,
+  bookmarkingImage: false,
+  bookmarkImageResponse: null,
+  bookmarkImageError: null,
+  fetchingBookmarkedImage: false,
+  getBookmarkedImageResponse: [],
+  getBookmarkedImageError: null,
+  fetchingNoOfImageLeft: false,
+  getNoOfImageLeftResponse: 0,
+  getNoOfImageLeftError: null,
+  fetchingProductPageUrlImage: false,
+  getProductPageUrlImageResponse: [],
+  getProductPageUrlImageError: null,
+  fetchingElementsImageList: false,
+  getElementsImageListResponse: [],
+  getElementsImageListError: null,
+
+  generateImagePayload: {
+    selectedTab: "Theme",
+    selectedHintsTab: "Style match",
+    customScene: {
+      selectedCustomSceneTab: "Studio",
+      selectedIndoorTab: "Minimalist",
+      selectedPlacementValue: "Standing",
+      selectedShadowValue: "Any",
+      selectedColor: "none",
+      selectedTextureSurfacePalette: "none",
+      selectedTextureSurfacePaletteFile: "none",
     },
-    selectedGeneratedImageState: {
-        index: "",
-        imageListState: "",
+    themeBasedState: null,
+    visualConceptState: null,
+    personaBasedState: {
+      minAge: 13,
+      maxAge: 65,
+      demographicState: [],
     },
+    noOfGeneratedImage: 4,
+    matchStyleState: [],
+    selectedRefImageStyle: "None",
+    selectedRefImageStyleFile: "None",
+    photoAttributes: [],
+    resizeCanvas: {
+      headerTitle: "",
+      title: "",
+      width: "",
+      height: "",
+      newCanvasHeight: 300,
+      newCanvasWidth: 300,
+    },
+    existingAssets: [],
+  },
+  selectedGeneratedImageState: {
+    index: "",
+    imageListState: "",
+  },
 };
 
 export const generateSlice = createSlice( {
