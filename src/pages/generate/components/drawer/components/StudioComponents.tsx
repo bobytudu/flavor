@@ -1,7 +1,13 @@
-import { EyeDropperIcon } from '@heroicons/react/24/solid'
+import {
+  CheckCircleIcon,
+  EyeDropperIcon,
+  MinusIcon,
+} from "@heroicons/react/24/solid";
 import {
   Box,
   Button,
+  Checkbox,
+  Chip,
   ClickAwayListener,
   Divider,
   Grid,
@@ -11,11 +17,12 @@ import {
   OutlinedInput,
   Popper,
   Select,
+  Stack,
   Typography,
 } from "@mui/material";
-import React from 'react'
-import { ColorChangeHandler, ColorResult, SketchPicker } from 'react-color'
-import GridImages from './GridImages'
+import React from "react";
+import { ColorChangeHandler, ColorResult, SketchPicker } from "react-color";
+import GridImages from "./GridImages";
 import CustomButton from "components/buttons/CustomButton";
 
 const texturedTypes = [
@@ -37,6 +44,8 @@ export default function StudioComponents({
   handleSelectRatio,
   handleViewMore,
 }: StudioComponentsProps) {
+  const genderOptions = ["Men", "Women", "Others"];
+  const [gender, setGender] = React.useState("Men");
   const [background, setBackground] = React.useState(10);
   const colorTypes = ["HEX", "RGB", "CSS", "HSL", "HSB"];
   const [selectedTexture, setSelectedTexture] = React.useState("Metal");
@@ -273,6 +282,115 @@ export default function StudioComponents({
             />
           </div>
         )}
+      </div>
+      <Divider sx={{ mb: 2 }} />
+
+      <div style={{ marginBottom: 24 }}>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Typography variant="body1" sx={{ fontWeight: 600, mb: 1 }}>
+            Target audience
+          </Typography>
+          <IconButton>
+            <MinusIcon style={{ color: "black", width: 16, height: 16 }} />
+          </IconButton>
+        </Stack>
+        <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>
+          Location
+        </Typography>
+        <Select
+          fullWidth
+          value={ratio}
+          size="small"
+          onChange={handleSelectRatio}
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+        >
+          <MenuItem value="1:1">London, UK</MenuItem>
+          <MenuItem value="16:9">Instagram Post (16:9)</MenuItem>
+          <MenuItem value="9:16">Instagram Post (9:16)</MenuItem>
+        </Select>
+
+        <Grid container spacing={2} sx={{ mt: 2 }}>
+          <Grid item xs={6}>
+            <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>
+              Min age
+            </Typography>
+            <Select
+              fullWidth
+              value={ratio}
+              size="small"
+              onChange={handleSelectRatio}
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+            >
+              <MenuItem value="1:1">13</MenuItem>
+              <MenuItem value="16:9">14</MenuItem>
+              <MenuItem value="9:16">15</MenuItem>
+            </Select>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>
+              Max age
+            </Typography>
+            <Select
+              fullWidth
+              value={ratio}
+              size="small"
+              onChange={handleSelectRatio}
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+            >
+              <MenuItem value="1:1">60</MenuItem>
+              <MenuItem value="16:9">61</MenuItem>
+              <MenuItem value="9:16">62</MenuItem>
+            </Select>
+          </Grid>
+        </Grid>
+
+        <Typography variant="body2" sx={{ fontWeight: 600, mb: 1, mt: 2 }}>
+          Gender
+        </Typography>
+        <Stack direction="row" sx={{ pl: 0 }}>
+          {genderOptions.map((item) => (
+            <Checkbox
+              disableRipple
+              sx={{ borderRadius: 0, p: 0, mr: 1 }}
+              checked={item === gender}
+              onChange={(e) => setGender(item)}
+              icon={
+                <Chip
+                  sx={{ borderRadius: "8px", width: 90 }}
+                  label={item}
+                  clickable
+                  variant="outlined"
+                />
+              }
+              checkedIcon={
+                <Chip
+                  sx={{ borderRadius: "8px", width: 90 }}
+                  label={item}
+                  clickable
+                  variant="outlined"
+                  onDelete={() => {}}
+                  deleteIcon={
+                    <CheckCircleIcon
+                      style={{
+                        width: 16,
+                        height: 16,
+                        color: "black",
+                        // display: gender === item ? "block" : "none",
+                      }}
+                    />
+                  }
+                />
+              }
+            />
+          ))}
+        </Stack>
       </div>
     </div>
   );

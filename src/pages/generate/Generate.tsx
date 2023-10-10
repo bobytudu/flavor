@@ -4,9 +4,14 @@ import prodImg9 from 'assets/img9.png'
 import img7 from 'assets/img7.png'
 import img from 'assets/img4.png'
 import capitalize from 'lodash/capitalize'
-import { fabric } from 'fabric'
+// import { fabric } from 'fabric'
 // import generateBtnIcon from 'assets/images/generateBtnIcon.png'
-import { FolderIcon, PhotoIcon, SparklesIcon, Square2StackIcon } from '@heroicons/react/24/solid'
+import {
+  FolderIcon,
+  PaintBrushIcon,
+  SparklesIcon,
+  Square2StackIcon,
+} from "@heroicons/react/24/solid";
 import DefaultDrawer from './components/drawer/CreateDrawer'
 import AssetDrawer from './components/drawer/AssetDrawer'
 // import Canvas from './components/Canvas'
@@ -14,24 +19,24 @@ import AssetDrawer from './components/drawer/AssetDrawer'
 // import styles from 'styles/GenerateProduct.module.css'
 // import GeneratedImages from './components/GeneratedImages'
 // import ThemeBased from './components/drawer/ThemeBased'
-import { useDispatch, useSelector } from 'react-redux'
+// import { useDispatch, useSelector } from 'react-redux'
 import {
-  generateImageCampaignBasedApi,
-  generateImageCustomStudioApi,
-  generateImageThemeBasedApi,
-  generateImageVisualConceptApi,
+  // generateImageCampaignBasedApi,
+  // generateImageCustomStudioApi,
+  // generateImageThemeBasedApi,
+  // generateImageVisualConceptApi,
   getThemeImageListsApi,
 } from "redux/action/generate.action";
-import { setGenerateImagePayload } from "redux/reducers/generate.reducer";
+// import { setGenerateImagePayload } from "redux/reducers/generate.reducer";
 import ThemeDrawer from "./components/drawer/ThemeDrawer";
 const tabs = [
   {
-    name: "Theme",
+    name: "Presets",
     icon: Square2StackIcon,
   },
   {
-    name: "Create",
-    icon: PhotoIcon,
+    name: "Custom",
+    icon: PaintBrushIcon,
   },
   {
     name: "Assets",
@@ -40,47 +45,47 @@ const tabs = [
 ];
 
 export default function GenerateImage() {
-  const dispatch = useDispatch();
-  const generateProductState = useSelector((state: any) => state.generate);
+  // const dispatch = useDispatch();
+  // const generateProductState = useSelector((state: any) => state.generate);
   // const generateImageResponse =
   // generateProductState?.generateImageResponse || [];
   const [value, setValue] = React.useState(0);
   const [ratio, setRatio] = React.useState("1:1");
-  const [canvas, setCanvas] = React.useState<any>(null);
+  // const [canvas, setCanvas] = React.useState<any>(null);
   // const [openModal, setOpenModal] = React.useState(false);
-  const [selectedImage, setSelectedImage] = React.useState<any>("");
+  // const [selectedImage, setSelectedImage] = React.useState<any>("");
   // const [openElements, setOpenElements] = React.useState(false);
   // const [elementAdded, setElementAdded] = React.useState(false);
-  const [productDetails, setProductDetails] = React.useState<{
-    name: string;
-    category: string;
-    description: string;
-  } | null>(null);
-  const [selectedMenu, setSelectedMenu] = React.useState("Assets");
+  // const [productDetails, setProductDetails] = React.useState<{
+  //   name: string;
+  //   category: string;
+  //   description: string;
+  // } | null>(null);
+  // const [selectedMenu, setSelectedMenu] = React.useState("Assets");
   const [selectedImageSrc, setSelectedImageSrc] = React.useState("");
-  const [generateBtnClick, setGenerateBtnClick] = React.useState(false);
-  const [removeBgProductName, setRemoveBgProductName] = React.useState("");
-  const [selectedFile, setSelectedFile] = React.useState<Blob | null>(null);
-  const userEmail = "js903783@gmail.com";
-  const userId = "cKtEO8vZqwRZ6A3XEn9L5ZPGv1k2";
+  // const [generateBtnClick, setGenerateBtnClick] = React.useState(false);
+  // const [removeBgProductName, setRemoveBgProductName] = React.useState("");
+  // const [selectedFile, setSelectedFile] = React.useState<Blob | null>(null);
+  // const userEmail = "js903783@gmail.com";
+  // const userId = "cKtEO8vZqwRZ6A3XEn9L5ZPGv1k2";
   const [selectedStyles, setSelectedStyles] = React.useState<string[]>([
     "Slide show",
     "Gender: Man",
     "Age: 13-15",
   ]);
-  const [showAlert, setShowAlert] = React.useState({
-    open: false,
-    message: "",
-    messageType: "",
-  });
+  // const [showAlert, setShowAlert] = React.useState({
+  //   open: false,
+  //   message: "",
+  //   messageType: "",
+  // });
   // const removeBackgroundResponseImage =
   //   generateProductState?.removeBackgroundResponse?.image || "";
   // const removeBackgroundResponseError =
   //   generateProductState?.removeBackgroundError || "";
   // const removeBackgroundImageLoading =
   //   generateProductState?.removingBackground || false;
-  const generateImageStatePayload = generateProductState?.generateImagePayload;
-  const selectedMode = generateImageStatePayload?.selectedTab || "";
+  // const generateImageStatePayload = generateProductState?.generateImagePayload;
+  // const selectedMode = generateImageStatePayload?.selectedTab || "";
   // const historyGeneratedImageState =
   //   generateProductState?.historyGeneratedImages || [];
   // const generateImageLoading = generateProductState?.generatingImage || false;
@@ -89,17 +94,17 @@ export default function GenerateImage() {
   // const selectedGeneratedImageState =
   //   generateProductState?.selectedGeneratedImageState || {};
   // let isLoading = generateImageLoading || enhanceImageLoading;
-  const personaBasedState = generateImageStatePayload?.personaBasedState || "";
+  // const personaBasedState = generateImageStatePayload?.personaBasedState || "";
   // const visualConceptState =
   //   generateImageStatePayload?.visualConceptState || "";
-  const themeBasedState = generateImageStatePayload?.themeBasedState || "";
-  const customSceneState = generateImageStatePayload?.customScene || "";
-  const noOfGeneratedImage =
-    generateImageStatePayload?.noOfGeneratedImage || "";
+  // const themeBasedState = generateImageStatePayload?.themeBasedState || "";
+  // const customSceneState = generateImageStatePayload?.customScene || "";
+  // const noOfGeneratedImage =
+  //   generateImageStatePayload?.noOfGeneratedImage || "";
   // const selectedHintsTab = generateImageStatePayload?.selectedHintsTab || "";
   // const resizeCanvas = generateImageStatePayload?.resizeCanvas || "";
-  const selectedRefImageStyle =
-    generateImageStatePayload?.selectedRefImageStyleFile || "";
+  // const selectedRefImageStyle =
+  //   generateImageStatePayload?.selectedRefImageStyleFile || "";
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) =>
     setValue(newValue);
@@ -142,244 +147,244 @@ export default function GenerateImage() {
     calculateWidthAndHeight(ratio);
   }, [ratio]);
 
-  React.useEffect(() => {
-    if (selectedImageSrc) {
-      imgUrlToImgFile(selectedImageSrc);
-      setSelectedImageSrc("");
-    }
-  }, [selectedImageSrc]);
+  // React.useEffect(() => {
+  //   if (selectedImageSrc) {
+  //     imgUrlToImgFile(selectedImageSrc);
+  //     setSelectedImageSrc("");
+  //   }
+  // }, [selectedImageSrc]);
 
   //converting image path to file object
-  const imgUrlToImgFile = async (imgSrc: string) => {
-    const response = await fetch(imgSrc);
-    const blob = await response.blob();
-    const file = new File([blob], `${removeBgProductName || "product"}.png`, {
-      type: blob.type,
-    });
-    setSelectedFile(file);
-  };
+  // const imgUrlToImgFile = async (imgSrc: string) => {
+  //   const response = await fetch(imgSrc);
+  //   const blob = await response.blob();
+  //   const file = new File([blob], `${removeBgProductName || "product"}.png`, {
+  //     type: blob.type,
+  //   });
+  //   setSelectedFile(file);
+  // };
 
-  React.useEffect(() => {
-    if (selectedImage) {
-      setRemoveBgProductName(selectedImage?.product_type || "");
-      setProductDetails({
-        name: selectedImage?.title || "",
-        category: selectedImage?.product_type || "",
-        description: selectedImage?.body_html || "",
-      });
-    }
-    if (selectedImage?.product_type) {
-      removeBackground();
-      imgUrlToImgFile(selectedImage?.image?.src);
-    }
-  }, [selectedImage]);
+  // React.useEffect(() => {
+  //   if (selectedImage) {
+  //     setRemoveBgProductName(selectedImage?.product_type || "");
+  //     setProductDetails({
+  //       name: selectedImage?.title || "",
+  //       category: selectedImage?.product_type || "",
+  //       description: selectedImage?.body_html || "",
+  //     });
+  //   }
+  //   if (selectedImage?.product_type) {
+  //     removeBackground();
+  //     imgUrlToImgFile(selectedImage?.image?.src);
+  //   }
+  // }, [selectedImage]);
 
-  React.useEffect(() => {
-    // get all themes
-    getThemeImageListsApi();
-  }, []);
+  // React.useEffect(() => {
+  // get all themes
+  // getThemeImageListsApi();
+  // }, []);
 
-  const getUrlExtension = (url: string) => {
-    const extension = url.split(/[#?]/)[0].split(".").pop()?.trim() || "";
-    return extension;
-  };
-  const removeBackground = async (e?: any) => {
-    e?.preventDefault();
-    const formData = new FormData();
-    formData.append(
-      "product_name",
-      selectedImage?.product_type || removeBgProductName
-    );
-    if (selectedImage?.image?.src) {
-      const imgExt = getUrlExtension(selectedImage?.image?.src);
-      const response = await fetch(selectedImage?.image?.src);
-      const blob = await response.blob();
-      const file = new File(
-        [blob],
-        `${removeBgProductName || "product"}.${imgExt}`,
-        {
-          type: blob.type,
-        }
-      );
-      setSelectedImage("");
-      formData.append("image", file);
-    } else if (selectedFile) {
-      formData.append("image", selectedFile);
-      setSelectedImage("");
-    }
-    window.amplitude.track("Remove background", {
-      email: localStorage.getItem("email") || "",
-    });
-    // dispatch(removeBackgroundApi(formData))
-  };
+  // const getUrlExtension = (url: string) => {
+  //   const extension = url.split(/[#?]/)[0].split(".").pop()?.trim() || "";
+  //   return extension;
+  // };
+  // const removeBackground = async (e?: any) => {
+  //   e?.preventDefault();
+  //   const formData = new FormData();
+  //   formData.append(
+  //     "product_name",
+  //     selectedImage?.product_type || removeBgProductName
+  //   );
+  //   if (selectedImage?.image?.src) {
+  //     const imgExt = getUrlExtension(selectedImage?.image?.src);
+  //     const response = await fetch(selectedImage?.image?.src);
+  //     const blob = await response.blob();
+  //     const file = new File(
+  //       [blob],
+  //       `${removeBgProductName || "product"}.${imgExt}`,
+  //       {
+  //         type: blob.type,
+  //       }
+  //     );
+  //     setSelectedImage("");
+  //     formData.append("image", file);
+  //   } else if (selectedFile) {
+  //     formData.append("image", selectedFile);
+  //     setSelectedImage("");
+  //   }
+  //   window.amplitude.track("Remove background", {
+  //     email: localStorage.getItem("email") || "",
+  //   });
+  //   // dispatch(removeBackgroundApi(formData))
+  // };
 
-  const productImageFile = async () => {
-    const clonedCanvas = new fabric.StaticCanvas(null, {
-      width: canvas.getWidth(),
-      height: canvas.getHeight(),
-    });
-    let productImage = canvas
-      .getObjects()
-      .find(
-        (obj: any) => obj.type === "image" && obj.imageType === "productImage"
-      );
-    if (productImage) {
-      const clonedImage = fabric.util.object.clone(productImage);
-      clonedCanvas.add(clonedImage);
-    }
-    let productFile;
-    const imageDataURL = clonedCanvas.toDataURL({
-      format: "png",
-      quality: 1,
-      multiplier: 3.414,
-    });
-    productFile = await convertImageUrlToFile(imageDataURL);
-    return productFile;
-  };
+  // const productImageFile = async () => {
+  //   const clonedCanvas = new fabric.StaticCanvas(null, {
+  //     width: canvas.getWidth(),
+  //     height: canvas.getHeight(),
+  //   });
+  //   let productImage = canvas
+  //     .getObjects()
+  //     .find(
+  //       (obj: any) => obj.type === "image" && obj.imageType === "productImage"
+  //     );
+  //   if (productImage) {
+  //     const clonedImage = fabric.util.object.clone(productImage);
+  //     clonedCanvas.add(clonedImage);
+  //   }
+  //   let productFile;
+  //   const imageDataURL = clonedCanvas.toDataURL({
+  //     format: "png",
+  //     quality: 1,
+  //     multiplier: 3.414,
+  //   });
+  //   productFile = await convertImageUrlToFile(imageDataURL);
+  //   return productFile;
+  // };
 
-  const convertImageUrlToFile = async (imageUrl: string) => {
-    const response = await fetch(imageUrl);
-    const blob = await response.blob();
-    const file = new File([blob], "productImage.png", {
-      type: blob.type,
-    });
-    return file;
-  };
+  // const convertImageUrlToFile = async (imageUrl: string) => {
+  //   const response = await fetch(imageUrl);
+  //   const blob = await response.blob();
+  //   const file = new File([blob], "productImage.png", {
+  //     type: blob.type,
+  //   });
+  //   return file;
+  // };
 
-  const productWithElementImageFile = async () => {
-    if (canvas) {
-      const imageDataURL = canvas.toDataURL({
-        format: "png",
-        quality: 1,
-        multiplier: 3.414,
-      });
+  // const productWithElementImageFile = async () => {
+  //   if (canvas) {
+  //     const imageDataURL = canvas.toDataURL({
+  //       format: "png",
+  //       quality: 1,
+  //       multiplier: 3.414,
+  //     });
 
-      let elementFile = await convertImageUrlToFile(imageDataURL);
-      return elementFile;
-    }
-  };
+  //     let elementFile = await convertImageUrlToFile(imageDataURL);
+  //     return elementFile;
+  //   }
+  // };
 
-  const formCustomStudioApiRequest = (customSceneState: any, formData: any) => {
-    let placement = customSceneState.selectedPlacementValue;
-    placement = placement.charAt(0).toLowerCase() + placement.slice(1);
-    placement = placement.replace(" ", "");
-    let shadow = customSceneState.selectedShadowValue;
-    shadow = shadow.charAt(0).toLowerCase() + shadow.slice(1);
-    if (shadow !== "any") {
-      shadow = shadow + "_shadow";
-    }
-    let backgroundColor = customSceneState.selectedColor;
-    let textureImage = customSceneState.selectedTextureSurfacePaletteFile;
-    if (customSceneState.selectedBackDropValue === "Plain color") {
-      let colorValues = Object.values(backgroundColor);
-      let colorString = colorValues.join("_");
-      formData.append("bg_color", colorString);
-    } else {
-      formData.append("texture_img", textureImage);
-    }
-    formData.append("placement", placement);
-    formData.append("shadow", shadow);
-    formData.append("ref_img", selectedRefImageStyle);
-    return formData;
-  };
+  // const formCustomStudioApiRequest = (customSceneState: any, formData: any) => {
+  //   let placement = customSceneState.selectedPlacementValue;
+  //   placement = placement.charAt(0).toLowerCase() + placement.slice(1);
+  //   placement = placement.replace(" ", "");
+  //   let shadow = customSceneState.selectedShadowValue;
+  //   shadow = shadow.charAt(0).toLowerCase() + shadow.slice(1);
+  //   if (shadow !== "any") {
+  //     shadow = shadow + "_shadow";
+  //   }
+  //   let backgroundColor = customSceneState.selectedColor;
+  //   let textureImage = customSceneState.selectedTextureSurfacePaletteFile;
+  //   if (customSceneState.selectedBackDropValue === "Plain color") {
+  //     let colorValues = Object.values(backgroundColor);
+  //     let colorString = colorValues.join("_");
+  //     formData.append("bg_color", colorString);
+  //   } else {
+  //     formData.append("texture_img", textureImage);
+  //   }
+  //   formData.append("placement", placement);
+  //   formData.append("shadow", shadow);
+  //   formData.append("ref_img", selectedRefImageStyle);
+  //   return formData;
+  // };
 
-  const handleSubmit = async () => {
-    setGenerateBtnClick(true);
-    let productWithElementFile = await productWithElementImageFile();
-    let productFile = await productImageFile();
-    let payload = {
-      product_name: productDetails?.name || "",
-      product_category: productDetails
-        ? productDetails?.category || ""
-        : removeBgProductName
-        ? removeBgProductName
-        : "" || "",
-      product_description: productDetails?.description || "",
-      num_generated_images: noOfGeneratedImage,
-      email: userEmail,
-      userId: userId,
-    };
-    const formData = new FormData();
-    formData.append("image", productFile);
-    formData.append("product_name", payload.product_name);
-    formData.append("product_category", payload.product_category);
-    formData.append("product_description", payload.product_description);
-    formData.append("num_generated_images", payload.num_generated_images);
-    formData.append("email", payload.email);
-    formData.append("user_id", payload.userId);
-    if (selectedMenu === "Assets") {
-      setSelectedMenu("Create");
-    }
-    if (selectedMode === "Custom Scene") {
-      if (customSceneState.selectedCustomSceneTab === "Studio") {
-        let payload = {
-          ...generateImageStatePayload,
-          customScene: {
-            ...customSceneState,
-            selectedCustomSceneTab: "Studio",
-          },
-        };
-        dispatch(setGenerateImagePayload(payload));
-        generateImageCustomStudioApi(
-          formCustomStudioApiRequest(customSceneState, formData)
-        );
-      } else {
-        let prompt = customSceneState?.promptValue || "";
-        if (!prompt) {
-          let payload = {
-            ...generateImageStatePayload,
-            customScene: {
-              ...customSceneState,
-              selectedCustomSceneTab: "Lifestyle",
-            },
-          };
-          dispatch(setGenerateImagePayload(payload));
-          setShowAlert({
-            open: true,
-            message: "Please describe the scene to generate image",
-            messageType: "error",
-          });
-          return;
-        } else {
-          formData.append("prompt", prompt);
-          formData.append("image_with_elements", productWithElementFile as any);
-          formData.append("ref_img", selectedRefImageStyle);
-          generateImageVisualConceptApi(formData);
-        }
-      }
-    } else if (selectedMode === "Theme") {
-      let theme = themeBasedState?.selectedTheme || "";
-      if (!theme) {
-        setSelectedMenu("Create");
-        setShowAlert({
-          open: true,
-          message: "Please select theme to generate image",
-          messageType: "error",
-        });
-        return;
-      }
-      formData.append("theme", theme);
-      generateImageThemeBasedApi(formData);
-    } else if (selectedMode === "Target Audience") {
-      const {
-        minAge = 13,
-        maxAge = 65,
-        gender = [],
-        location = "",
-        demographicList = [],
-        behaviourList = [],
-        interestList = [],
-      } = personaBasedState;
-      formData.append("location", location);
-      formData.append("min_age", minAge);
-      formData.append("max_age", maxAge);
-      formData.append("gender", gender);
-      formData.append("demographic", demographicList);
-      formData.append("interests", interestList);
-      formData.append("behaviours", behaviourList);
-      generateImageCampaignBasedApi(formData);
-    }
-  };
+  // const handleSubmit = async () => {
+  //   setGenerateBtnClick(true);
+  //   let productWithElementFile = await productWithElementImageFile();
+  //   let productFile = await productImageFile();
+  //   let payload = {
+  //     product_name: productDetails?.name || "",
+  //     product_category: productDetails
+  //       ? productDetails?.category || ""
+  //       : removeBgProductName
+  //       ? removeBgProductName
+  //       : "" || "",
+  //     product_description: productDetails?.description || "",
+  //     num_generated_images: noOfGeneratedImage,
+  //     email: userEmail,
+  //     userId: userId,
+  //   };
+  //   const formData = new FormData();
+  //   formData.append("image", productFile);
+  //   formData.append("product_name", payload.product_name);
+  //   formData.append("product_category", payload.product_category);
+  //   formData.append("product_description", payload.product_description);
+  //   formData.append("num_generated_images", payload.num_generated_images);
+  //   formData.append("email", payload.email);
+  //   formData.append("user_id", payload.userId);
+  //   if (selectedMenu === "Assets") {
+  //     setSelectedMenu("Create");
+  //   }
+  //   if (selectedMode === "Custom Scene") {
+  //     if (customSceneState.selectedCustomSceneTab === "Studio") {
+  //       let payload = {
+  //         ...generateImageStatePayload,
+  //         customScene: {
+  //           ...customSceneState,
+  //           selectedCustomSceneTab: "Studio",
+  //         },
+  //       };
+  //       dispatch(setGenerateImagePayload(payload));
+  //       generateImageCustomStudioApi(
+  //         formCustomStudioApiRequest(customSceneState, formData)
+  //       );
+  //     } else {
+  //       let prompt = customSceneState?.promptValue || "";
+  //       if (!prompt) {
+  //         let payload = {
+  //           ...generateImageStatePayload,
+  //           customScene: {
+  //             ...customSceneState,
+  //             selectedCustomSceneTab: "Lifestyle",
+  //           },
+  //         };
+  //         dispatch(setGenerateImagePayload(payload));
+  //         setShowAlert({
+  //           open: true,
+  //           message: "Please describe the scene to generate image",
+  //           messageType: "error",
+  //         });
+  //         return;
+  //       } else {
+  //         formData.append("prompt", prompt);
+  //         formData.append("image_with_elements", productWithElementFile as any);
+  //         formData.append("ref_img", selectedRefImageStyle);
+  //         generateImageVisualConceptApi(formData);
+  //       }
+  //     }
+  //   } else if (selectedMode === "Theme") {
+  //     let theme = themeBasedState?.selectedTheme || "";
+  //     if (!theme) {
+  //       setSelectedMenu("Create");
+  //       setShowAlert({
+  //         open: true,
+  //         message: "Please select theme to generate image",
+  //         messageType: "error",
+  //       });
+  //       return;
+  //     }
+  //     formData.append("theme", theme);
+  //     generateImageThemeBasedApi(formData);
+  //   } else if (selectedMode === "Target Audience") {
+  //     const {
+  //       minAge = 13,
+  //       maxAge = 65,
+  //       gender = [],
+  //       location = "",
+  //       demographicList = [],
+  //       behaviourList = [],
+  //       interestList = [],
+  //     } = personaBasedState;
+  //     formData.append("location", location);
+  //     formData.append("min_age", minAge);
+  //     formData.append("max_age", maxAge);
+  //     formData.append("gender", gender);
+  //     formData.append("demographic", demographicList);
+  //     formData.append("interests", interestList);
+  //     formData.append("behaviours", behaviourList);
+  //     generateImageCampaignBasedApi(formData);
+  //   }
+  // };
 
   return (
     <div style={{ display: "flex", maxWidth: "100vw" }}>
