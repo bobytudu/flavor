@@ -22,6 +22,7 @@ import { TemplateCard, ProjectCard } from 'components'
 import ImageView from './components/ImageView'
 import FullScreenDialog from 'components/dialog/FullScreenDialog'
 import useScreenSize from 'utils/hooks/useScreenSize'
+import ImageEditDialog from "components/dialog/ImageEditDialog";
 // import ImagePreviewDialog from "components/dialog/ImagePreviewDialog";
 
 const rows = [
@@ -65,6 +66,7 @@ export default function Home() {
   return (
     <div>
       {/* <ImagePreviewDialog /> */}
+      {/* <ImageEditDialog /> */}
       <FullScreenDialog
         title="Template gallery"
         open={expanded}

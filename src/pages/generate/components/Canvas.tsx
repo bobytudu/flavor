@@ -11,9 +11,9 @@ import undoIcon from 'assets/images/undoIcon.svg'
 import redoIcon from 'assets/images/redoIcon.svg'
 import LayersIcon from '@mui/icons-material/Layers'
 import DeleteIcon from '@mui/icons-material/Delete'
-// import imageBg from 'assets/images/gray-white-dotted.png'
-import Loader from 'components/AnimatedLoader'
-import { useSelector } from 'react-redux'
+import imageBg from "assets/images/gray-white-dotted.png";
+import Loader from "components/AnimatedLoader";
+import { useSelector } from "react-redux";
 
 interface CanvasProps {
   selectedFile: any;
@@ -564,12 +564,17 @@ function Canvas({
     }
   }
   function adjustCanvasAspectRatio(aspectRatio: any) {
-    canvas.setHeight(newCanvasHeight);
-    canvas.setWidth(newCanvasWidth);
+    //TODO: Need to fix this
+    // canvas.setHeight(newCanvasHeight);
+    // canvas.setWidth(newCanvasWidth);
+    canvas.setHeight(400);
+    canvas.setWidth(400);
     canvas.forEachObject((obj: any) => {
       if (obj.imageType === "productImage") {
-        obj.scaleToWidth(newCanvasWidth);
-        obj.scaleToHeight(newCanvasHeight);
+        // obj.scaleToWidth(newCanvasWidth);
+        // obj.scaleToHeight(newCanvasHeight);
+        obj.scaleToWidth(400);
+        obj.scaleToHeight(400);
       }
     });
 
@@ -592,34 +597,6 @@ function Canvas({
               : "visible",
         }}
       >
-        <Box
-          sx={{
-            // backgroundImage: `url(${imageBg})`,
-            borderRadius: "4px",
-            background: "white",
-            width: canvasConfig.containerWidth,
-            height: canvasConfig.containerHeight,
-            border: "1px solid rgba(34, 145, 255, 1)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            boxShadow: "0px 4px 6px 0px rgba(0, 0, 0, 0.1)",
-          }}
-        >
-          <canvas
-            ref={canvasRef}
-            height={newCanvasHeight}
-            width={newCanvasWidth}
-            id="canvas"
-            style={{
-              // width: canvasConfig.containerWidth,
-              // height: canvasConfig.containerHeight,
-              width: `${newCanvasWidth}px`,
-              height: `${newCanvasHeight}px`,
-              // margin: "0 auto",
-            }}
-          />
-        </Box>
         {image && (
           <>
             <Stack
@@ -743,6 +720,41 @@ function Canvas({
             </Stack>
           </>
         )}
+        {/* //TODO: Need to fix this */}
+        <Box
+          sx={{
+            // backgroundImage: `url(${imageBg})`,
+            borderRadius: "4px",
+            background: "white",
+            width: 400,
+            height: 400,
+            // width: canvasConfig.containerWidth,
+            // height: canvasConfig.containerHeight,
+            border: "1px solid rgba(34, 145, 255, 1)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            boxShadow: "0px 4px 6px 0px rgba(0, 0, 0, 0.1)",
+          }}
+        >
+          <canvas
+            ref={canvasRef}
+            height={400}
+            width={400}
+            // height={newCanvasHeight}
+            // width={newCanvasWidth}
+            id="canvas"
+            style={{
+              // width: canvasConfig.containerWidth,
+              // height: canvasConfig.containerHeight,
+              // width: `${newCanvasWidth}px`,
+              // height: `${newCanvasHeight}px`,
+              width: 400,
+              height: 400,
+              // margin: "0 auto",
+            }}
+          />
+        </Box>
       </Box>
     </div>
   );

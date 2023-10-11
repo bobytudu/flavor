@@ -2,6 +2,7 @@ import {
   CheckCircleIcon,
   EyeDropperIcon,
   MinusIcon,
+  PlusIcon,
 } from "@heroicons/react/24/solid";
 import {
   Box,
@@ -9,6 +10,7 @@ import {
   Checkbox,
   Chip,
   ClickAwayListener,
+  Collapse,
   Divider,
   Grid,
   IconButton,
@@ -58,6 +60,7 @@ export default function StudioComponents({
   const [background, setBackground] = React.useState(10);
   const colorTypes = ["HEX", "RGB", "CSS", "HSL", "HSB"];
   const [colorType, setColorType] = React.useState("HEX");
+  const [openTarget, setOpenTarget] = React.useState(false);
   const [selectedImage, setSelectedImage] = React.useState(0);
   const [selectedLocation, setSelectedLocation] = React.useState("");
   const [selectedTexture, setSelectedTexture] = React.useState("Metal");
@@ -345,76 +348,82 @@ export default function StudioComponents({
           <Typography variant="body1" sx={{ fontWeight: 600, mb: 1 }}>
             Target audience
           </Typography>
-          <IconButton>
-            <MinusIcon style={{ color: "black", width: 16, height: 16 }} />
+          <IconButton onClick={() => setOpenTarget((prev) => !prev)}>
+            {openTarget ? (
+              <MinusIcon style={{ color: "black", width: 16, height: 16 }} />
+            ) : (
+              <PlusIcon style={{ color: "black", width: 16, height: 16 }} />
+            )}
           </IconButton>
         </Stack>
-        <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>
-          Location
-        </Typography>
-        <OutlinedInput
-          fullWidth
-          inputRef={materialRef}
-          size="small"
-          defaultValue={generateImagePayload.personaBasedState.location}
-        />
-        <Grid container spacing={2} sx={{ mt: 2 }}>
-          <Grid item xs={6}>
-            <AgeSelect
-              value={generateImagePayload.personaBasedState.minAge}
-              onChange={(e) => handleAgeChange(e, "minAge")}
-              label="Min Age*"
-            />
+        <Collapse in={openTarget}>
+          <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>
+            Location
+          </Typography>
+          <OutlinedInput
+            fullWidth
+            inputRef={materialRef}
+            size="small"
+            defaultValue={generateImagePayload.personaBasedState.location}
+          />
+          <Grid container spacing={2} sx={{ mt: 2 }}>
+            <Grid item xs={6}>
+              <AgeSelect
+                value={generateImagePayload.personaBasedState.minAge}
+                onChange={(e) => handleAgeChange(e, "minAge")}
+                label="Min Age*"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <AgeSelect
+                value={generateImagePayload.personaBasedState.maxAge}
+                onChange={(e) => handleAgeChange(e, "minAge")}
+                label="Max Age*"
+              />
+            </Grid>
           </Grid>
-          <Grid item xs={6}>
-            <AgeSelect
-              value={generateImagePayload.personaBasedState.maxAge}
-              onChange={(e) => handleAgeChange(e, "minAge")}
-              label="Max Age*"
-            />
-          </Grid>
-        </Grid>
-        <Typography variant="body2" sx={{ fontWeight: 600, mb: 1, mt: 2 }}>
-          Gender
-        </Typography>
-        <Stack direction="row" sx={{ pl: 0 }}>
-          {genderOptions.map((item) => (
-            <Checkbox
-              key={item}
-              disableRipple
-              sx={{ borderRadius: 0, p: 0, mr: 1 }}
-              checked={item === gender}
-              onChange={(e) => setGender(item)}
-              icon={
-                <Chip
-                  sx={{ borderRadius: "8px", width: 90 }}
-                  label={item}
-                  clickable
-                  variant="outlined"
-                />
-              }
-              checkedIcon={
-                <Chip
-                  sx={{ borderRadius: "8px", width: 90 }}
-                  label={item}
-                  clickable
-                  variant="outlined"
-                  onDelete={() => {}}
-                  deleteIcon={
-                    <CheckCircleIcon
-                      style={{
-                        width: 16,
-                        height: 16,
-                        color: "black",
-                        // display: gender === item ? "block" : "none",
-                      }}
-                    />
-                  }
-                />
-              }
-            />
-          ))}
-        </Stack>
+          <Typography variant="body2" sx={{ fontWeight: 600, mb: 1, mt: 2 }}>
+            Gender
+          </Typography>
+          <Stack direction="row" sx={{ pl: 0 }}>
+            {genderOptions.map((item) => (
+              <Checkbox
+                key={item}
+                disableRipple
+                sx={{ borderRadius: 0, p: 0, mr: 1 }}
+                checked={item === gender}
+                onChange={(e) => setGender(item)}
+                icon={
+                  <Chip
+                    sx={{ borderRadius: "8px", width: 90 }}
+                    label={item}
+                    clickable
+                    variant="outlined"
+                  />
+                }
+                checkedIcon={
+                  <Chip
+                    sx={{ borderRadius: "8px", width: 90 }}
+                    label={item}
+                    clickable
+                    variant="outlined"
+                    onDelete={() => {}}
+                    deleteIcon={
+                      <CheckCircleIcon
+                        style={{
+                          width: 16,
+                          height: 16,
+                          color: "black",
+                          // display: gender === item ? "block" : "none",
+                        }}
+                      />
+                    }
+                  />
+                }
+              />
+            ))}
+          </Stack>
+        </Collapse>
       </div>
     </div>
   );

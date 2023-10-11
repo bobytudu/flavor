@@ -532,7 +532,7 @@ export default function GenerateImage() {
               value={generateImagePayload.customScene.promptValue}
               placeholder="Select the settings in the left sidebar"
             />
-            <div
+            {/* <div
               style={{
                 display: selectedStyles.length > 0 ? "flex" : "none",
                 flexWrap: "wrap",
@@ -557,7 +557,7 @@ export default function GenerateImage() {
                   sx={{ borderRadius: "4px", mb: 1, mr: 1 }}
                 />
               ))}
-            </div>
+            </div> */}
           </div>
           <Button
             onClick={handleSubmit}
