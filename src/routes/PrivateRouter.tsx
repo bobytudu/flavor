@@ -13,18 +13,18 @@ import NotFound from 'pages/NotFound'
 export default function PrivateRouter() {
   const routes = useRoutes([
     {
-      path: '/',
+      path: "/",
       element: <Layout />,
       children: [
         ...generalRoutes,
         { element: <Home />, index: true },
-        { element: <Images />, path: 'images' },
-        { element: <Generate />, path: 'projects' },
-        { element: <Assets />, path: 'assets' },
-        { path: '*', element: <NotFound /> }
-      ]
-    }
-  ])
+        { element: <Images />, path: "images" },
+        { element: <Generate />, path: "projects" },
+        { element: <Assets />, path: "assets" },
+        { path: "*", element: <NotFound /> },
+      ],
+    },
+  ]);
 
   return routes
 }

@@ -52,12 +52,12 @@ const initialState: GenerateInitState = {
   getElementsImageListError: null,
 
   generateImagePayload: {
-    selectedTab: "Custom",
+    selectedTab: "Theme",
     selectedHintsTab: "Style match",
     customScene: {
       selectedCustomSceneTab: "studio",
       selectedIndoorTab: "Minimalist",
-      selectedPlacementValue: "Standing",
+      selectedPlacementValue: "standing",
       selectedShadowValue: "any",
       selectedColor: "none",
       selectedTextureSurfacePalette: "none",
