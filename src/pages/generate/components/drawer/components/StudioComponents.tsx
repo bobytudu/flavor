@@ -60,9 +60,10 @@ export default function StudioComponents({
   const [background, setBackground] = React.useState(10);
   const colorTypes = ["HEX", "RGB", "CSS", "HSL", "HSB"];
   const [colorType, setColorType] = React.useState("HEX");
-  const [openTarget, setOpenTarget] = React.useState(false);
+  const [openTarget, setOpenTarget] = React.useState(true);
   const [selectedImage, setSelectedImage] = React.useState(0);
   const [selectedLocation, setSelectedLocation] = React.useState("");
+  const [openComposition, setOpenComposition] = React.useState(true);
   const [selectedTexture, setSelectedTexture] = React.useState("Metal");
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const { generateImagePayload } = useAppSelector((state) => state.generate);
@@ -150,194 +151,215 @@ export default function StudioComponents({
       </div>
 
       <Divider sx={{ my: 2 }} />
-      <div style={{ marginBottom: 24 }}>
-        <Typography variant="body1" sx={{ fontWeight: 600, mb: 2 }}>
-          Scene composition
-        </Typography>
-        <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>
-          Placement
-        </Typography>
-        <Select
-          fullWidth
-          value={generateImagePayload.customScene.selectedPlacementValue}
-          size="small"
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          onChange={(e) => handleValueChange(e, "selectedPlacementValue")}
+      <div>
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
         >
-          {placementOptions.map((item) => (
-            <MenuItem key={item.value} value={item.value}>
-              {item.label}
-            </MenuItem>
-          ))}
-        </Select>
-      </div>
-      <div style={{ marginBottom: 24 }}>
-        <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>
-          Shadow
-        </Typography>
-        <Select
-          fullWidth
-          value={generateImagePayload.customScene.selectedShadowValue}
-          size="small"
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          onChange={(e) => handleValueChange(e, "selectedShadowValue")}
-        >
-          {shadowOptions.map((item) => (
-            <MenuItem key={item.value} value={item.value}>
-              {item.label}
-            </MenuItem>
-          ))}
-        </Select>
-      </div>
-      <div style={{ marginBottom: 24 }}>
-        <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>
-          Background
-        </Typography>
-        <Select
-          fullWidth
-          value={background}
-          onChange={(e) => setBackground(e.target.value as number)}
-          size="small"
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-        >
-          <MenuItem value={10}>Colored</MenuItem>
-          <MenuItem value={20}>Textured</MenuItem>
-        </Select>
-        {background === 10 && (
-          <div>
-            <Grid container sx={{ mt: 1 }} columns={10} spacing={1}>
-              {colorTypes.map((t) => (
-                <Grid item key={t} xs={2}>
-                  <Button
+          <Typography variant="body1" sx={{ fontWeight: 600 }}>
+            Scene composition
+          </Typography>
+          <IconButton onClick={() => setOpenComposition((prev) => !prev)}>
+            {openTarget ? (
+              <MinusIcon style={{ color: "black", width: 16, height: 16 }} />
+            ) : (
+              <PlusIcon style={{ color: "black", width: 16, height: 16 }} />
+            )}
+          </IconButton>
+        </Stack>
+        <Collapse in={openComposition}>
+          <div style={{ marginBottom: 16, marginTop: 24 }}>
+            <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>
+              Placement
+            </Typography>
+            <Select
+              fullWidth
+              value={generateImagePayload.customScene.selectedPlacementValue}
+              size="small"
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              onChange={(e) => handleValueChange(e, "selectedPlacementValue")}
+            >
+              {placementOptions.map((item) => (
+                <MenuItem key={item.value} value={item.value}>
+                  {item.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </div>
+          <div style={{ marginBottom: 16 }}>
+            <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>
+              Shadow
+            </Typography>
+            <Select
+              fullWidth
+              value={generateImagePayload.customScene.selectedShadowValue}
+              size="small"
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              onChange={(e) => handleValueChange(e, "selectedShadowValue")}
+            >
+              {shadowOptions.map((item) => (
+                <MenuItem key={item.value} value={item.value}>
+                  {item.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </div>
+          <div style={{ marginBottom: 24 }}>
+            <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>
+              Background
+            </Typography>
+            <Select
+              fullWidth
+              value={background}
+              onChange={(e) => setBackground(e.target.value as number)}
+              size="small"
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+            >
+              <MenuItem value={10}>Colored</MenuItem>
+              <MenuItem value={20}>Textured</MenuItem>
+            </Select>
+            {background === 10 && (
+              <div>
+                <Grid container sx={{ mt: 1 }} columns={10} spacing={1}>
+                  {colorTypes.map((t) => (
+                    <Grid item key={t} xs={2}>
+                      <Button
+                        key={t}
+                        color="primary"
+                        onClick={() => setColorType(t)}
+                        style={{ paddingLeft: 0 }}
+                        sx={{
+                          px: 0,
+                          minWidth: 50,
+                          width: 50,
+                          fontWeight: 400,
+                          color:
+                            colorType === t
+                              ? "white"
+                              : "text.color-text-clickable",
+                          border: "1px solid #E5E5E5",
+                          bgcolor:
+                            colorType === t
+                              ? "text.color-text-clickable"
+                              : "white",
+                          "&:hover": {
+                            bgcolor:
+                              colorType === t
+                                ? "text.color-text-clickable"
+                                : "white",
+                            color:
+                              colorType === t
+                                ? "white"
+                                : "text.color-text-clickable",
+                          },
+                          paddingLeft: 0,
+                        }}
+                      >
+                        {t}
+                      </Button>
+                    </Grid>
+                  ))}
+                </Grid>
+                <OutlinedInput
+                  sx={{ mt: 2 }}
+                  startAdornment={
+                    <div
+                      style={{
+                        width: 18,
+                        height: 14,
+                        background: `${color}`,
+                        borderRadius: "2px",
+                        marginRight: 16,
+                      }}
+                    />
+                  }
+                  endAdornment={
+                    <IconButton
+                      onClick={handleOpenPicker}
+                      sx={{
+                        bgcolor: "text.color-text-clickable",
+                        "&:hover": { bgcolor: "text.color-text-clickable" },
+                      }}
+                    >
+                      <EyeDropperIcon
+                        style={{ width: 14, height: 14, color: "white" }}
+                      />
+                    </IconButton>
+                  }
+                  fullWidth
+                  size="small"
+                  value={color}
+                  onAbort={() => {}}
+                />
+                <Popper
+                  open={Boolean(anchorEl)}
+                  anchorEl={anchorEl}
+                  placement="bottom"
+                  style={{ zIndex: 9999 }}
+                >
+                  <ClickAwayListener onClickAway={() => setAnchorEl(null)}>
+                    <div>
+                      <SketchPicker color={color} onChange={handleChange} />
+                    </div>
+                  </ClickAwayListener>
+                </Popper>
+              </div>
+            )}
+            {background === 20 && (
+              <div style={{ marginTop: 8, display: "flex", flexWrap: "wrap" }}>
+                <CustomButton
+                  value={selectedTexture}
+                  index="All"
+                  label="All"
+                  onClick={() => setSelectedTexture("All")}
+                />
+                <Divider flexItem sx={{ mr: 1 }} orientation="vertical" />
+                {texturedTypes.map((t) => (
+                  <CustomButton
                     key={t}
-                    color="primary"
-                    onClick={() => setColorType(t)}
-                    style={{ paddingLeft: 0 }}
+                    value={selectedTexture}
+                    index={t}
+                    label={t}
+                    onClick={() => setSelectedTexture(t)}
+                  />
+                ))}
+                <Box
+                  py={1}
+                  mb={1}
+                  display="flex"
+                  justifyContent="space-between"
+                  width="100%"
+                >
+                  <Typography variant="caption" sx={{ fontWeight: 600 }}>
+                    {selectedTexture}
+                  </Typography>
+                  <Typography
+                    onClick={handleViewMore}
+                    variant="caption"
                     sx={{
-                      px: 0,
-                      minWidth: 50,
-                      width: 50,
                       fontWeight: 400,
-                      color:
-                        colorType === t ? "white" : "text.color-text-clickable",
-                      border: "1px solid #E5E5E5",
-                      bgcolor:
-                        colorType === t ? "text.color-text-clickable" : "white",
-                      "&:hover": {
-                        bgcolor:
-                          colorType === t
-                            ? "text.color-text-clickable"
-                            : "white",
-                        color:
-                          colorType === t
-                            ? "white"
-                            : "text.color-text-clickable",
-                      },
-                      paddingLeft: 0,
+                      color: "text.color-text-clickable",
+                      textDecoration: "underline",
+                      cursor: "pointer",
                     }}
                   >
-                    {t}
-                  </Button>
-                </Grid>
-              ))}
-            </Grid>
-            <OutlinedInput
-              sx={{ mt: 2 }}
-              startAdornment={
-                <div
-                  style={{
-                    width: 18,
-                    height: 14,
-                    background: `${color}`,
-                    borderRadius: "2px",
-                    marginRight: 16,
-                  }}
+                    View more
+                  </Typography>
+                </Box>
+                <GridImages
+                  selectedImage={selectedImage}
+                  setSelectedImage={setSelectedImage}
                 />
-              }
-              endAdornment={
-                <IconButton
-                  onClick={handleOpenPicker}
-                  sx={{
-                    bgcolor: "text.color-text-clickable",
-                    "&:hover": { bgcolor: "text.color-text-clickable" },
-                  }}
-                >
-                  <EyeDropperIcon
-                    style={{ width: 14, height: 14, color: "white" }}
-                  />
-                </IconButton>
-              }
-              fullWidth
-              size="small"
-              value={color}
-              onAbort={() => {}}
-            />
-            <Popper
-              open={Boolean(anchorEl)}
-              anchorEl={anchorEl}
-              placement="bottom"
-              style={{ zIndex: 9999 }}
-            >
-              <ClickAwayListener onClickAway={() => setAnchorEl(null)}>
-                <div>
-                  <SketchPicker color={color} onChange={handleChange} />
-                </div>
-              </ClickAwayListener>
-            </Popper>
+              </div>
+            )}
           </div>
-        )}
-        {background === 20 && (
-          <div style={{ marginTop: 8, display: "flex", flexWrap: "wrap" }}>
-            <CustomButton
-              value={selectedTexture}
-              index="All"
-              label="All"
-              onClick={() => setSelectedTexture("All")}
-            />
-            <Divider flexItem sx={{ mr: 1 }} orientation="vertical" />
-            {texturedTypes.map((t) => (
-              <CustomButton
-                key={t}
-                value={selectedTexture}
-                index={t}
-                label={t}
-                onClick={() => setSelectedTexture(t)}
-              />
-            ))}
-            <Box
-              py={1}
-              mb={1}
-              display="flex"
-              justifyContent="space-between"
-              width="100%"
-            >
-              <Typography variant="caption" sx={{ fontWeight: 600 }}>
-                {selectedTexture}
-              </Typography>
-              <Typography
-                onClick={handleViewMore}
-                variant="caption"
-                sx={{
-                  fontWeight: 400,
-                  color: "text.color-text-clickable",
-                  textDecoration: "underline",
-                  cursor: "pointer",
-                }}
-              >
-                View more
-              </Typography>
-            </Box>
-            <GridImages
-              selectedImage={selectedImage}
-              setSelectedImage={setSelectedImage}
-            />
-          </div>
-        )}
+        </Collapse>
       </div>
-      <Divider sx={{ mb: 2 }} />
+      <Divider sx={{ my: 2 }} />
 
       <div style={{ marginBottom: 24 }}>
         <Stack
@@ -403,7 +425,13 @@ export default function StudioComponents({
                 }
                 checkedIcon={
                   <Chip
-                    sx={{ borderRadius: "8px", width: 90 }}
+                    sx={{
+                      borderRadius: "8px",
+                      width: 90,
+                      border: `1.6px solid ${
+                        item === gender ? "black" : "gray"
+                      }`,
+                    }}
                     label={item}
                     clickable
                     variant="outlined"

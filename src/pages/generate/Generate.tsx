@@ -129,7 +129,7 @@ export default function GenerateImage() {
   const selectedRefImageStyle =
     generateImageStatePayload?.selectedRefImageStyleFile || "";
 
-  console.log(generateImagePayload.selectedTab);
+  // console.log(generateImagePayload.selectedTab);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) =>
     setValue(newValue);
