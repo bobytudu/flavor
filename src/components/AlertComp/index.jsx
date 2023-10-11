@@ -1,5 +1,4 @@
 import * as React from "react";
-import Stack from "@mui/material/Stack";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import Slide from "@mui/material/Slide";
@@ -24,7 +23,6 @@ export default function AlertComp({ showAlert, setShowAlert }) {
     return <Slide {...props} direction="right" />;
   }
   return (
-    <Stack spacing={2} sx={{ width: "100%" }}>
       <Snackbar
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
         open={open}
@@ -44,6 +42,5 @@ export default function AlertComp({ showAlert, setShowAlert }) {
           <></>
         )}
       </Snackbar>
-    </Stack>
   );
 }

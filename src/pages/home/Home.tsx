@@ -22,6 +22,7 @@ import { TemplateCard, ProjectCard } from 'components'
 import ImageView from './components/ImageView'
 import FullScreenDialog from 'components/dialog/FullScreenDialog'
 import useScreenSize from 'utils/hooks/useScreenSize'
+// import ImagePreviewDialog from "components/dialog/ImagePreviewDialog";
 
 const rows = [
   { name: 'Frozen yoghurt', created: '2 Days ago', edited: '2 minutes ago' },
@@ -63,58 +64,61 @@ export default function Home() {
   }
   return (
     <div>
+      {/* <ImagePreviewDialog /> */}
       <FullScreenDialog
         title="Template gallery"
         open={expanded}
         isDialog
-        onClose={() => setExpanded((prev) => !prev)}>
-        <Container
-          maxWidth="xl"
-          sx={{ mx: 'auto' }}>
+        onClose={() => setExpanded((prev) => !prev)}
+      >
+        <Container maxWidth="xl" sx={{ mx: "auto" }}>
           <Box
             sx={{
               mb: 3,
-              mx: 'auto',
-              transition: 'all 0.3s ease-in-out',
+              mx: "auto",
+              transition: "all 0.3s ease-in-out",
               minHeight: 200,
-              p: 5
-            }}>
+              p: 5,
+            }}
+          >
             <Box
               sx={{
                 mb: 3,
                 display: {
-                  sm: 'block',
-                  md: 'flex'
+                  sm: "block",
+                  md: "flex",
                 },
-                justifyContent: 'space-between'
-              }}>
+                justifyContent: "space-between",
+              }}
+            >
               <Typography variant="h4">Start a new Project</Typography>
               <Button
                 onClick={() => setExpanded((prev) => !prev)}
-                sx={{ color: 'rgba(86, 86, 86, 1)', fontWeight: 400, fontSize: 16, background: 'transparent', pl: 0 }}
-                endIcon={<ChevronUpDownIcon style={{ width: 20, height: 30 }} />}>
+                sx={{
+                  color: "rgba(86, 86, 86, 1)",
+                  fontWeight: 400,
+                  fontSize: 16,
+                  background: "transparent",
+                  pl: 0,
+                }}
+                endIcon={
+                  <ChevronUpDownIcon style={{ width: 20, height: 30 }} />
+                }
+              >
                 Template gallery
               </Button>
             </Box>
-            <Grid
-              container
-              spacing={3}
-              sx={{ mb: 12 }}>
-              {list.slice(0, xl ? 6 : lg ? 6 : md ? 4 : sm ? 4 : 2).map((item) => (
-                <Grid
-                  item
-                  xl={2}
-                  lg={2}
-                  md={2}
-                  sm={6}
-                  xs={12}
-                  key={item}>
-                  <TemplateCard
-                    linkTitle="Use as example"
-                    blank={item === 1}
-                  />
-                </Grid>
-              ))}
+            <Grid container spacing={3} sx={{ mb: 12 }}>
+              {list
+                .slice(0, xl ? 6 : lg ? 6 : md ? 4 : sm ? 4 : 2)
+                .map((item) => (
+                  <Grid item xl={2} lg={2} md={2} sm={6} xs={12} key={item}>
+                    <TemplateCard
+                      linkTitle="Use as example"
+                      blank={item === 1}
+                    />
+                  </Grid>
+                ))}
             </Grid>
             <ImageView linkTitle="Use as example" />
           </Box>
@@ -124,46 +128,45 @@ export default function Home() {
         <Box
           sx={{
             mb: 3,
-            mx: 'auto',
-            transition: 'all 0.3s ease-in-out',
+            mx: "auto",
+            transition: "all 0.3s ease-in-out",
             minHeight: 200,
-            p: 5
-          }}>
+            p: 5,
+          }}
+        >
           <Box
             sx={{
               mb: 3,
               display: {
-                sm: 'block',
-                md: 'flex'
+                sm: "block",
+                md: "flex",
               },
-              justifyContent: 'space-between'
-            }}>
+              justifyContent: "space-between",
+            }}
+          >
             <Typography variant="h4">Start a new Project</Typography>
             <Button
               onClick={() => setExpanded((prev) => !prev)}
-              sx={{ color: 'rgba(86, 86, 86, 1)', fontWeight: 400, fontSize: 16, background: 'transparent', pl: 0 }}
-              endIcon={<ChevronUpDownIcon style={{ width: 20, height: 30 }} />}>
+              sx={{
+                color: "rgba(86, 86, 86, 1)",
+                fontWeight: 400,
+                fontSize: 16,
+                background: "transparent",
+                pl: 0,
+              }}
+              endIcon={<ChevronUpDownIcon style={{ width: 20, height: 30 }} />}
+            >
               Template gallery
             </Button>
           </Box>
-          <Grid
-            container
-            spacing={3}>
-            {list.slice(0, xl ? 6 : lg ? 6 : md ? 4 : sm ? 4 : 2).map((item) => (
-              <Grid
-                item
-                xl={2}
-                lg={2}
-                md={2}
-                sm={6}
-                xs={12}
-                key={item}>
-                <TemplateCard
-                  linkTitle="Use as example"
-                  blank={item === 1}
-                />
-              </Grid>
-            ))}
+          <Grid container spacing={3}>
+            {list
+              .slice(0, xl ? 6 : lg ? 6 : md ? 4 : sm ? 4 : 2)
+              .map((item) => (
+                <Grid item xl={2} lg={2} md={2} sm={6} xs={12} key={item}>
+                  <TemplateCard linkTitle="Use as example" blank={item === 1} />
+                </Grid>
+              ))}
           </Grid>
         </Box>
       </Container>
@@ -172,35 +175,49 @@ export default function Home() {
           <Box
             sx={{
               mb: 3,
-              mx: 'auto',
-              p: 10
-            }}>
+              mx: "auto",
+              p: 10,
+            }}
+          >
             <div
               style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                marginBottom: 24
-              }}>
+                display: "flex",
+                justifyContent: "space-between",
+                marginBottom: 24,
+              }}
+            >
               <Typography variant="h4">Recent</Typography>
-              <div style={{ display: tab === 0 ? 'flex' : 'none' }}>
-                <Tooltip
-                  title="Grid View"
-                  arrow
-                  placement="top">
+              <div style={{ display: tab === 0 ? "flex" : "none" }}>
+                <Tooltip title="Grid View" arrow placement="top">
                   <IconButton
-                    onClick={() => setView('grid')}
-                    sx={{ borderRadius: '4px', bgcolor: view === 'grid' ? 'rgba(234, 246, 192, 1)' : 'transparent' }}>
-                    <Squares2X2Icon style={{ width: 20, height: 20, color: '#0F172A' }} />
+                    onClick={() => setView("grid")}
+                    sx={{
+                      borderRadius: "4px",
+                      bgcolor:
+                        view === "grid"
+                          ? "rgba(234, 246, 192, 1)"
+                          : "transparent",
+                    }}
+                  >
+                    <Squares2X2Icon
+                      style={{ width: 20, height: 20, color: "#0F172A" }}
+                    />
                   </IconButton>
                 </Tooltip>
-                <Tooltip
-                  title="Table View"
-                  arrow
-                  placement="top">
+                <Tooltip title="Table View" arrow placement="top">
                   <IconButton
-                    onClick={() => setView('list')}
-                    sx={{ borderRadius: '4px', bgcolor: view === 'list' ? 'rgba(234, 246, 192, 1)' : 'transparent' }}>
-                    <Bars3Icon style={{ width: 20, height: 20, color: '#0F172A' }} />
+                    onClick={() => setView("list")}
+                    sx={{
+                      borderRadius: "4px",
+                      bgcolor:
+                        view === "list"
+                          ? "rgba(234, 246, 192, 1)"
+                          : "transparent",
+                    }}
+                  >
+                    <Bars3Icon
+                      style={{ width: 20, height: 20, color: "#0F172A" }}
+                    />
                   </IconButton>
                 </Tooltip>
               </div>
@@ -208,39 +225,26 @@ export default function Home() {
             <Tabs
               TabIndicatorProps={{
                 style: {
-                  display: 'none'
-                }
+                  display: "none",
+                },
               }}
               value={tab}
-              onChange={handleTab}>
+              onChange={handleTab}
+            >
               <Tab
                 label="Projects"
                 sx={{
-                  mr: 2
+                  mr: 2,
                 }}
                 value={0}
               />
-              <Tab
-                label="Images"
-                value={1}
-              />
+              <Tab label="Images" value={1} />
             </Tabs>
-            <CustomTabPanel
-              value={tab}
-              index={0}>
-              {view === 'grid' ? (
-                <Grid
-                  container
-                  spacing={3}>
+            <CustomTabPanel value={tab} index={0}>
+              {view === "grid" ? (
+                <Grid container spacing={3}>
                   {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item) => (
-                    <Grid
-                      item
-                      xl={2}
-                      lg={4}
-                      md={4}
-                      sm={6}
-                      xs={12}
-                      key={item}>
+                    <Grid item xl={2} lg={4} md={4} sm={6} xs={12} key={item}>
                       <ProjectCard
                         view={view}
                         title="Orange Peel"
@@ -255,14 +259,21 @@ export default function Home() {
                   <Table>
                     <TableHead
                       sx={{
-                        '& .MuiTableCell-head': {
-                          background: 'transparent'
-                        }
-                      }}>
+                        "& .MuiTableCell-head": {
+                          background: "transparent",
+                        },
+                      }}
+                    >
                       <TableRow>
-                        <TableCell sx={{ fontWeight: 400, minWidth: 200 }}>Name</TableCell>
-                        <TableCell sx={{ fontWeight: 400, minWidth: 200 }}>Last Modified</TableCell>
-                        <TableCell sx={{ fontWeight: 400, minWidth: 200 }}>Created</TableCell>
+                        <TableCell sx={{ fontWeight: 400, minWidth: 200 }}>
+                          Name
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: 400, minWidth: 200 }}>
+                          Last Modified
+                        </TableCell>
+                        <TableCell sx={{ fontWeight: 400, minWidth: 200 }}>
+                          Created
+                        </TableCell>
                         <TableCell sx={{ fontWeight: 400 }} />
                       </TableRow>
                     </TableHead>
@@ -280,17 +291,12 @@ export default function Home() {
                 </TableContainer>
               )}
             </CustomTabPanel>
-            <CustomTabPanel
-              value={tab}
-              index={1}>
-              <ImageView
-                title="Project title"
-                linkTitle="Go to project"
-              />
+            <CustomTabPanel value={tab} index={1}>
+              <ImageView title="Project title" linkTitle="Go to project" />
             </CustomTabPanel>
           </Box>
         </Container>
       </Box>
     </div>
-  )
+  );
 }

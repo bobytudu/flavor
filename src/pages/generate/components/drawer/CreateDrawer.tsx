@@ -11,6 +11,8 @@ import GridImages from "./components/GridImages";
 import StudioComponents from "./components/StudioComponents";
 import LifeStylesComponents from "./components/LifeStylesComponents";
 import CustomButton from "components/buttons/CustomButton";
+import { useAppDispatch, useAppSelector } from "redux/hooks";
+import { changeTab } from "redux/reducers/generate.reducer";
 
 const types = ["studio", "lifestyle"];
 interface DefaultDrawerProps {
@@ -22,10 +24,12 @@ export default function CreateDrawer({
   ratio,
   handleSelectRatio,
 }: DefaultDrawerProps) {
-  const [viewMore, setViewMore] = React.useState(false);
-  const [type, setType] = React.useState("studio");
-  const [selectedImage, setSelectedImage] = React.useState(0);
+  const dispatch = useAppDispatch();
+  const { generateImagePayload } = useAppSelector((state) => state.generate);
+  // const [type, setType] = React.useState("studio");
   const handleViewMore = () => setViewMore(!viewMore);
+  const [viewMore, setViewMore] = React.useState(false);
+  const [selectedImage, setSelectedImage] = React.useState(0);
 
   return (
     <div>
@@ -60,23 +64,28 @@ export default function CreateDrawer({
             <div style={{ display: "flex" }}>
               {types.map((t) => (
                 <CustomButton
+                  key={t}
                   label={capitalize(t)}
-                  value={type}
+                  value={
+                    generateImagePayload.customScene.selectedCustomSceneTab
+                  }
                   index={t}
-                  onClick={() => setType(t)}
+                  onClick={() => dispatch(changeTab(t))}
                 />
               ))}
             </div>
           </div>
 
-          {type === "studio" && (
+          {generateImagePayload.customScene.selectedCustomSceneTab ===
+            "studio" && (
             <StudioComponents
               ratio={ratio}
               handleViewMore={handleViewMore}
               handleSelectRatio={handleSelectRatio}
             />
           )}
-          {type === "lifestyle" && (
+          {generateImagePayload.customScene.selectedCustomSceneTab ===
+            "lifestyle" && (
             <LifeStylesComponents
               ratio={ratio}
               handleViewMore={handleViewMore}

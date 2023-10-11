@@ -17,13 +17,22 @@ import {
   OutlinedInput,
   Popper,
   Select,
+  SelectChangeEvent,
   Stack,
   Typography,
 } from "@mui/material";
 import React from "react";
+import { usePlacesWidget } from "react-google-autocomplete";
 import { ColorChangeHandler, ColorResult, SketchPicker } from "react-color";
 import GridImages from "./GridImages";
 import CustomButton from "components/buttons/CustomButton";
+import { placementOptions, shadowOptions } from "utils/helper";
+import { useAppDispatch, useAppSelector } from "redux/hooks";
+import { setGenerateImagePayload } from "redux/reducers/generate.reducer";
+import config from "utils/config/env";
+import AgeSelect from "./AgeSelect";
+
+const apiKey = config.REACT_APP_GOOGLE_API_KEY;
 
 const texturedTypes = [
   "Metal",
@@ -44,20 +53,57 @@ export default function StudioComponents({
   handleSelectRatio,
   handleViewMore,
 }: StudioComponentsProps) {
+  const dispatch = useAppDispatch();
   const genderOptions = ["Men", "Women", "Others"];
   const [gender, setGender] = React.useState("Men");
+  const [color, setColor] = React.useState("#d81f1f");
   const [background, setBackground] = React.useState(10);
   const colorTypes = ["HEX", "RGB", "CSS", "HSL", "HSB"];
-  const [selectedTexture, setSelectedTexture] = React.useState("Metal");
   const [colorType, setColorType] = React.useState("HEX");
   const [selectedImage, setSelectedImage] = React.useState(0);
-  const [color, setColor] = React.useState("#d81f1f");
+  const [selectedLocation, setSelectedLocation] = React.useState("");
+  const [selectedTexture, setSelectedTexture] = React.useState("Metal");
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const { generateImagePayload } = useAppSelector((state) => state.generate);
+
+  // console.log(config.REACT_APP_GOOGLE_API_KEY);
+
+  const { ref: materialRef } = usePlacesWidget({
+    apiKey: apiKey,
+    onPlaceSelected: (place: any) => {
+      let location = place?.formatted_address || "";
+      setSelectedLocation(location);
+    },
+    inputAutocompleteValue: "country",
+  });
 
   const handleChange: ColorChangeHandler = (color: ColorResult) =>
     setColor(color.hex);
   const handleOpenPicker = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(anchorEl ? null : event.currentTarget);
+  };
+
+  const handleValueChange = (event: SelectChangeEvent, key: string) => {
+    const payload = {
+      ...generateImagePayload,
+      customScene: {
+        ...generateImagePayload.customScene,
+        [key]: event.target.value,
+      },
+    };
+    dispatch(setGenerateImagePayload(payload));
+  };
+
+  const handleAgeChange = (event: SelectChangeEvent, key: string) => {
+    let age = event.target.value;
+    let payload = {
+      ...generateImagePayload,
+      personaBasedState: {
+        ...generateImagePayload.personaBasedState,
+        [key]: age,
+      },
+    };
+    dispatch(setGenerateImagePayload(payload));
   };
   return (
     <div>
@@ -112,14 +158,17 @@ export default function StudioComponents({
         </Typography>
         <Select
           fullWidth
-          value={10}
+          value={generateImagePayload.customScene.selectedPlacementValue}
           size="small"
           labelId="demo-simple-select-label"
           id="demo-simple-select"
+          onChange={(e) => handleValueChange(e, "selectedPlacementValue")}
         >
-          <MenuItem value={10}>Standing</MenuItem>
-          <MenuItem value={20}>Another</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          {placementOptions.map((item) => (
+            <MenuItem key={item.value} value={item.value}>
+              {item.label}
+            </MenuItem>
+          ))}
         </Select>
       </div>
       <div style={{ marginBottom: 24 }}>
@@ -128,14 +177,17 @@ export default function StudioComponents({
         </Typography>
         <Select
           fullWidth
-          value={10}
+          value={generateImagePayload.customScene.selectedShadowValue}
           size="small"
           labelId="demo-simple-select-label"
           id="demo-simple-select"
+          onChange={(e) => handleValueChange(e, "selectedShadowValue")}
         >
-          <MenuItem value={10}>Any</MenuItem>
-          <MenuItem value={20}>Twenty</MenuItem>
-          <MenuItem value={30}>Thirty</MenuItem>
+          {shadowOptions.map((item) => (
+            <MenuItem key={item.value} value={item.value}>
+              {item.label}
+            </MenuItem>
+          ))}
         </Select>
       </div>
       <div style={{ marginBottom: 24 }}>
@@ -247,6 +299,7 @@ export default function StudioComponents({
             <Divider flexItem sx={{ mr: 1 }} orientation="vertical" />
             {texturedTypes.map((t) => (
               <CustomButton
+                key={t}
                 value={selectedTexture}
                 index={t}
                 label={t}
@@ -301,62 +354,35 @@ export default function StudioComponents({
         <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>
           Location
         </Typography>
-        <Select
+        <OutlinedInput
           fullWidth
-          value={ratio}
+          inputRef={materialRef}
           size="small"
-          onChange={handleSelectRatio}
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-        >
-          <MenuItem value="1:1">London, UK</MenuItem>
-          <MenuItem value="16:9">Instagram Post (16:9)</MenuItem>
-          <MenuItem value="9:16">Instagram Post (9:16)</MenuItem>
-        </Select>
-
+          defaultValue={generateImagePayload.personaBasedState.location}
+        />
         <Grid container spacing={2} sx={{ mt: 2 }}>
           <Grid item xs={6}>
-            <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>
-              Min age
-            </Typography>
-            <Select
-              fullWidth
-              value={ratio}
-              size="small"
-              onChange={handleSelectRatio}
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-            >
-              <MenuItem value="1:1">13</MenuItem>
-              <MenuItem value="16:9">14</MenuItem>
-              <MenuItem value="9:16">15</MenuItem>
-            </Select>
+            <AgeSelect
+              value={generateImagePayload.personaBasedState.minAge}
+              onChange={(e) => handleAgeChange(e, "minAge")}
+              label="Min Age*"
+            />
           </Grid>
           <Grid item xs={6}>
-            <Typography variant="body2" sx={{ fontWeight: 600, mb: 1 }}>
-              Max age
-            </Typography>
-            <Select
-              fullWidth
-              value={ratio}
-              size="small"
-              onChange={handleSelectRatio}
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-            >
-              <MenuItem value="1:1">60</MenuItem>
-              <MenuItem value="16:9">61</MenuItem>
-              <MenuItem value="9:16">62</MenuItem>
-            </Select>
+            <AgeSelect
+              value={generateImagePayload.personaBasedState.maxAge}
+              onChange={(e) => handleAgeChange(e, "minAge")}
+              label="Max Age*"
+            />
           </Grid>
         </Grid>
-
         <Typography variant="body2" sx={{ fontWeight: 600, mb: 1, mt: 2 }}>
           Gender
         </Typography>
         <Stack direction="row" sx={{ pl: 0 }}>
           {genderOptions.map((item) => (
             <Checkbox
+              key={item}
               disableRipple
               sx={{ borderRadius: 0, p: 0, mr: 1 }}
               checked={item === gender}
