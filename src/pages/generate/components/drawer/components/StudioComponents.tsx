@@ -32,8 +32,6 @@ import { setGenerateImagePayload } from "redux/reducers/generate.reducer";
 import config from "utils/config/env";
 import AgeSelect from "./AgeSelect";
 
-const apiKey = config.REACT_APP_GOOGLE_API_KEY;
-
 const texturedTypes = [
   "Metal",
   "Wood",
@@ -69,7 +67,7 @@ export default function StudioComponents({
   // console.log(config.REACT_APP_GOOGLE_API_KEY);
 
   const { ref: materialRef } = usePlacesWidget({
-    apiKey: apiKey,
+    apiKey: config.REACT_APP_GOOGLE_API_KEY,
     onPlaceSelected: (place: any) => {
       let location = place?.formatted_address || "";
       setSelectedLocation(location);

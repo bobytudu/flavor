@@ -52,16 +52,18 @@ const initialState: GenerateInitState = {
   getElementsImageListError: null,
 
   generateImagePayload: {
-    selectedTab: "Theme",
+    selectedTab: "Custom",
     selectedHintsTab: "Style match",
     customScene: {
-      selectedCustomSceneTab: "Studio",
+      selectedCustomSceneTab: "studio",
       selectedIndoorTab: "Minimalist",
       selectedPlacementValue: "Standing",
-      selectedShadowValue: "Any",
+      selectedShadowValue: "any",
       selectedColor: "none",
       selectedTextureSurfacePalette: "none",
       selectedTextureSurfacePaletteFile: "none",
+      promptValue: "",
+      selectedLifestyleShadowValue: "any"
     },
     themeBasedState: null,
     visualConceptState: null,
@@ -69,6 +71,7 @@ const initialState: GenerateInitState = {
       minAge: 13,
       maxAge: 65,
       demographicState: [],
+      location: ""
     },
     noOfGeneratedImage: 4,
     matchStyleState: [],
@@ -95,6 +98,16 @@ export const generateSlice = createSlice( {
     name: 'generate',
     initialState,
     reducers: {
+      changeTab: ( state, action: PayloadAction<any> ) => {
+        state.generateImagePayload.customScene.selectedCustomSceneTab = action.payload
+      },
+      resizeCanvas: ( state, action: PayloadAction<any> ) => {
+        state.generateImagePayload.resizeCanvas = {
+          ...state.generateImagePayload.resizeCanvas,
+          newCanvasHeight: action.payload.height,
+          newCanvasWidth: action.payload.width,
+        }
+      },
         removeBackgroundRequest: ( state ) => {
             state.removingBackground = true
             state.removeBackgroundResponse = null
@@ -285,6 +298,7 @@ export const generateSlice = createSlice( {
 } )
 
 export const {
+  changeTab,
     removeBackgroundRequest,
     removeBavckgroundSuccess,
     removeBackgroundFailure,
@@ -329,7 +343,8 @@ export const {
     getElementsImageListSuccess,
     getElementsImageListFailure,
     setGenerateImagePayload,
-    setSelectedGeneratedImageState
+  setSelectedGeneratedImageState,
+  resizeCanvas
 } = generateSlice.actions
 
 

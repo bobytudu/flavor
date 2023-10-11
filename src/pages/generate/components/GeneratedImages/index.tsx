@@ -452,10 +452,11 @@ function GeneratedImages({
   return (
     <div className={styles.GeneratedImageDiv}>
       <Stack
-        direction={'row'}
+        direction={"row"}
         spacing={2}
-        alignItems={'center'}
-        justifyContent={'space-between'}>
+        alignItems={"center"}
+        justifyContent={"space-between"}
+      >
         <Typography className={styles.recentText}>{`Recent`}</Typography>
         {/* {generateImageResponse && generateImageResponse?.length > 0 && (
             <Button
@@ -465,40 +466,44 @@ function GeneratedImages({
               View all
             </Button>
           )} */}
-        <Stack
-          direction={'row'}
-          spacing={2}>
+        <Stack direction={"row"} spacing={2}>
           {generateImageResponse && generateImageResponse?.length > 0 && (
             <Tooltip title={`Clear`}>
               <IconButton
                 sx={{
-                  color: '#1C1B1F'
+                  color: "#1C1B1F",
                 }}
                 aria-label={`clear`}
-                onClick={clearHandler}>
+                onClick={clearHandler}
+              >
                 <HighlightOffIcon fontSize="medium" />
               </IconButton>
             </Tooltip>
           )}
-          {generateImageResponse && generateImageResponse?.length + historyGeneratedImageState?.length > 1 && (
-            <Tooltip title={`Download`}>
-              <IconButton
-                sx={{
-                  color: '#1C1B1F'
-                }}
-                aria-label={`download`}
-                onClick={downloadImage}>
-                <FileDownloadOutlinedIcon fontSize="medium" />
-              </IconButton>
-            </Tooltip>
-          )}
+          {generateImageResponse &&
+            generateImageResponse?.length + historyGeneratedImageState?.length >
+              1 && (
+              <Tooltip title={`Download`}>
+                <IconButton
+                  sx={{
+                    color: "#1C1B1F",
+                  }}
+                  aria-label={`download`}
+                  onClick={downloadImage}
+                >
+                  <FileDownloadOutlinedIcon fontSize="medium" />
+                </IconButton>
+              </Tooltip>
+            )}
         </Stack>
       </Stack>
       {(generateImageResponse && generateImageResponse?.length) || isLoading ? (
         <Box>
           {isLoading && <Loader width="100%" />}
           <>
-            {error && <Typography className={styles.errorMsg}>{error}</Typography>}
+            {error && (
+              <Typography className={styles.errorMsg}>{error}</Typography>
+            )}
             <GeneratedImagesGrid
               cols={2}
               rowHeight={150}
@@ -511,14 +516,15 @@ function GeneratedImages({
               copyPromptInfo={copyPromptInfo}
               handleImageClick={handleImageClick}
               isCopied={isCopied}
-              imageListState={'generateImageResponse'}
+              imageListState={"generateImageResponse"}
               setOpenViewAll={setOpenViewAll}
             />
-            {historyGeneratedImageState && historyGeneratedImageState.length > 0 && (
-              <Box>
-                <Divider />
-              </Box>
-            )}
+            {historyGeneratedImageState &&
+              historyGeneratedImageState.length > 0 && (
+                <Box>
+                  <Divider />
+                </Box>
+              )}
             <GeneratedImagesGrid
               cols={2}
               rowHeight={150}
@@ -531,7 +537,7 @@ function GeneratedImages({
               handleLikeDisLike={handleLikeDisLike}
               handleGenerateMoreImage={handleGenerateMoreImage}
               copyPromptInfo={copyPromptInfo}
-              imageListState={'historyGeneratedImages'}
+              imageListState={"historyGeneratedImages"}
               setOpenViewAll={setOpenViewAll}
             />
           </>
@@ -539,17 +545,17 @@ function GeneratedImages({
       ) : (
         <Box className={styles.generateBtnCenterBox}>
           <Stack spacing={2}>
-            <Typography className={styles.noImageYetText}>No images yet!</Typography>
-            <Button
+            <Typography className={styles.noImageYetText}>
+              No images yet!
+            </Typography>
+            {/* <Button
               className={styles.createImageBtn}
               onClick={handleSubmit}
               disabled={isLoading || removeBackgroundImageLoading}>
               Generate your first image
-            </Button>
+            </Button> */}
             {error && (
-              <Typography
-                className={styles.errorMsg}
-                textAlign={'center'}>
+              <Typography className={styles.errorMsg} textAlign={"center"}>
                 {error}
               </Typography>
             )}
@@ -584,12 +590,9 @@ function GeneratedImages({
           handleResize={handleResize}
         />
       )}
-      <AlertComp
-        showAlert={showAlert}
-        setShowAlert={setShowAlert}
-      />
+      <AlertComp showAlert={showAlert} setShowAlert={setShowAlert} />
     </div>
-  )
+  );
 }
 
 export default GeneratedImages

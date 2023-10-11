@@ -54,6 +54,8 @@ export interface GenerateInitState {
       selectedColor: string;
       selectedTextureSurfacePalette: string;
       selectedTextureSurfacePaletteFile: string;
+      promptValue: string;
+      selectedLifestyleShadowValue: string;
     };
     themeBasedState: any;
     visualConceptState: any;
@@ -61,6 +63,12 @@ export interface GenerateInitState {
       minAge: number;
       maxAge: number;
       demographicState: any;
+      location: string;
+      gender?: any[]
+      demographicList?: any[]
+      behaviourList?: any[]
+      interestList?: any[]
+
     };
     noOfGeneratedImage: number;
     matchStyleState: any[];

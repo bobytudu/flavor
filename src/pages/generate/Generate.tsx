@@ -1,34 +1,49 @@
-import { Box, Button, Grid, InputLabel, Tab, Tabs, Typography, SelectChangeEvent, InputBase, Chip, Divider } from '@mui/material'
-import React from 'react'
-import prodImg9 from 'assets/img9.png'
-import img7 from 'assets/img7.png'
-import img from 'assets/img4.png'
-import capitalize from 'lodash/capitalize'
-// import { fabric } from 'fabric'
-// import generateBtnIcon from 'assets/images/generateBtnIcon.png'
+import {
+  Box,
+  Button,
+  Tab,
+  Tabs,
+  Typography,
+  SelectChangeEvent,
+  InputBase,
+  Chip,
+  Divider,
+} from "@mui/material";
+import React from "react";
+// import prodImg9 from 'assets/img9.png'
+// import img7 from 'assets/img7.png'
+// import img from 'assets/img4.png'
+import capitalize from "lodash/capitalize";
+import { fabric } from "fabric";
+// import generateBtnIcon from "assets/images/generateBtnIcon.png";
 import {
   FolderIcon,
   PaintBrushIcon,
   SparklesIcon,
   Square2StackIcon,
 } from "@heroicons/react/24/solid";
-import DefaultDrawer from './components/drawer/CreateDrawer'
-import AssetDrawer from './components/drawer/AssetDrawer'
-// import Canvas from './components/Canvas'
-// import { useAppSelector } from 'redux/hooks'
-// import styles from 'styles/GenerateProduct.module.css'
-// import GeneratedImages from './components/GeneratedImages'
+import DefaultDrawer from "./components/drawer/CreateDrawer";
+import AssetDrawer from "./components/drawer/AssetDrawer";
+import Canvas from "./components/Canvas";
+// import styles from "styles/GenerateProduct.module.css";
+import GeneratedImages from "./components/GeneratedImages";
 // import ThemeBased from './components/drawer/ThemeBased'
-// import { useDispatch, useSelector } from 'react-redux'
 import {
-  // generateImageCampaignBasedApi,
-  // generateImageCustomStudioApi,
-  // generateImageThemeBasedApi,
-  // generateImageVisualConceptApi,
+  generateImageCampaignBasedApi,
+  generateImageCustomStudioApi,
+  generateImageThemeBasedApi,
+  generateImageVisualConceptApi,
   getThemeImageListsApi,
 } from "redux/action/generate.action";
 // import { setGenerateImagePayload } from "redux/reducers/generate.reducer";
 import ThemeDrawer from "./components/drawer/ThemeDrawer";
+import { useAppDispatch, useAppSelector } from "redux/hooks";
+import {
+  resizeCanvas,
+  setGenerateImagePayload,
+} from "redux/reducers/generate.reducer";
+import AlertComp from "components/AlertComp";
+import { imgUrlToImgFile, removeBackground } from "utils/helper";
 const tabs = [
   {
     name: "Presets",
@@ -45,47 +60,55 @@ const tabs = [
 ];
 
 export default function GenerateImage() {
-  // const dispatch = useDispatch();
-  // const generateProductState = useSelector((state: any) => state.generate);
+  const dispatch = useAppDispatch();
+  const { generateImagePayload, ...generateProductState } = useAppSelector(
+    (state) => state.generate
+  );
   // const generateImageResponse =
   // generateProductState?.generateImageResponse || [];
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = React.useState(1);
   const [ratio, setRatio] = React.useState("1:1");
-  // const [canvas, setCanvas] = React.useState<any>(null);
-  // const [openModal, setOpenModal] = React.useState(false);
-  // const [selectedImage, setSelectedImage] = React.useState<any>("");
+  const [canvas, setCanvas] = React.useState<any>(null);
+  const [openModal, setOpenModal] = React.useState(false);
+  const [selectedImage, setSelectedImage] = React.useState<any>("");
   // const [openElements, setOpenElements] = React.useState(false);
-  // const [elementAdded, setElementAdded] = React.useState(false);
-  // const [productDetails, setProductDetails] = React.useState<{
-  //   name: string;
-  //   category: string;
-  //   description: string;
-  // } | null>(null);
-  // const [selectedMenu, setSelectedMenu] = React.useState("Assets");
+  const [elementAdded, setElementAdded] = React.useState(false);
+  const [productDetails, setProductDetails] = React.useState<{
+    name: string;
+    category: string;
+    description: string;
+  } | null>(null);
+  const [selectedMenu, setSelectedMenu] = React.useState("Assets");
   const [selectedImageSrc, setSelectedImageSrc] = React.useState("");
-  // const [generateBtnClick, setGenerateBtnClick] = React.useState(false);
-  // const [removeBgProductName, setRemoveBgProductName] = React.useState("");
-  // const [selectedFile, setSelectedFile] = React.useState<Blob | null>(null);
-  // const userEmail = "js903783@gmail.com";
-  // const userId = "cKtEO8vZqwRZ6A3XEn9L5ZPGv1k2";
+  const [generateBtnClick, setGenerateBtnClick] = React.useState(false);
+  const [removeBgProductName, setRemoveBgProductName] = React.useState("");
+  const [selectedFile, setSelectedFile] = React.useState<Blob | null>(null);
+  const [canvasConfig, setCanvasConfig] = React.useState({
+    containerWidth: 0,
+    containerHeight: 0,
+    imageWidth: 0,
+    imageHeight: 0,
+  });
+  const userEmail = "js903783@gmail.com";
+  const userId = "cKtEO8vZqwRZ6A3XEn9L5ZPGv1k2";
   const [selectedStyles, setSelectedStyles] = React.useState<string[]>([
     "Slide show",
     "Gender: Man",
     "Age: 13-15",
   ]);
-  // const [showAlert, setShowAlert] = React.useState({
-  //   open: false,
-  //   message: "",
-  //   messageType: "",
-  // });
+  const [showAlert, setShowAlert] = React.useState({
+    open: false,
+    message: "",
+    messageType: "",
+  });
   // const removeBackgroundResponseImage =
   //   generateProductState?.removeBackgroundResponse?.image || "";
   // const removeBackgroundResponseError =
   //   generateProductState?.removeBackgroundError || "";
-  // const removeBackgroundImageLoading =
-  //   generateProductState?.removingBackground || false;
-  // const generateImageStatePayload = generateProductState?.generateImagePayload;
-  // const selectedMode = generateImageStatePayload?.selectedTab || "";
+  const removeBackgroundImageLoading =
+    generateProductState?.removingBackground || false;
+  const generateImageStatePayload = generateImagePayload;
+  const selectedMode = generateImageStatePayload?.selectedTab || "";
   // const historyGeneratedImageState =
   //   generateProductState?.historyGeneratedImages || [];
   // const generateImageLoading = generateProductState?.generatingImage || false;
@@ -94,17 +117,19 @@ export default function GenerateImage() {
   // const selectedGeneratedImageState =
   //   generateProductState?.selectedGeneratedImageState || {};
   // let isLoading = generateImageLoading || enhanceImageLoading;
-  // const personaBasedState = generateImageStatePayload?.personaBasedState || "";
+  const personaBasedState = generateImageStatePayload?.personaBasedState || "";
   // const visualConceptState =
   //   generateImageStatePayload?.visualConceptState || "";
-  // const themeBasedState = generateImageStatePayload?.themeBasedState || "";
-  // const customSceneState = generateImageStatePayload?.customScene || "";
-  // const noOfGeneratedImage =
-  //   generateImageStatePayload?.noOfGeneratedImage || "";
+  const themeBasedState = generateImageStatePayload?.themeBasedState || "";
+  const customSceneState = generateImageStatePayload?.customScene || "";
+  const noOfGeneratedImage =
+    generateImageStatePayload?.noOfGeneratedImage || "";
   // const selectedHintsTab = generateImageStatePayload?.selectedHintsTab || "";
   // const resizeCanvas = generateImageStatePayload?.resizeCanvas || "";
-  // const selectedRefImageStyle =
-  //   generateImageStatePayload?.selectedRefImageStyleFile || "";
+  const selectedRefImageStyle =
+    generateImageStatePayload?.selectedRefImageStyleFile || "";
+
+  console.log(generateImagePayload.selectedTab);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) =>
     setValue(newValue);
@@ -118,276 +143,289 @@ export default function GenerateImage() {
       const image = document.getElementById("prod_img");
       const width = container?.offsetHeight || 0;
       const height = container?.offsetHeight || 0;
-      if (ratio === "1:1" && imgContainer && image) {
+
+      let tempContainerWidth = "0px";
+      let tempContainerHeight = "0px";
+      let tempImageWidth = "0px";
+      let tempImageHeight = "0px";
+
+      if (ratio === "1:1") {
         //container
-        imgContainer.style.width = `${height - 224}px`;
-        imgContainer.style.height = `${height - 224}px`;
+        // imgContainer.style.width = `${height - 224}px`;
+        // imgContainer.style.height = `${height - 224}px`;
+        tempContainerWidth = `${height - 224}px`;
+        tempContainerHeight = `${height - 224}px`;
 
         // image
-        image.style.width = `${height - 230}px`;
-        image.style.height = `${height - 230}px`;
-      } else if (ratio === "16:9" && imgContainer && image) {
+        tempImageWidth = `${height - 230}px`;
+        tempImageHeight = `${height - 230}px`;
+      } else if (ratio === "16:9") {
         // container
-        imgContainer.style.width = `${height - 224}px`;
-        imgContainer.style.height = `${(width - 224) / (16 / 9)}px`;
+        tempContainerWidth = `${height - 224}px`;
+        tempContainerHeight = `${(width - 224) / (16 / 9)}px`;
 
         // image
-        image.style.width = `${height - 230}px`;
-        image.style.height = `${(width - 230) / (16 / 9)}px`;
-      } else if (ratio === "9:16" && imgContainer && image) {
+        tempImageWidth = `${height - 230}px`;
+        tempContainerHeight = `${(width - 230) / (16 / 9)}px`;
+      } else if (ratio === "9:16") {
         // container
-        imgContainer.style.width = `${(height - 224) / (16 / 9)}px`;
-        imgContainer.style.height = `${height - 224}px`;
+        tempContainerWidth = `${(height - 224) / (16 / 9)}px`;
+        tempContainerHeight = `${height - 224}px`;
 
         // image
-        image.style.width = `${(height - 230) / (16 / 9)}px`;
-        image.style.height = `${height - 230}px`;
+        tempImageWidth = `${(height - 230) / (16 / 9)}px`;
+        tempContainerHeight = `${height - 230}px`;
+      }
+      const obj = {
+        containerWidth: parseInt(tempContainerWidth.replaceAll("px", "")),
+        containerHeight: parseInt(tempContainerHeight.replaceAll("px", "")),
+        imageWidth: parseInt(tempImageWidth.replaceAll("px", "")),
+        imageHeight: parseInt(tempImageHeight.replaceAll("px", "")),
+      };
+      dispatch(
+        resizeCanvas({
+          height: obj.containerHeight,
+          width: obj.containerWidth,
+        })
+      );
+      setCanvasConfig(obj);
+      if (imgContainer) {
+        imgContainer.style.width = tempContainerWidth;
+        imgContainer.style.height = tempContainerHeight;
+      }
+      if (image) {
+        image.style.width = tempImageWidth;
+        image.style.height = tempImageHeight;
       }
     };
     calculateWidthAndHeight(ratio);
-  }, [ratio]);
+  }, [ratio, dispatch]);
 
-  // React.useEffect(() => {
-  //   if (selectedImageSrc) {
-  //     imgUrlToImgFile(selectedImageSrc);
-  //     setSelectedImageSrc("");
-  //   }
-  // }, [selectedImageSrc]);
+  const handlePromptText = (value: string) => {
+    let payload = {
+      ...generateImagePayload,
+      customScene: {
+        ...generateImagePayload?.customScene,
+        promptValue: value,
+      },
+    };
+    dispatch(setGenerateImagePayload(payload));
+  };
+
+  React.useEffect(() => {
+    if (selectedImageSrc) {
+      imgUrlToImgFile(selectedImageSrc, removeBgProductName).then((file) =>
+        setSelectedFile(file)
+      );
+      setSelectedImageSrc("");
+    }
+  }, [selectedImageSrc, removeBgProductName]);
 
   //converting image path to file object
-  // const imgUrlToImgFile = async (imgSrc: string) => {
-  //   const response = await fetch(imgSrc);
-  //   const blob = await response.blob();
-  //   const file = new File([blob], `${removeBgProductName || "product"}.png`, {
-  //     type: blob.type,
-  //   });
-  //   setSelectedFile(file);
-  // };
 
-  // React.useEffect(() => {
-  //   if (selectedImage) {
-  //     setRemoveBgProductName(selectedImage?.product_type || "");
-  //     setProductDetails({
-  //       name: selectedImage?.title || "",
-  //       category: selectedImage?.product_type || "",
-  //       description: selectedImage?.body_html || "",
-  //     });
-  //   }
-  //   if (selectedImage?.product_type) {
-  //     removeBackground();
-  //     imgUrlToImgFile(selectedImage?.image?.src);
-  //   }
-  // }, [selectedImage]);
+  React.useEffect(() => {
+    if (selectedImage) {
+      setRemoveBgProductName(selectedImage?.product_type || "");
+      setProductDetails({
+        name: selectedImage?.title || "",
+        category: selectedImage?.product_type || "",
+        description: selectedImage?.body_html || "",
+      });
+    }
+    if (selectedImage?.product_type) {
+      removeBackground(
+        removeBgProductName,
+        selectedImage,
+        setSelectedImage,
+        selectedFile
+      );
+      imgUrlToImgFile(selectedImage?.image?.src, removeBgProductName).then(
+        (file) => setSelectedFile(file)
+      );
+    }
+  }, [selectedImage, removeBgProductName, selectedFile]);
 
-  // React.useEffect(() => {
-  // get all themes
-  // getThemeImageListsApi();
-  // }, []);
+  React.useEffect(() => {
+    // get all themes
+    getThemeImageListsApi();
+  }, []);
 
-  // const getUrlExtension = (url: string) => {
-  //   const extension = url.split(/[#?]/)[0].split(".").pop()?.trim() || "";
-  //   return extension;
-  // };
-  // const removeBackground = async (e?: any) => {
-  //   e?.preventDefault();
-  //   const formData = new FormData();
-  //   formData.append(
-  //     "product_name",
-  //     selectedImage?.product_type || removeBgProductName
-  //   );
-  //   if (selectedImage?.image?.src) {
-  //     const imgExt = getUrlExtension(selectedImage?.image?.src);
-  //     const response = await fetch(selectedImage?.image?.src);
-  //     const blob = await response.blob();
-  //     const file = new File(
-  //       [blob],
-  //       `${removeBgProductName || "product"}.${imgExt}`,
-  //       {
-  //         type: blob.type,
-  //       }
-  //     );
-  //     setSelectedImage("");
-  //     formData.append("image", file);
-  //   } else if (selectedFile) {
-  //     formData.append("image", selectedFile);
-  //     setSelectedImage("");
-  //   }
-  //   window.amplitude.track("Remove background", {
-  //     email: localStorage.getItem("email") || "",
-  //   });
-  //   // dispatch(removeBackgroundApi(formData))
-  // };
+  const productImageFile = async () => {
+    const clonedCanvas = new fabric.StaticCanvas(null, {
+      width: canvas.getWidth(),
+      height: canvas.getHeight(),
+    });
+    let productImage = canvas
+      .getObjects()
+      .find(
+        (obj: any) => obj.type === "image" && obj.imageType === "productImage"
+      );
+    if (productImage) {
+      const clonedImage = fabric.util.object.clone(productImage);
+      clonedCanvas.add(clonedImage);
+    }
+    let productFile;
+    const imageDataURL = clonedCanvas.toDataURL({
+      format: "png",
+      quality: 1,
+      multiplier: 3.414,
+    });
+    productFile = await convertImageUrlToFile(imageDataURL);
+    return productFile;
+  };
 
-  // const productImageFile = async () => {
-  //   const clonedCanvas = new fabric.StaticCanvas(null, {
-  //     width: canvas.getWidth(),
-  //     height: canvas.getHeight(),
-  //   });
-  //   let productImage = canvas
-  //     .getObjects()
-  //     .find(
-  //       (obj: any) => obj.type === "image" && obj.imageType === "productImage"
-  //     );
-  //   if (productImage) {
-  //     const clonedImage = fabric.util.object.clone(productImage);
-  //     clonedCanvas.add(clonedImage);
-  //   }
-  //   let productFile;
-  //   const imageDataURL = clonedCanvas.toDataURL({
-  //     format: "png",
-  //     quality: 1,
-  //     multiplier: 3.414,
-  //   });
-  //   productFile = await convertImageUrlToFile(imageDataURL);
-  //   return productFile;
-  // };
+  const convertImageUrlToFile = async (imageUrl: string) => {
+    const response = await fetch(imageUrl);
+    const blob = await response.blob();
+    const file = new File([blob], "productImage.png", {
+      type: blob.type,
+    });
+    return file;
+  };
 
-  // const convertImageUrlToFile = async (imageUrl: string) => {
-  //   const response = await fetch(imageUrl);
-  //   const blob = await response.blob();
-  //   const file = new File([blob], "productImage.png", {
-  //     type: blob.type,
-  //   });
-  //   return file;
-  // };
+  const productWithElementImageFile = async () => {
+    if (canvas) {
+      const imageDataURL = canvas.toDataURL({
+        format: "png",
+        quality: 1,
+        multiplier: 3.414,
+      });
 
-  // const productWithElementImageFile = async () => {
-  //   if (canvas) {
-  //     const imageDataURL = canvas.toDataURL({
-  //       format: "png",
-  //       quality: 1,
-  //       multiplier: 3.414,
-  //     });
+      let elementFile = await convertImageUrlToFile(imageDataURL);
+      return elementFile;
+    }
+  };
 
-  //     let elementFile = await convertImageUrlToFile(imageDataURL);
-  //     return elementFile;
-  //   }
-  // };
+  const formCustomStudioApiRequest = (customSceneState: any, formData: any) => {
+    let placement = customSceneState.selectedPlacementValue;
+    placement = placement.charAt(0).toLowerCase() + placement.slice(1);
+    placement = placement.replace(" ", "");
+    let shadow = customSceneState.selectedShadowValue;
+    shadow = shadow.charAt(0).toLowerCase() + shadow.slice(1);
+    if (shadow !== "any") {
+      shadow = shadow + "_shadow";
+    }
+    let backgroundColor = customSceneState.selectedColor;
+    let textureImage = customSceneState.selectedTextureSurfacePaletteFile;
+    if (customSceneState.selectedBackDropValue === "Plain color") {
+      let colorValues = Object.values(backgroundColor);
+      let colorString = colorValues.join("_");
+      formData.append("bg_color", colorString);
+    } else {
+      formData.append("texture_img", textureImage);
+    }
+    formData.append("placement", placement);
+    formData.append("shadow", shadow);
+    formData.append("ref_img", selectedRefImageStyle);
+    return formData;
+  };
 
-  // const formCustomStudioApiRequest = (customSceneState: any, formData: any) => {
-  //   let placement = customSceneState.selectedPlacementValue;
-  //   placement = placement.charAt(0).toLowerCase() + placement.slice(1);
-  //   placement = placement.replace(" ", "");
-  //   let shadow = customSceneState.selectedShadowValue;
-  //   shadow = shadow.charAt(0).toLowerCase() + shadow.slice(1);
-  //   if (shadow !== "any") {
-  //     shadow = shadow + "_shadow";
-  //   }
-  //   let backgroundColor = customSceneState.selectedColor;
-  //   let textureImage = customSceneState.selectedTextureSurfacePaletteFile;
-  //   if (customSceneState.selectedBackDropValue === "Plain color") {
-  //     let colorValues = Object.values(backgroundColor);
-  //     let colorString = colorValues.join("_");
-  //     formData.append("bg_color", colorString);
-  //   } else {
-  //     formData.append("texture_img", textureImage);
-  //   }
-  //   formData.append("placement", placement);
-  //   formData.append("shadow", shadow);
-  //   formData.append("ref_img", selectedRefImageStyle);
-  //   return formData;
-  // };
-
-  // const handleSubmit = async () => {
-  //   setGenerateBtnClick(true);
-  //   let productWithElementFile = await productWithElementImageFile();
-  //   let productFile = await productImageFile();
-  //   let payload = {
-  //     product_name: productDetails?.name || "",
-  //     product_category: productDetails
-  //       ? productDetails?.category || ""
-  //       : removeBgProductName
-  //       ? removeBgProductName
-  //       : "" || "",
-  //     product_description: productDetails?.description || "",
-  //     num_generated_images: noOfGeneratedImage,
-  //     email: userEmail,
-  //     userId: userId,
-  //   };
-  //   const formData = new FormData();
-  //   formData.append("image", productFile);
-  //   formData.append("product_name", payload.product_name);
-  //   formData.append("product_category", payload.product_category);
-  //   formData.append("product_description", payload.product_description);
-  //   formData.append("num_generated_images", payload.num_generated_images);
-  //   formData.append("email", payload.email);
-  //   formData.append("user_id", payload.userId);
-  //   if (selectedMenu === "Assets") {
-  //     setSelectedMenu("Create");
-  //   }
-  //   if (selectedMode === "Custom Scene") {
-  //     if (customSceneState.selectedCustomSceneTab === "Studio") {
-  //       let payload = {
-  //         ...generateImageStatePayload,
-  //         customScene: {
-  //           ...customSceneState,
-  //           selectedCustomSceneTab: "Studio",
-  //         },
-  //       };
-  //       dispatch(setGenerateImagePayload(payload));
-  //       generateImageCustomStudioApi(
-  //         formCustomStudioApiRequest(customSceneState, formData)
-  //       );
-  //     } else {
-  //       let prompt = customSceneState?.promptValue || "";
-  //       if (!prompt) {
-  //         let payload = {
-  //           ...generateImageStatePayload,
-  //           customScene: {
-  //             ...customSceneState,
-  //             selectedCustomSceneTab: "Lifestyle",
-  //           },
-  //         };
-  //         dispatch(setGenerateImagePayload(payload));
-  //         setShowAlert({
-  //           open: true,
-  //           message: "Please describe the scene to generate image",
-  //           messageType: "error",
-  //         });
-  //         return;
-  //       } else {
-  //         formData.append("prompt", prompt);
-  //         formData.append("image_with_elements", productWithElementFile as any);
-  //         formData.append("ref_img", selectedRefImageStyle);
-  //         generateImageVisualConceptApi(formData);
-  //       }
-  //     }
-  //   } else if (selectedMode === "Theme") {
-  //     let theme = themeBasedState?.selectedTheme || "";
-  //     if (!theme) {
-  //       setSelectedMenu("Create");
-  //       setShowAlert({
-  //         open: true,
-  //         message: "Please select theme to generate image",
-  //         messageType: "error",
-  //       });
-  //       return;
-  //     }
-  //     formData.append("theme", theme);
-  //     generateImageThemeBasedApi(formData);
-  //   } else if (selectedMode === "Target Audience") {
-  //     const {
-  //       minAge = 13,
-  //       maxAge = 65,
-  //       gender = [],
-  //       location = "",
-  //       demographicList = [],
-  //       behaviourList = [],
-  //       interestList = [],
-  //     } = personaBasedState;
-  //     formData.append("location", location);
-  //     formData.append("min_age", minAge);
-  //     formData.append("max_age", maxAge);
-  //     formData.append("gender", gender);
-  //     formData.append("demographic", demographicList);
-  //     formData.append("interests", interestList);
-  //     formData.append("behaviours", behaviourList);
-  //     generateImageCampaignBasedApi(formData);
-  //   }
-  // };
+  const handleSubmit = async () => {
+    setGenerateBtnClick(true);
+    let productWithElementFile = await productWithElementImageFile();
+    let productFile = await productImageFile();
+    let payload = {
+      product_name: productDetails?.name || "",
+      product_category: productDetails
+        ? productDetails?.category || ""
+        : removeBgProductName
+        ? removeBgProductName
+        : "" || "",
+      product_description: productDetails?.description || "",
+      num_generated_images: noOfGeneratedImage,
+      email: userEmail,
+      userId: userId,
+    };
+    const formData = new FormData();
+    formData.append("image", productFile);
+    formData.append("product_name", payload.product_name);
+    formData.append("product_category", payload.product_category);
+    formData.append("product_description", payload.product_description);
+    formData.append("num_generated_images", `${payload.num_generated_images}`);
+    formData.append("email", payload.email);
+    formData.append("user_id", payload.userId);
+    if (selectedMenu === "Assets") {
+      setSelectedMenu("Create");
+    }
+    console.log({
+      selectedMode,
+      selectedCustomSceneTab: customSceneState?.selectedCustomSceneTab,
+    });
+    if (selectedMode === "Custom") {
+      if (customSceneState.selectedCustomSceneTab === "studio") {
+        let payload = {
+          ...generateImageStatePayload,
+          customScene: {
+            ...customSceneState,
+            selectedCustomSceneTab: "studio",
+          },
+        };
+        console.log(payload);
+        dispatch(setGenerateImagePayload(payload));
+        generateImageCustomStudioApi(
+          formCustomStudioApiRequest(customSceneState, formData)
+        );
+      } else {
+        let prompt = customSceneState?.promptValue || "";
+        if (!prompt) {
+          let payload = {
+            ...generateImageStatePayload,
+            customScene: {
+              ...customSceneState,
+              selectedCustomSceneTab: "lifestyle",
+            },
+          };
+          dispatch(setGenerateImagePayload(payload));
+          setShowAlert({
+            open: true,
+            message: "Please describe the scene to generate image",
+            messageType: "error",
+          });
+          return;
+        } else {
+          formData.append("prompt", prompt);
+          formData.append("image_with_elements", productWithElementFile as any);
+          formData.append("ref_img", selectedRefImageStyle);
+          generateImageVisualConceptApi(formData);
+        }
+      }
+    } else if (selectedMode === "Theme") {
+      let theme = themeBasedState?.selectedTheme || "";
+      if (!theme) {
+        setSelectedMenu("Create");
+        setShowAlert({
+          open: true,
+          message: "Please select theme to generate image",
+          messageType: "error",
+        });
+        return;
+      }
+      formData.append("theme", theme);
+      generateImageThemeBasedApi(formData);
+    } else if (selectedMode === "Target Audience") {
+      const {
+        minAge = 13,
+        maxAge = 65,
+        gender = [],
+        location = "",
+        demographicList = [],
+        behaviourList = [],
+        interestList = [],
+      } = personaBasedState;
+      formData.append("location", location);
+      formData.append("min_age", minAge as any);
+      formData.append("max_age", maxAge as any);
+      formData.append("gender", gender as any);
+      formData.append("demographic", demographicList as any);
+      formData.append("interests", interestList as any);
+      formData.append("behaviours", behaviourList as any);
+      generateImageCampaignBasedApi(formData);
+    }
+  };
 
   return (
     <div style={{ display: "flex", maxWidth: "100vw" }}>
+      <AlertComp showAlert={showAlert} setShowAlert={setShowAlert} />
       <div
         style={{
           minWidth: 80,
@@ -405,6 +443,7 @@ export default function GenerateImage() {
         >
           {tabs.map((tab, index) => (
             <Tab
+              key={tab.name}
               sx={{ py: 2 }}
               label={
                 <>
@@ -456,73 +495,19 @@ export default function GenerateImage() {
           position: "relative",
         }}
       >
-        {/* <Stack
-          direction={'column'}
-          spacing={1}
-          className={styles.canvasStack}>
-          <Stack
-            direction={'row'}
-            spacing={1}
-            justifyContent={'space-evenly'}
-            alignItems={'flex-start'}>
-            {!openModal && (
-              <Canvas
-                selectedFile={selectedFile}
-                generateBtnClick={generateBtnClick}
-                setGenerateBtnClick={setGenerateBtnClick}
-                canvas={canvas}
-                setCanvas={setCanvas}
-                elementAdded={elementAdded}
-                setElementAdded={setElementAdded}
-                removeBackgroundImageLoading={removeBackgroundImageLoading}
-                selectedMode={selectedMode}
-                openModal={openModal}
-              />
-            )}
-          </Stack>
-        </Stack>
-
-        {generateImageResponse && generateImageResponse?.length > 0 && (
-          <Button
-            startIcon={
-              <img
-                src={generateBtnIcon}
-                alt="generateBtnIcon"
-              />
-            }
-            variant="contained"
-            size="large"
-            className={styles.generateBtnCenter}
-            onClick={handleSubmit}
-            disabled={isLoading || removeBackgroundImageLoading}>
-            Generate
-          </Button>
-        )} */}
-        <div style={{ textAlign: "left" }}>
-          <Typography variant="subtitle1" sx={{ color: "#2291FF" }}>
-            Dimensions: Instagram Post ({ratio})
-          </Typography>
-          <div
-            id="image_container"
-            style={{
-              width: "100%",
-              height: "100%",
-              background: "white",
-              border: "1px solid rgba(34, 145, 255, 1)",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              boxShadow: "0px 4px 6px 0px rgba(0, 0, 0, 0.1)",
-            }}
-          >
-            <img
-              id="prod_img"
-              src={prodImg9}
-              style={{ width: 608, height: 608, objectFit: "contain" }}
-              alt="prod_img"
-            />
-          </div>
-        </div>
+        <Canvas
+          selectedFile={selectedFile}
+          generateBtnClick={generateBtnClick}
+          setGenerateBtnClick={setGenerateBtnClick}
+          canvas={canvas}
+          canvasConfig={canvasConfig}
+          setCanvas={setCanvas}
+          elementAdded={elementAdded}
+          setElementAdded={setElementAdded}
+          removeBackgroundImageLoading={removeBackgroundImageLoading}
+          selectedMode={selectedMode}
+          openModal={openModal}
+        />
         <div
           style={{
             marginTop: 24,
@@ -535,14 +520,16 @@ export default function GenerateImage() {
             position: "absolute",
             bottom: 56,
             width: "80%",
-            left: 56,
+            left: "10%",
             boxShadow: "0px 4px 6px 0px rgba(0, 0, 0, 0.1)",
           }}
         >
           <div style={{ width: "100%" }}>
             <InputBase
-              multiline
+              // multiline
               fullWidth
+              onChange={(e) => handlePromptText(e.target.value)}
+              value={generateImagePayload.customScene.promptValue}
               placeholder="Select the settings in the left sidebar"
             />
             <div
@@ -561,6 +548,7 @@ export default function GenerateImage() {
               <Divider flexItem orientation="vertical" sx={{ mx: 1 }} />
               {selectedStyles.map((style) => (
                 <Chip
+                  key={style}
                   variant="outlined"
                   label={style}
                   onDelete={() =>
@@ -572,6 +560,7 @@ export default function GenerateImage() {
             </div>
           </div>
           <Button
+            onClick={handleSubmit}
             sx={{ bgcolor: "background.color-brand-background", px: 2 }}
             startIcon={<SparklesIcon style={{ width: 18, height: 18 }} />}
           >
@@ -592,7 +581,7 @@ export default function GenerateImage() {
           overflowY: "auto",
         }}
       >
-        {/* <div style={{ marginBottom: 24 }}>
+        <div style={{ marginBottom: 24 }}>
           {selectedFile && (
             <GeneratedImages
               productName={`${productDetails?.name}`}
@@ -605,8 +594,8 @@ export default function GenerateImage() {
               setSelectedMenu={setSelectedMenu}
             />
           )}
-        </div> */}
-        <div style={{ marginBottom: 24 }}>
+        </div>
+        {/* <div style={{ marginBottom: 24 }}>
           <InputLabel sx={{ fontSize: 20, fontWeight: 600 }}>
             Recents
           </InputLabel>
@@ -675,7 +664,7 @@ export default function GenerateImage() {
               </Grid>
             ))}
           </Grid>
-        </div>
+        </div> */}
       </Box>
     </div>
   );

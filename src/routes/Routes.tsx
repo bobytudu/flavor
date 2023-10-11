@@ -40,10 +40,10 @@ export default function Routes() {
 
   return (
     <div>
-      <PrivateRouter />
-      {/* {auth.loading && <Loader loading />}
+      {/* <PrivateRouter /> */}
+      {auth.loading && <Loader loading />}
       {auth.user && !auth.loading && <PrivateRouter />}
-      {!auth.user && !auth.loading && <PublicRouter />} */}
+      {!auth.user && !auth.loading && <PublicRouter />}
     </div>
   );
 }
